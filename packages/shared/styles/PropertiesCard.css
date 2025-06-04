@@ -1,0 +1,266 @@
+.properties-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 16px;
+  }
+  
+  .card-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .card-field {
+    display: flex;
+    flex-direction: column;
+    /* margin-bottom: 12px; */
+  }
+  
+  .field-label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  
+  .field-input, .field-textarea {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px 8px;
+  }
+  
+  .checkbox-label {
+    font-weight: normal;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .slider-wrapper {
+    position: relative;
+  }
+  
+  .slider-input {
+    width: 100%;
+  }
+  
+  .slider-value-bubble {
+    position: absolute;
+    top: -26px;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 2px 5px;
+    font-size: 12px;
+  }
+  
+  .alignment-group {
+    display: block;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+  
+  .align-btn {
+    /* border: 1px solid #ccc; */
+    border: none; 
+    background: #f0f0f0;
+    border-radius: 4;
+    margin-right: 8px;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+  
+  .align-btn.active {
+    background: #007bff;
+    /* background: linear-gradient(135deg, #ff6600 0%, #ff9f00 100%); */
+    color: #fff;
+  }
+  
+  .upload-field .btn-upload {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+.properties-divider {
+    border: "none";
+    border-top: "1px solid #eee";
+    margin: "12px 0";
+}
+
+.uploadButton {
+    background: "#007bff";
+    color: "#fff";
+    border: "none";
+    border-radius: 4;
+    padding: "3px 6px";
+    cursor: "pointer";
+    display: "flex";
+    align-items: "center";
+}
+
+.removeButton {
+    background: "#dc3545"; 
+    color: "#fff";
+    border: "none";
+    border-radius: 4;
+    padding: "3px 6px";
+    cursor: "pointer";
+    display: "flex";
+    align-items: "center";
+}
+
+.alignmentIcons {
+  display: "flex";
+  align-items: "center";
+}
+
+.help-text {
+  display: block;       /* ensures each help-text is on its own line */
+  font-size: 12px;      /* small, subtle text */
+  color: #999;          /* a slightly lighter shade of gray */
+  margin-top: 0px;     
+  line-height: 1.4;     /* improve readability */
+}
+
+/* OptionListEditor styles */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.option-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.option-input {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+.remove-button {
+  background: transparent;
+  border: none;
+  color: #dc3545;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.remove-button:hover {
+  background: #dc3545;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.add-option-button {
+  align-self: center;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.add-option-button:hover {
+  background: #0056b3;
+}
+
+/* src/components/propertyEditors/FormatEditor.css */
+.format-section {
+  margin-top: -13px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 12px 0 8px;
+}
+
+.format-input {
+  width: 100%;
+}
+
+.format-input.error {
+  border-color: #dc3545;
+}
+
+.format-error {
+  color: #dc3545;
+  margin-top: 4px;
+  display: block;
+}
+
+.format-preview {
+  color: #666;
+  margin-top: 4px;
+  display: block;
+}
+
+.radio-group {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+/* src/components/custom/CustomInput.css */
+.custom-input-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  /* margin-left: 15px; */
+}
+.custom-input {
+  width: 100%;
+  height: 28px;
+  padding: 5px 5px; 
+  box-sizing: border-box;
+  padding-right: 2.5em; /* leave space for the icon */
+}
+.custom-input-icon {
+  position: absolute;
+  right: 5px;
+  top: 55%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+/* Inline default selector (radio or checkbox) next to each option */
+.default-selector {
+  width: 15px;
+  height: 15px;
+  margin-right: 8px;
+  vertical-align: middle;
+  cursor: pointer;
+  accent-color: #007bff;
+  box-sizing: border-box;
+}
+
+.properties-card .card-field.component-field {
+  margin-bottom: 40px;
+}

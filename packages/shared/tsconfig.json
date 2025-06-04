@@ -1,0 +1,29 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+      // — Next.js defaults + monorepo overrides —
+      "target": "es5",
+      "lib": ["dom", "dom.iterable", "esnext"],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "noEmit": true,
+      "incremental": true,
+      "module": "esnext",
+      "moduleResolution": "node",        // ← crucial for react/jsx-runtime
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+
+      "jsx": "react-jsx",                // automatic runtime
+      "baseUrl": ".",
+      "paths": {
+        "@smartforms/shared/*": ["../shared/*"],
+        // "@smartforms/lib-db/*": ["../lib-db/*"],
+      }
+    },
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../../global.d.ts", "components/ui/PlanCard.jsx"],
+    "exclude": ["node_modules"]
+  }

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coming Soon</title>
+
+  <style>
+    /* ──────────────────────────────────────────────────────────
+       Base Reset / Layout
+    ────────────────────────────────────────────────────────── */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #111;
+      font-family: 'Arial', sans-serif;
+      color: #fff;
+      position: relative;
+    }
+
+    /* Fireworks canvas sits behind everything */
+    #fireworks {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Main container sits above the fireworks canvas */
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+    }
+
+    /* ──────────────────────────────────────────────────────────
+       Animated Heading / Subheading
+    ────────────────────────────────────────────────────────── */
+    .welcome {
+      font-size: 3rem;
+      animation: colorPulse 4s infinite;
+      margin-bottom: 0.5rem;
+    }
+
+    .launch {
+      font-size: 1.5rem;
+      animation: slideUpFade 3s ease-in-out infinite;
+      margin-bottom: 2rem;
+    }
+
+    @keyframes colorPulse {
+      0%   { color: #ff3cac; }
+      25%  { color: #784ba0; }
+      50%  { color: #2b86c5; }
+      75%  { color: #5ee7df; }
+      100% { color: #ff3cac; }
+    }
+
+    @keyframes slideUpFade {
+      0%   { opacity: 0; transform: translateY(20px); }
+      25%  { opacity: 1; transform: translateY(0); }
+      75%  { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-20px); }
+    }
+
+    /* ──────────────────────────────────────────────────────────
+       Analog Clock Styling
+    ────────────────────────────────────────────────────────── */
+    #analogClock {
+      background: #222;
+      border: 8px solid #444;
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fireworks canvas behind everything -->
+  <canvas id="fireworks"></canvas>
+
+  <!-- Main content on top -->
+  <div class="container">
+    <h1 class="welcome" id="greeting">Loading…</h1>
+    <p class="launch">Our Grand Launch is right around the corner—stay tuned!</p>
+    <canvas id="analogClock" width="300" height="300"></canvas>
+  </div>
+
+  <script>
+    /* ──────────────────────────────────────────────────────────
+       1) DYNAMIC HOSTNAME GREETING
+    ────────────────────────────────────────────────────────── */
+    (function setGreeting() {
+      const host = window.location.hostname || 'This site';
+      const heading = document.getElementById('greeting');
+      heading.textContent = `${host} says, Something Awesome Is Planned For You!`;
+    })();
+
+
+
+    /* ──────────────────────────────────────────────────────────
+       2) ANALOG CLOCK (unchanged logic from before)
+    ────────────────────────────────────────────────────────── */
+    (function setupClock() {
+      const canvas = document.getElementById('analogClock');
+      const ctx = canvas.getContext('2d');
+      const radius = canvas.height / 2;
+      ctx.translate(radius, radius);
+
+      function drawClock() {
+        drawFace(ctx, radius);
+        drawNumbers(ctx, radius);
+        drawTime(ctx, radius);
+      }
+
+      function drawFace(ctx, radius) {
+        ctx.beginPath();
+        ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = '#222';
+        ctx.fill();
+        ctx.lineWidth = radius * 0.08;
+        ctx.strokeStyle = '#555';
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(0, 0, radius * 0.05, 0, 2 * Math.PI);
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+      }
+
+      function drawNumbers(ctx, radius) {
+        const angIncrement = Math.PI / 6;
+        ctx.font = radius * 0.15 + "px Arial";
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "#fff";
+        for (let num = 1; num <= 12; num++) {
+          const ang = num * angIncrement;
+          const x = Math.cos(ang - Math.PI / 2) * (radius * 0.85);
+          const y = Math.sin(ang - Math.PI / 2) * (radius * 0.85);
+          ctx.fillText(num.toString(), x, y);
+        }
+      }
+
+      function drawTime(ctx, radius) {
+        const now = new Date();
+        let hour = now.getHours();
+        let minute = now.getMinutes();
+        let second = now.getSeconds();
+
+        hour = hour % 12;
+        const hourPos = (hour * Math.PI / 6) +
+                        (minute * Math.PI / (6 * 60)) +
+                        (second * Math.PI / (360 * 60));
+        drawHand(ctx, hourPos, radius * 0.5, radius * 0.07);
+
+        const minutePos = (minute * Math.PI / 30) + (second * Math.PI / (30 * 60));
+        drawHand(ctx, minutePos, radius * 0.75, radius * 0.06);
+
+        const secondPos = second * Math.PI / 30;
+        drawHand(ctx, secondPos, radius * 0.85, radius * 0.02, '#e74c3c');
+      }
+
+      function drawHand(ctx, pos, length, width, color = '#fff') {
+        ctx.beginPath();
+        ctx.lineWidth = width;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = color;
+        ctx.moveTo(0, 0);
+        ctx.rotate(pos);
+        ctx.lineTo(0, -length);
+        ctx.stroke();
+        ctx.rotate(-pos);
+      }
+
+      setInterval(drawClock, 1000);
+      drawClock();
+    })();
+
+
+
+    /* ──────────────────────────────────────────────────────────
+       3) FIREWORKS (FIRECRACKER) BACKGROUND EFFECT
+       - Creates random bursts of particles at random positions.
+       - Each burst fan‐out and fades over time.
+    ────────────────────────────────────────────────────────── */
+    (function setupFireworks() {
+      const canvas = document.getElementById('fireworks');
+      const ctx = canvas.getContext('2d');
+      let width, height;
+      const particles = [];
+      let lastSpawn = 0;
+
+      function resizeCanvas() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      class Particle {
+        constructor(x, y, color) {
+          this.x = x;
+          this.y = y;
+          this.speed = Math.random() * 3 + 2;       // initial speed
+          this.angle = Math.random() * 2 * Math.PI; // random direction
+          this.vx = Math.cos(this.angle) * this.speed;
+          this.vy = Math.sin(this.angle) * this.speed;
+          this.alpha = 1;
+          this.decay = Math.random() * 0.015 + 0.005;
+          this.color = color;
+          this.size = Math.random() * 2 + 1;
+        }
+        update() {
+          this.vx *= 0.98;           // slow down a bit
+          this.vy *= 0.98;
+          this.vy += 0.02;           // gravity pull-down
+          this.x += this.vx;
+          this.y += this.vy;
+          this.alpha -= this.decay;
+        }
+        draw(ctx) {
+          ctx.save();
+          ctx.globalAlpha = this.alpha;
+          ctx.beginPath();
+          ctx.fillStyle = this.color;
+          ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      function spawnFirework() {
+        // choose a random x,y somewhere in top 2/3 of viewport:
+        const x = Math.random() * width;
+        const y = Math.random() * (height * 0.6);
+
+        // random color for this burst:
+        const hue = Math.floor(Math.random() * 360);
+        const color = `hsl(${hue}, 100%, 60%)`;
+
+        // generate ~30 particles:
+        const count = 30 + Math.floor(Math.random() * 15);
+        for (let i = 0; i < count; i++) {
+          particles.push(new Particle(x, y, color));
+        }
+      }
+
+      function animate() {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.fillRect(0, 0, width, height);
+        ctx.globalCompositeOperation = 'lighter';
+
+        // spawn new firework every ~500ms
+        const now = Date.now();
+        if (now - lastSpawn > 500) {
+          spawnFirework();
+          lastSpawn = now;
+        }
+
+        // update & draw all particles
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.update();
+          if (p.alpha <= 0) {
+            particles.splice(i, 1);
+          } else {
+            p.draw(ctx);
+          }
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    })();
+  </script>
+</body>
+</html>

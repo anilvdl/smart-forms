@@ -1,0 +1,179 @@
+  .dashboard-container {
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100vh - 60px);
+  }
+
+  /* Section Styling */
+  .dashboard-section {
+    margin-bottom: 30px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  h1 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .new-form-section {
+    background: #eff2f3;  
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+  
+  .new-form-card {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #ccc;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .plus-icon {
+    font-size: 40px;
+    color: #777;
+  }
+  
+  .recent-forms {
+    margin-top: 30px;
+  }
+  
+  .forms-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .form-card {
+    width: 200px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .form-open {
+    display: block;
+    margin-top: 10px;
+    color: #007bff;
+    cursor: pointer;
+  }
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* New Form Section */
+  .recent-forms-section {
+    margin-bottom: 30px;
+    background: #eff2f3; 
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .template-grid,
+  .recent-forms-grid,
+  .quick-actions-grid {
+    display: grid;
+    gap: 15px;
+    justify-content: center;
+    padding: 10px 0;
+  }
+  
+  /* Auto-fit Elements in Responsive Grid */
+  .template-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+  
+  .quick-actions-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  
+  .recent-forms-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .template-card,
+  .recent-form-card,
+  .quick-action-card {
+    margin-left: 20px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    background: #f9f9f9;
+    cursor: pointer;
+    /* transition: transform 0.2s ease-in-out; */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .template-card:hover,
+  .recent-form-card:hover,
+  .quick-action-card:hover {
+    transform: scale(1.05);
+    border: #2702f6 2px solid;
+  }
+  
+  .quick-actions-section {
+    background: #eef3ff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+  
+  .quick-action-card {
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .quick-action-card img {
+    margin-bottom: 5px;
+  }
+
+  /* Section Header with Collapse/Expand */
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    background: #e6e6e6;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+  
+  .collapse-icon {
+    font-size: 15px;
+    display: inline-block;
+    /* color: #e74c3c; */
+    transition: transform 0.3s ease-in-out;
+  }
+
+  /* Mobile Responsive Adjustments */
+ @media (max-width: 768px) {
+    .template-grid,
+    .quick-actions-grid,
+    .recent-forms-grid {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+}

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2015",                // at least ES2015
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es2015",                        // <-- this enables Array.findIndex, Map, Set, etc.
+      "esnext"                         // <-- or use esnext if you want the latest
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@smartforms/shared/*": ["packages/shared/*"],
+      "@smartforms/lib-db/*": ["packages/lib-db/*"],
+    },
+    "jsx": "react-jsx",               // ← this enables the new transform
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@smartforms/backend-services",
+  "version": "0.1.0",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "fastify": "^4.x",
+    "@smartforms/lib-db": "*",
+    "@smartforms/lib-middleware": "*",
+    "fastify-plugin": "^4.x",
+    "dotenv": "^16.x"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^2.x",
+    "typescript": "^5.x"
+  }
+}

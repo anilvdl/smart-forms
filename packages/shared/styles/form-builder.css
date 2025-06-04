@@ -1,0 +1,1148 @@
+:root {
+  --sf-bg:      #f3f4f6; /* page background */
+  --sf-panel:   #eef0f3; /* left/right panels */
+  --sf-primary: #ff6600; /* your orange gradient */
+  --sf-accent:  #2563eb; /* blue highlights */
+}
+
+/* Full-Page Layout */
+.form-builder-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Main Workspace */
+.form-builder-main {
+  position: relative;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  width: 100%;
+  height: 100%; 
+  overflow-y: auto; 
+  padding: 10px;
+  /* top: 50px; */
+}
+
+/* Parent container for the canvas and controls */
+.canvas-container {
+  box-sizing: border-box;
+  position: relative;
+  /* transform: translateX(0%); */
+  flex-direction: column;
+  display: flex;
+  align-items: center; 
+  background: var(--sf-bg);
+  width: calc(100% - 580px);
+  /* height: auto; */
+  flex: 0 1 auto;
+  margin: 0 auto;
+  overflow-y: auto;
+}
+
+.form-page {
+  max-width: 100%; 
+  display: flex;
+  flex-direction: column;
+  min-height: 30vh;
+  width: calc(100% - 30px);  
+  margin: 0 16px;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 16px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.form-section {
+  flex: 1;             
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  /* gap: 16px;         */
+  flex-wrap: wrap;
+}
+.form-field {
+  cursor: grab;
+  position: relative;
+  margin-bottom: 16px;
+  padding: 8px;
+  background: #f9fafb;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+/* By default, every field takes full width */
+.form-section .form-field {
+  flex: 0 0 100%;
+}
+
+/* But any <li> marked .button-item shares the row evenly */
+.form-section .form-field.button-item {
+  flex: 1 1 0%;
+  max-width: 700px;
+}
+
+.form-field:active {
+  cursor: grabbing;
+}
+
+/* Hover state */
+.form-field:hover {
+  background: #dadef2;
+}
+
+/* Selected/highlighted */
+.form-field.selected {
+  background: #fff;
+  border: 2px solid #2563eb;
+}
+
+.form-field:last-child {
+  /* maybe no bottom margin on last */
+  margin-bottom: 0;
+}
+
+.pageSection {
+  position: relative;
+  min-height: 600px;
+  border: none;
+  margin-top: 16px; 
+  /* no overflow: hidden */
+}
+
+.draggable-field {
+  position: absolute; 
+  background: #fff;
+  border: 1px dashed #aaa;
+  border-radius: 4px;
+  padding: 4px;
+  transition: top 0.2s ease, left 0.2s ease;
+}
+
+.canvas-menu-top {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.canvas-menu-top button {
+  /* background: var(--sf-primary); */
+  background: linear-gradient(135deg, #ff6600 0%, #ff9f00 100%);
+  /* top: 20%; */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.canvas-menu-top button:hover {
+  /* background: #0056b3; */
+  /* background: #e65500; */
+  background: linear-gradient(135deg, #e65500 0%, #e08e00 100%);
+  transform: scale(1.05);
+}
+
+/* The new wrapper that allows scrolling if scaled canvas overflows */
+.canvas-wrapper {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
+  flex: 1;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 8px;
+  background: var(--sf-bg, #fdfdfd);
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* position the delete icon top-right inside the row */
+.row-delete-btn {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: transparent;
+  border: none;
+  color: #e53e3e;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.row-delete-btn:hover {
+  color: #c53030;
+}
+
+/* A smaller .form-canvas, auto-growing as we set width/height in code */
+.form-canvas {
+  border: 1px solid #ddd;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  overflow-y: visible;
+}
+
+/* Logo caption or label */
+.logo-label {
+  display: block;             
+  text-align: center;         
+  font-size: 1rem;         
+  font-weight: 500;           
+  color: #4A5568;            
+  margin-top: 0.5rem;         
+  margin-bottom: 0.5rem;        
+  line-height: 1.2em;  
+  max-height: calc(1.4em * 3);
+  overflow: hidden;         
+} 
+
+/* The top placeholder for adding a logo */
+.logo-placeholder {
+  font-weight: bold;
+  font-size: 10px;
+  /* background: #d8d5d5; */
+  padding: 10px 0;
+  border: 1px dashed #ccc;
+  /* margin: 0 auto 32px; */
+  text-align: center;
+}
+
+.logo-placeholder.has-logo {
+  border: none;
+}
+
+.logo-placeholder:hover {
+  cursor: pointer;
+}
+
+.logo-placeholder button {
+  color: #636a96;
+  cursor: pointer;
+  background: 0 0;
+  border: none;
+  border-radius: 3px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 400;
+  transition: all .25s;
+}
+
+.logo-placeholder button:hover {
+  background: #f0f0f0;
+}
+
+/* The fixed menu at bottom center */
+.canvas-menu-fixed {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  background: #f8f9fa;
+  padding: 6px 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+}
+
+/* Buttons in the menu */
+.canvas-menu-fixed button {
+  /* background: #007bff; */
+  background: var(--sf-primary);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.canvas-menu-fixed button:hover {
+  background: #0056b3;
+}
+
+
+/* Placeholder Styling */
+.canvas-placeholder {
+  flex: 0 0 auto;
+  margin: auto ;
+  padding: 1.5rem;
+  border: 2px dashed #bbb;
+  border-radius: 10px;
+  color: #6c757d;
+  background: #f8f9fa;
+  box-sizing: border-box;
+  max-width: 60%;   
+  text-align: center;
+  font-size: 18px;
+  opacity: 0.5;
+  transition: opacity 0.3s ease-in-out;
+  behavior: smooth; 
+  /* Optional: add a subtle shadow */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* Optional: add a subtle animation */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Hide Placeholder When Elements Exist */
+.canvas-placeholder.hidden {
+  display: none;
+}
+
+.canvas-placeholder:hover {
+  opacity: 1;
+}
+
+/* Make the entire page a column that fills the viewport */
+.designer-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;           
+  overflow: hidden;    
+  position: relative;
+}
+
+/* The main body—panels + canvas—should grow/shrink between header and footer */
+.designer-main {
+  display: flex;
+  flex: 1;                
+  overflow: hidden;    
+  align-items: center;   
+}
+
+.canvas-wrapper-designer {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;       
+  justify-content: center;   
+  /* min-height: 30vh;           */
+  height: calc(100vh - 165px);
+  padding: 0 1rem;         
+  overflow-y: auto;  
+}
+
+/* Panel Title Bar */
+.panel-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 5px 5px 0 0;
+}
+
+/* Close Button (X Icon) */
+.panel-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.panel-close-btn:hover {
+  color: #e74c3c;
+}
+
+/* Panel Styling */
+.left-panel, 
+.right-panel {
+  position: absolute;
+  top: 55px;
+  /* top: 35px; */
+  bottom: 60px;
+  width: 300px;
+  height: auto;
+  /* background-color: #eef0f3; */
+  background: var(--sf-panel);
+  border: 1px solid #ddd;
+  overflow: hidden;
+  transition: height 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  /* Optional subtle box shadow for a more modern look */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10; /* Ensure panels appear above other elements if needed */
+}
+
+.left-panel {
+  left: 0;
+  border-right: 2px solid #ddd;
+  border-radius: 0 6px 6px 0; /* subtle rounding on the right edge */
+  /* flex: 0 0 300px;        
+  overflow-y: auto; */
+}
+.right-panel {
+  right: 0;
+  border-left: 2px solid #ddd;
+  border-radius: 6px 0 0 6px; /* subtle rounding on the left edge */
+  /* flex: 0 0 300px;        
+  overflow-y: auto; */
+}
+
+/* Collapsed State (Rolling Up) */
+.left-panel.collapsed .panel-content,
+.right-panel.collapsed .panel-content {
+  height: 0;
+  bottom: 0px;
+  background-color: none;
+  overflow: hidden;
+  transition: height 0.4s ease-in-out, opacity 0.3s ease-in-out;
+  display: none !important;
+}
+
+/* The content area inside the panel */
+.panel-content {
+  display: flex;
+  flex-direction: column;
+  /* We'll let the container's height animate.
+     Meanwhile, we can do a rollDown keyframe for the content. */
+  height: calc(100% - 40px);
+  overflow-y: auto;
+  padding: 10px;
+  /* This animation runs on expand (non-collapsed).
+     Adjust duration/easing to match the container's transition. */
+  /* animation: rollDown 0.4s cubic-bezier(0.65, 0, 0.35, 1) forwards; */
+  animation: rollDown 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.search-box {
+  position: relative;
+  margin-bottom: 10px;      /* space below the search box */
+}
+
+.search-icon {
+  position: absolute;
+  top: 60%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 16px;
+  cursor: pointer;
+  pointer-events: auto; /* so it doesn't block clicks on the input */
+}
+
+.search-input {
+  width: 100%;
+  padding: 6px 8px 6px 25px;;
+  border: 2px solid #ccc;
+  border-radius: 15px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #007bff;
+}
+
+.elements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.left-panel.collapsed {
+  border-right: none;
+  height: 40px;
+  overflow: hidden;
+}
+
+.right-panel.collapsed {
+  border-left: none;
+  height: 40px;
+  overflow: hidden;
+}
+
+.panel-empty-state {
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  opacity: 0.5;
+  color: #6c757d; /* a gray color similar to your "Drag your first element" text */
+  font-size: 16px; /* optional size */
+  margin-top: 20px; /* optional spacing if you want */
+}
+
+.panel-empty-state:hover {
+  /* color: #007bff; */
+  opacity: 1;
+}
+
+/* Group sub-header styling */
+.category-section {
+  margin-bottom: 16px;
+}
+
+.category-header {
+  font-size: 10px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #555; /* subtle gray or brand color */
+  text-transform: uppercase; /* optional for a modern look */
+  letter-spacing: 0.5px;     /* optional spacing */
+  text-align: center;
+}
+
+.category-toggle-icon {
+  transition: color 0.2s ease;
+  color: inherit; /* or your default color */
+}
+
+.category-header:hover .category-toggle-icon:hover {
+  color: #e74c3c; /* highlight color on hover */
+}
+
+/* Panel Header */
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  padding: 5px;
+  background: rgb(62, 58, 58);
+  color: white;
+  font-weight: bold;
+  border-bottom: 2px solid #ddd;
+  transition: none;
+}
+
+/* Close Button (X) */
+.collapse-btn, 
+.expand-btn {
+  background: none;
+  border: 2px solid white;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.collapse-btn:hover,
+.expand-btn:hover {
+  background: white;
+  border: none;
+  color: #e74c3c;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Panel Open Button (+) */
+.expand-btn {
+  font-size: 20px;
+}
+
+/* A card container that can expand with content. No overflow: hidden. */
+.category-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 12px;
+  /* remove overflow: hidden; let it expand naturally */
+}
+
+/* Category card header */
+.category-card-header {
+  /* display: flex; */
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  font-weight: bold;
+  font-size: 10px;
+  /* cursor: unset; */
+  background: #fdf7f7;
+  border-bottom: 1px solid #eee;
+  text-transform: uppercase;
+  letter-spacing: 0.5px; 
+  text-align: center;
+}
+
+/* The content area. No fixed height. Just padding. */
+.category-card-content {
+  padding: 10px 12px;
+  /* let items flow. no overflow or fixed height. */
+}
+
+/* Draggable items inside the left panel */
+.draggable-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  animation: fadeInUp 0.2s ease both;
+  transition: background-color 0.3s;
+}
+
+.draggable-item:active {
+  cursor: grabbing;
+}
+
+.draggable-item img {
+  margin-right: 8px;
+  width: 24px;       /* Keep icons consistent */
+  height: 24px;
+}
+
+.draggable-item:hover {
+  border-bottom-width: "0.25rem";
+  background-color: #e4dfdf; /* #e74c3c;*/
+}
+
+.drop-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 40px;
+  background: rgba(0, 123, 255, 0.2); /* semi-transparent highlight */
+  border: 2px dashed #007bff;
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* so it doesn't interfere with dropping */
+}
+
+/* Keyframe for a subtle fade/slide up effect */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Keyframe: content slides down + fades in on expand */
+@keyframes rollDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Keyframe: content slides/fades away from the bottom on collapse */
+@keyframes rollUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+/* Custom scrollbar styling (Chrome, Safari, Edge) */
+.fancy-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.fancy-scroll::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+.fancy-scroll::-webkit-scrollbar-thumb {
+  background-color: #007bff;
+  border-radius: 4px;
+}
+/* Firefox scrollbar styling */
+.fancy-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #007bff #f0f0f0;
+}
+
+/* Each row in the preview form, spacing and full width */
+.preview-row {
+  width: 100%;
+  margin: 20px auto;
+  margin-left: 50px;
+  display: flex;
+  margin-bottom: 1.25rem;    /* vertical gap between fields */
+}
+.preview-form .preview-row {
+  flex: 0 0 100%;
+}
+
+.preview-form .preview-row.button-item {
+  flex: 1 1 0%;
+  max-width: none;
+}
+.preview-field {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  align-self: center;
+}
+.thank-you {
+  text-align: center;
+  font-size: 1.25rem;
+  padding: 2rem;
+}
+.error {
+  color: red;
+  text-align: center;
+}
+
+
+/* in styles/form-builder.css or your global CSS */
+
+/* Base preview container */
+.preview-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background: #f3f4f6;
+  min-height: calc(100vh - 200px);
+  box-sizing: border-box;
+}
+
+/* Constrain form width too, if you like */
+.preview-form {
+  /* box-shadow: 0 40px 40px rgba(0,0,0,0.5);
+  border-radius: 10px; */
+  width: 100%;
+  max-width: 700px;
+  margin: 20px auto;
+  /* display: flex; */
+  flex-wrap: wrap;
+  /* gap: 16px; */
+}
+
+/* Floating card style */
+.preview-container.floating .preview-form {
+  /* a very light border to define the edges */
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+
+  /* dual-layer shadow: softer large spread + tighter smaller spread */
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.1),  /* big, soft drop */
+    0 4px 8px rgba(0, 0, 0, 0.04);    /* sharper, closer edge */
+  transition: box-shadow 0.2s ease;
+}
+
+/* on hover, lift it a bit more */
+.preview-container.floating .preview-form:hover {
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.12),
+    0 6px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Tilted 3D style */
+.preview-container.tilt {
+  perspective: 10000px;
+}
+
+.preview-container.tilt .preview-form {
+  transform: rotateX(8deg);
+  transform-origin: top center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);  
+  background-color:  #f3f4f6;
+  border-radius: 8px;
+}
+
+/* Fallback: if transform isn’t supported they’ll just see the flat form */
+.preview-container {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* centers the logo above the form fields */
+.preview-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Container for the 3D toggle buttons */
+.three-d-toggle {
+  display: flex;
+  justify-content: flex-end;  /* align right, or change to center/left */
+  gap: 0.5rem;
+  margin-bottom: 1rem;        /* space above the form */
+  padding: 0 2rem;            /* match your preview padding */
+  box-sizing: border-box;
+}
+
+/* Base button style */
+.three-d-toggle button {
+  background: linear-gradient(135deg, #ff6600 0%, #ff9f00 100%);
+  /* color: #fff; */
+  border: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-weight: bold;
+  cursor: pointer;
+
+  padding: 0.5rem 1rem;
+  /* border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px; */
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+/* Hover state */
+.three-d-toggle button:hover {
+  background: #f9f9f9;
+  background: linear-gradient(135deg, #e65500 0%, #e08e00 100%);
+  transform: scale(1.05);
+}
+
+/* Active (selected) mode */
+.three-d-toggle button.active {
+  background: #ffecd1;           
+  border-color: #ff6600;         /* your primary accent */
+  color: #ff6600;
+}
+
+/* make the required star red and give it a little space */
+.required-asterisk {
+  margin-left: 0.01rem;
+  color: #e53e3e;      /* a nice red, tweak to match your theme */
+  font-weight: bold;
+}
+
+.preview-field label {
+  /* font-weight: 600; */
+  margin-bottom: 0.15rem;
+  display: block;
+}
+
+.preview-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Off-canvas toggles */
+.offcanvas-toggle {
+  position: fixed;
+  top: 55px;
+  width: 40px;
+  height: 40px;
+  background: var(--sf-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 29;
+}
+.offcanvas-toggle.right {
+  left: auto;
+  right: 3px;
+  border-radius: 20px;
+}
+.offcanvas-toggle.left {
+  left: 3px;
+  border-radius: 20px; 
+}
+
+/* Panel slide-in/out */
+.left-panel,
+.right-panel {
+  transition: transform 0.3s ease;
+}
+
+/* When both sidebars collapse (≤1200px), let the canvas take nearly the full width */
+@media (max-width: 1200px) {
+
+  .form-page {
+    display: flex;
+    flex-direction: column;
+    height: 96%;   
+    width: calc(100% - 32px);        
+    overflow: hidden;       
+    overflow-y: auto;
+  }
+
+  .canvas-container {
+    width: calc(100% - 32px); /* full width minus gutters */
+    height: 102%;
+    flex: 1;     
+    overflow-y: auto;
+  }
+
+  .canvas-wrapper-designer {
+    /* margin: 0 16px;      */
+    height: calc(100vh - 65px - 60px - 15px);     /* full available width minus gutters */
+    width: 100vw;
+    max-width: 100%;
+    flex: none;
+    overflow-y: auto;
+  }
+
+  .mobile-hamburger-container { 
+    position: fixed;
+    color: linear-gradient(135deg, #ff6600 0%, #ff9f00 100%);
+    top: 55px;                
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;              
+  }
+
+  /* always let panel-content be visible in your mobile drawers */
+  .left-panel .panel-content,
+  .right-panel .panel-content {
+    /* undo any “height:0” or “opacity:0” from the old .collapsed rules */
+    height: auto !important;
+    opacity: 1 !important;
+    overflow-y: auto !important;
+    /* transition: none !important; */
+  }
+
+  .left-panel,
+  .right-panel {
+    position: fixed;           
+    top: 0px;                    
+    bottom: 0;
+    width: 300px;              
+    background: #eef0f3;       
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    z-index: 28;               
+  }
+
+  .left-panel {
+    transform: translateX(-100%);
+  }
+  .left-panel.open {
+    transform: translateX(0);
+  }
+
+  .right-panel {
+    transform: translateX(100%);
+  }
+  .right-panel.open {
+    transform: translateX(0);
+  }
+
+  .left-panel.open .panel-content,
+  .right-panel.open .panel-content {
+    height: auto !important;
+    opacity: 1    !important;
+    overflow: auto!important;
+    transition: none!important;
+  }
+}
+
+/* Mobile ControlsBar hamburger */
+.designer-controls.mobile {
+  position: relative;
+}
+.hamburger {
+  background: none;
+  border: none;
+  color: var(--sf-accent);
+  cursor: pointer;
+}
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  margin-top: 0.5rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+}
+.dropdown-menu button {
+  padding: 0.5rem 1rem;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.dropdown-menu button:hover {
+  background: var(--sf-bg);
+}
+
+/* Wrap a run of buttons into one dashed container */
+.button-row {
+  list-style: none;
+  margin-bottom: 5px;
+  padding: 3px;
+  background: #f9fafb;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+
+  /* Lay out the buttons side by side and center them */
+  display: flex;
+  /* justify-content: center; */
+  /* gap: 6px; */
+}
+
+/* Ensure child CanvasRow items inside .button-row drop their own padding/margin */
+.button-row .form-field {
+  margin: 0;
+  padding: 0;
+  border: none;     
+  background: transparent;
+  box-shadow: none;
+}
+
+.properties-card .field-row.component-field {
+  margin: 0.5rem 0;
+}
+
+/* Base styling for all rich‐text blocks */
+.rich-text-content {
+  /* inherit whatever text-align you set via align-... class */
+  text-align: inherit;
+}
+
+/* For bullet & numbered lists, put markers inside the text content */
+.rich-text-content ul,
+.rich-text-content ol {
+  list-style-position: inside;
+  padding-left: 0;      /* remove extra indent */
+  margin-left: 0;       /* align the list itself under the container */
+}
+
+/* Optionally, center the list container for center alignment */
+.rich-text-content.align-center ul,
+.rich-text-content.align-center ol {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* And for right alignment, similarly */
+.rich-text-content.align-right ul,
+.rich-text-content.align-right ol {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* Compact the Quill toolbar */
+.ql-toolbar.ql-snow {
+  padding: 2px 2px !important;    /* less internal padding */
+  min-height: 15px !important;    /* cap the total height */
+  /* line-height: 1 !important; */
+  white-space: nowrap;
+}
+
+.ql-toolbar.ql-snow .ql-color .ql-picker-label {
+  padding: 2px !important;
+}
+.ql-toolbar.ql-snow .ql-color .ql-picker-label svg {
+  width: 12px !important;
+  height: 12px !important;
+}
+.ql-toolbar.ql-snow .ql-color.ql-picker {
+  display: inline-flex !important;
+  align-items: center;
+}
+
+/* Shrink each button’s padding */
+.ql-toolbar.ql-snow .ql-formats button,
+.ql-toolbar.ql-snow .ql-formats select {
+  padding: 2px !important;
+  margin: 0 0 !important;
+}
+.ql-toolbar.ql-snow .ql-color.ql-picker select,
+.ql-toolbar.ql-snow .ql-color.ql-picker .ql-picker-label {
+  width: 18px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  padding: 0 !important;
+  margin: 0 2px !important;
+}
+.ql-toolbar.ql-snow .ql-color.ql-picker .ql-picker-label:after {
+  font-size: 10px !important;
+  line-height: 18px !important;
+}
+/* Shrink the SVG icons inside buttons */
+.ql-toolbar.ql-snow .ql-formats button svg {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+/* Tighten dropdowns too */
+.ql-toolbar.ql-snow .ql-formats select {
+  height: 15px !important;
+  margin: 0 2px !important;
+  font-size: 0.85rem !important;
+}
+
+.ql-toolbar.ql-snow .ql-formats {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 2px !important;  /* small gap between each group */
+}
+
+/* Optionally, reduce the editor’s top padding so the bar sits closer */
+.ql-container.ql-snow .ql-editor {
+  padding-top: 4px !important;
+}
+
+/* 1) Whenever a picker is expanded, pin its right edge to the button */
+.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+  left: auto !important;
+  right: 0 !important;
+  max-height: 150px;      /* scroll if too tall */
+  overflow-y: auto;
+}
+
+/* 2) Cap the height (so a long palette will scroll instead of overflowing) */
+.ql-toolbar.ql-snow .ql-picker-options {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+/* 3) Do the same for the link tooltip (the little input popup) */
+.ql-toolbar.ql-snow .ql-tooltip {
+  left: auto !important;
+  right: 0 !important;
+}
+
+/* Hyperlink tooltip (the “Save” box) */
+.ql-container.ql-snow .ql-tooltip,
+.ql-tooltip.ql-editing {
+  left: 0px !important;
+  right: 0 !important;
+}
+/* Make “Save” sit on its own line */
+.ql-tooltip.ql-editing .ql-tooltip-save {
+  display: inline-block !important;
+}
+.ql-tooltip.ql-editing {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 4px !important;
+}
+/* Give the input a little bottom margin */
+.ql-tooltip.ql-editing .ql-tooltip-input {
+  margin-bottom: 14px !important;
+}

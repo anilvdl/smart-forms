@@ -1,0 +1,17 @@
+/* :root {
+    --primary: #2702f6;
+    --card-bg: #ffffff;
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --text-dark: #222;
+    --text-muted: #666;
+  }
+   */
+
+   :root {
+    --page-bg: #f6f7fb;
+    --card-bg-opacity: 0.95;
+    --primary-gradient: linear-gradient(90deg, #FF7E1B, #FF642E);
+    --deep-blue: #2702f6;
+    --text-dark: #222;
+    --text-muted: #666;
+  }

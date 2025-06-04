@@ -1,0 +1,238 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* center the dashboard card */
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 2rem 2rem; /* pulled up under navbar */
+  background: #f6f7fb;
+}
+
+/* the white “card” container */
+.dashboardCard {
+  width: 100%;
+  max-width: 1600px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem 2rem 2rem;
+}
+
+/* header row: title+subtitle + search */
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* main title */
+.title {
+  margin: 0;
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+
+/* subtitle beneath */
+.subtitle {
+  margin: 0.25rem 0 1rem;
+  color: #555;
+}
+
+/* search pill */
+.searchWrapper {
+  position: relative;
+  display: inline-block;
+}
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.searchInput {
+  padding: 0.5rem 1rem 0.5rem 2.5rem;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  outline: none;
+  width: 200px;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+.searchInput:focus {
+  /* border-color: #2702f6; */
+  border-color: #ff642e;
+}
+
+/* tabs */
+.cardTabs {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+.tab {
+  background: none;
+  border: none;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #555;
+  position: relative;
+}
+.tab:hover {
+  /* color: #2702f6; */
+  color: #ff642e;
+  transform: scale(1.05);  
+}
+.tabActive {
+  color: #ff642e;
+  font-weight: 600;
+}
+.tabActive::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ff7e1b, #ff642e);
+  border-radius: 2px 2px 0 0;
+}
+
+/* hero panel */
+.cardHero {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+.heroIcon {
+  font-size: 4rem;
+}
+.heroContent h3 {
+  /* margin: 0 0 0.5rem; */
+  margin: 0;
+  font-size: 1.25rem;
+}
+.heroContent p {
+  margin: 0;
+  color: #555;
+}
+.btnPrimary {
+  margin: 10px 0 0;
+  margin-left: auto;
+  background: linear-gradient(90deg, #ff7e1b, #ff642e);
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+.btnPrimary:hover {
+  opacity: 0.9;
+}
+
+/* grid */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.25rem;
+}
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  text-align: center;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.cardThumbnail {
+  width: 64px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+}
+.card:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(206, 36, 36, 0.1);
+}
+.card img,
+.card svg {
+  margin-bottom: 0.5rem;
+}
+.cardTitle {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.cardSubTitle {
+  margin-bottom: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.cardDate {
+  margin-top: 0;
+  font-size: 0.65rem;
+  color: #777;
+}
+
+/* “Load more” button */
+.loadMoreWrapper {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+.btnLoadMore {
+  background: linear-gradient(90deg, #ff7e1b, #ff642e);
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btnLoadMore:hover {
+  opacity: 0.9;
+}
+
+/* remove any focus outlines inside dashboard */
+.tab:focus,
+.btnPrimary:focus,
+.btnLoadMore:focus,
+.searchInput:focus {
+  outline: none;
+}
+
+/* If no results after filtering the grid */
+.noResults {
+  grid-column: 1 / -1; 
+  text-align: center;
+  color: #888888;
+  font-size: 0.95rem;
+  padding: 2rem 0;
+}
+
+/* Small note under the hero when WIP is loading / error */
+.heroMessage {
+  margin-left: 1.5rem;
+  color: #aa0000;
+  font-size: 0.95rem;
+}
+
+/* When only one WIP card, center it */
+.singleCol {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Mockup</title>
+  <style>
+    body { margin:0; font-family:sans-serif; background:#F6F7FB; }
+    .dashboard-card {
+      max-width: 1200px; margin: 40px auto; background: white;
+      border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      padding: 32px;
+    }
+    .card-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 24px;
+    }
+    .title { margin: 0; font-size: 28px; color: #222; }
+    .subtitle { margin: 4px 0 0; color: #666; }
+    .search-box {
+      position: relative; width: 240px;
+    }
+    .search-box input {
+      width: 100%; padding: 8px 12px 8px 36px;
+      border:1px solid #ccc; border-radius:16px; font-size:14px;
+    }
+    .search-box svg {
+      position:absolute; top:50%; left:12px; transform:translateY(-50%);
+      width:16px; height:16px; fill:#666;
+    }
+    .card-tabs {
+      display:flex; gap:48px; margin-bottom:24px;
+    }
+    .tab {
+      background: transparent; border:none; padding:8px 0;
+      cursor:pointer; font-size:16px; color:#666; position:relative;
+    }
+    .tab.active {
+      color: #FF7E1B;
+    }
+    .tab.active::after {
+      content:""; position:absolute; height:3px; background:#FF7E1B;
+      bottom:-4px; left:0; right:0; border-radius:2px;
+    }
+    .card-hero {
+      display:flex; align-items:center; padding:24px;
+      background:#FFF; border-radius:12px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-bottom:24px;
+    }
+    .hero-icon { font-size:48px; margin-right:24px; }
+    .hero-content h2 { margin:0 0 8px; color:#222; font-size:20px; }
+    .hero-content p { margin:0 0 16px; color:#444; }
+    .btn-primary {
+      background:linear-gradient(90deg,#FF7E1B,#FF642E);
+      color:white; border:none; padding:10px 20px; border-radius:6px;
+      cursor:pointer;
+    }
+    .card-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+      gap:16px;
+    }
+    .grid-item {
+      background:rgba(255,255,255,0.95); border-radius:12px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.05);
+      text-align:center; padding:16px; cursor:pointer;
+      transition:transform .15s ease,box-shadow .15s ease;
+    }
+    .grid-item:hover {
+      transform:translateY(-4px);
+      box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    }
+    .grid-item img { width:48px; height:48px; margin-bottom:8px; }
+    .grid-item p { margin:0; color:#222; }
+  </style>
+</head>
+<body>
+  <div class="dashboard-card">
+    <div class="card-header">
+      <div>
+        <h1 class="title">Welcome, Anil Kumar Veldurthi!</h1>
+        <p class="subtitle">Start building your next form or access your recent work.</p>
+      </div>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="2" fill="none"/><line x1="15" y1="15" x2="20" y2="20" stroke="currentColor" stroke-width="2"/></svg>
+        <input placeholder="Search forms…" />
+      </div>
+    </div>
+    <div class="card-tabs">
+      <button class="tab active">Start a New Form</button>
+      <button class="tab">Quick Actions</button>
+      <button class="tab">Work-in-Progress</button>
+      <button class="tab">Recent Forms</button>
+    </div>
+    <div class="card-hero">
+      <div class="hero-icon">📋</div>
+      <div class="hero-content">
+        <h2>Create From Scratch</h2>
+        <p>Pick a blank canvas or one of our curated templates to start building.</p>
+        <button class="btn-primary">Blank Form →</button>
+      </div>
+    </div>
+    <div class="card-grid">
+      <div class="grid-item">
+        <img src="https://via.placeholder.com/48" />
+        <p>Blank Form</p>
+      </div>
+      <div class="grid-item">
+        <img src="https://via.placeholder.com/48" />
+        <p>RSVP</p>
+      </div>
+      <div class="grid-item">
+        <img src="https://via.placeholder.com/48" />
+        <p>Party Invite</p>
+      </div>
+      <div class="grid-item">
+        <img src="https://via.placeholder.com/48" />
+        <p>Event Registration</p>
+      </div>
+      <div class="grid-item">
+        <img src="https://via.placeholder.com/48" />
+        <p>Survey</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
