@@ -4,13 +4,7 @@ import { getRequestContext } from './context';
 export const httpClient: AxiosInstance = axios.create();
 
 httpClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  // console.log("[httpClient] →", {
-  //   method: config.method,
-  //   url:    config.url,
-  //   headers: config.headers
-  // });
   const ctx = getRequestContext();
-  // console.log('\n\n[httpClient.ts] -> ctx:', ctx, '\n');
   if (ctx?.correlationId) {
     config.headers = config.headers || {};
     config.headers['x-correlation-id'] = ctx.correlationId;

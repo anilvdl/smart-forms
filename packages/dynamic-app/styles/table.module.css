@@ -1,0 +1,58 @@
+.tableWrapper {
+  position: relative;
+  margin: 1rem 0;
+  font-family: inherit;
+}
+
+.loading {
+  text-align: center;
+  padding: 1rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 1rem;
+  color: #666;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortIcon {
+  vertical-align: middle;
+  margin-left: 0.25rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.pagination button {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

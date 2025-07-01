@@ -2,7 +2,8 @@ import { useDrag } from "react-dnd";
 import { FormElement, useFormStore, usePanelStore } from "store/formStore";
 import Image from "next/image";
 import React, { useState } from "react";
-import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
+// import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
+import { X, Search } from "lucide-react"
 import { Icons } from "@smartforms/shared/icons";
 
 /** 
@@ -103,11 +104,11 @@ const LeftPanel: React.FC = () => {
           <div className="search-box">
             {searchTerm ? (
               <span className="search-icon" onClick={() => setSearchTerm("")}>
-                <AiOutlineClose  style={{fontSize:"14px"}}/>
+                <X  style={{fontSize:"14px"}}/>
               </span>
             ) : (
               <span className="search-icon">
-                <AiOutlineSearch />
+                <Search />
               </span>
             )}
             <input

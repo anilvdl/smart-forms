@@ -1,0 +1,133 @@
+/* :root {
+  --sf-primary: #ff642e;
+  --sf-bg: #f6f7fb;
+  --sf-sidebar-bg: #ffffff;
+  --sf-text: #333;
+  --sf-active-bg: rgba(255, 100, 46, 0.1);
+  --sf-border: #e0e0e0;
+} */
+
+.adminContainer {
+  display: flex;
+  height: 100vh;
+  background: var(--sf-bg);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  top: 80px;
+  background: var(--sf-sidebar-bg);
+  border-right: 1px solid var(--sf-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--sf-primary);
+  text-align: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--sf-border);
+}
+
+.navList {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  flex-grow: 1;
+}
+
+.navList li {
+  margin: 0.25rem 0;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  color: var(--sf-text);
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.navLink:hover {
+  background: var(--sf-active-bg);
+}
+
+.navIcon {
+  margin-right: 0.75rem;
+}
+
+.active .navLink {
+  background: var(--sf-active-bg);
+  font-weight: 500;
+}
+
+/* Main area */
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  height: 60px;
+  background: #fff;
+  border-bottom: 1px solid var(--sf-border);
+}
+
+.switchOrgPlaceholder {
+  /* space for future switch-org control */
+}
+
+.userControls {
+  display: flex;
+  align-items: center;
+}
+
+.signOutBtn {
+  background: none;
+  border: none;
+  color: var(--sf-text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+}
+
+.signOutBtn:hover {
+  color: var(--sf-primary);
+}
+
+/* Page content */
+.content {
+  flex-grow: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background: var(--sf-bg);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 0.75rem;
+  font-size: 0.85rem;
+  color: #777;
+  border-top: 1px solid var(--sf-border);
+  background: #fff;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  padding: 1.5rem;
+}

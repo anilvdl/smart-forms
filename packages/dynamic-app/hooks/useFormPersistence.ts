@@ -5,25 +5,27 @@ import { v4 as uuidv4 } from 'uuid';
 import { blobUrlToDataUrl } from 'utils/blob';
 import useSWR from 'swr';
 
-const fetcher = (url: string) => fetch(url).then((res) => {
+const fetcher = async (url: string) => {
+  const res = await fetch(url);
+  console.log('raw response status:', res.status);
   if (!res.ok) {
-    return res.json().then((body) => {
-      throw new Error(body?.message || `Fetch error ${res.status}`);
-    });
+    throw new Error(`Error fetching ${url}: ${res.statusText}`);
   }
-  return res.json();
-});
+  const data = await res.json();
+  console.log('parsed JSON:', data);
+  return data;
+};
 
 export function useFormPersistence() { 
   const router = useRouter();
-  const { formId: queryId, version: versionId } = router.query as {
+  const { formId: queryId, version: version } = router.query as {
     formId?: string;
     version?: string;
   };
   
   // Key for SWR: matches how Dashboard seeded it
-  const swrKey = queryId && versionId
-          ? `/api/forms/designer/${queryId}/${versionId}`
+  const swrKey = queryId && version
+          ? `/api/forms/designer/${queryId}/${version}`
           : null;
   // Attempt to read draft from cache or fetch if missing (unlikely, since we seeded)
   const { data: draft, error } = useSWR(swrKey, fetcher, {
@@ -65,11 +67,26 @@ export function useFormPersistence() {
 
   // Auto-load on mount if formid & version are provided
   useEffect(() => {
-    if (queryId  && versionId) { 
-      const { formId: formId, title: title, rawJson } = draft || {};
-      loadForm({ id: formId, title: title, logoElement: rawJson.logo, elements: rawJson.elements });
+    // bail out until we actually have a draft object
+    if (!draft) {
+      return;
     }
-  }, [queryId, formId, loadForm]);
+    
+    const { formId: id, title: title, rawJson } = draft;
+
+    if (!rawJson) {
+      console.warn('Loaded draft but rawJson is missing');
+      return;
+    }
+
+    console.log('Auto-loading form from draft:', { id, title, rawJson });
+    loadForm({
+      id,
+      title,
+      logoElement: rawJson.logo ?? null,
+      elements: rawJson.elements ?? [],
+    });
+  }, [draft, loadForm]);
 
   // Ensure a title, prompting if missing
   async function ensureTitle(): Promise<string|null> {
@@ -95,7 +112,6 @@ export function useFormPersistence() {
     if (!title?.trim()) 
       return;
     setSaving(true);
-    console.log('Saving form', { formId, title });
     try {
       const logo = await snapshotLogo();
       const rawJson = {
@@ -106,21 +122,18 @@ export function useFormPersistence() {
       };
       let res: Response;
       if (!formId) {
-          console.log('Creating new form');
           res = await fetch('/api/forms/designer', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ title, rawJson }),
         });
       } else {
-        console.log('Updating existing form');
         res = await fetch(`/api/forms/designer/${formId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ rawJson })
         });
       }
-      console.log('\n\tSave response:', res);
       if (!res.ok) {
         const err = await res.json().catch(() => null);
         throw err;

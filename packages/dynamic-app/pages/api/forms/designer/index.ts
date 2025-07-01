@@ -8,7 +8,6 @@ const apiKey = process.env.AUTH_SERVICE_KEY!;
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET!;
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log('\n\t[index->handler]->Request received:', req.method);
   const token = await getToken({ req, secret: NEXTAUTH_SECRET });
 
   if (!token || !token.jwtToken) {
@@ -23,7 +22,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const path = '/forms/designer';
   if (req.method === 'GET') {
     const page = req.query.page || 1;
-    console.log('\n\t[index->GET handler]->page:', page, '\n\n');
     const url = `${serviceUrl}${path}?page=${page}`;
     const response = await httpClient.get(url, { headers });
     return res.status(response.status).json(response.data);

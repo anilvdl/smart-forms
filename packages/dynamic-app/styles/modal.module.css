@@ -1,0 +1,85 @@
+:root {
+  --sf-primary: #ff642e;
+  --sf-accent: #2702f6;
+  --sf-bg-grey: #f6f7fb;
+  --sf-card-bg: rgba(255, 255, 255, 0.95);
+  --sf-text-dark: #333;
+  --sf-text-darker: #111;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  max-width: 90%;
+  width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translate(-50%, -50%);
+  background-color: var(--sf-card-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  color: var(--sf-text-dark);
+}
+
+.header {
+  padding: 1rem;
+  background-color: var(--sf-primary);
+  color: #fff;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.body {
+  padding: 1rem;
+  background: var(--sf-bg-grey);
+  flex: 1;
+  overflow-y: auto;
+  color: var(--sf-text-darker);
+}
+
+.footer {
+  padding: 1rem;
+  background-color: var(--sf-bg-grey);
+  border-top: 1px solid #e5e5e5;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.button-primary {
+  background-color: var(--sf-primary);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-secondary {
+  background-color: var(--sf-accent);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}

@@ -2,6 +2,7 @@ import pool from '../index';
 import { validateUser } from '../validator';
 
 export const UserDAO = {
+  
   async getUserById(id: string) {
     const result = await pool.query('SELECT * FROM smartform.sf_users WHERE id = $1', [id]);
     return result.rows[0] || null;

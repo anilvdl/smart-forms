@@ -1,4 +1,3 @@
-// "use client";
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import NavBar from '@smartforms/shared/components/ui/Navbar';
@@ -6,7 +5,8 @@ import Footer from '@smartforms/shared/components/ui/Footer';
 import ControlsBar from 'components/designer/ControlsBar';
 import { useFormPersistence } from 'hooks/useFormPersistence';
 import PreviewForm from 'components/form-builder/PreviewForm';
-import { FiGrid, FiSettings } from 'react-icons/fi';
+// import { FiGrid, FiSettings } from 'react-icons/fi';
+import { Grid, Settings } from 'lucide-react';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 
 const LeftPanel  = dynamic(() => import('components/ui/LeftPanel'), { ssr: false });
@@ -42,7 +42,7 @@ export default function FormBuilder() {
            onClick={() => setLeftOpen(o => !o)}
            title="Form Elements"
          >
-           <FiGrid size={24} />
+           <Grid size={24} />
          </div>
          {/* Right icon strip */}
          <div
@@ -50,7 +50,7 @@ export default function FormBuilder() {
            onClick={() => setRightOpen(o => !o)}
            title="Properties Editor"
          >
-           <FiSettings size={24} />
+           <Settings size={24} />
          </div>
        </>
       )}

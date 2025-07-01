@@ -1,4 +1,5 @@
-import { AiOutlineAlignCenter, AiOutlineAlignLeft, AiOutlineAlignRight } from "react-icons/ai";
+// import { AiOutlineAlignCenter, AiOutlineAlignLeft, AiOutlineAlignRight } from "react-icons/ai";
+import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 import { FormElement } from "store/formStore";
 import { FieldConfig } from "./templates/FieldConfig";
 import PropertiesCard from "./templates/PropertiesCard";
@@ -57,9 +58,9 @@ export default function LongTextEditor({ element, onChange }: LongTextEditorProp
       name: "alignment",
       label: "Alignment",
       options: [
-        { value: "left", icon: <AiOutlineAlignLeft /> },
-        { value: "center", icon: <AiOutlineAlignCenter /> },
-        { value: "right", icon: <AiOutlineAlignRight /> },
+          { value: "left",   icon: <AlignLeft /> },
+          { value: "center", icon: <AlignCenter /> },
+          { value: "right",  icon: <AlignRight /> },
       ],
     },
   ];

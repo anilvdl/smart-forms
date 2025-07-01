@@ -2,7 +2,8 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import { AiOutlineAlignLeft, AiOutlineAlignCenter, AiOutlineAlignRight, AiOutlineCloudUpload, AiOutlineDelete  } from "react-icons/ai";
+// import { AiOutlineAlignLeft, AiOutlineAlignCenter, AiOutlineAlignRight, AiOutlineCloudUpload, AiOutlineDelete  } from "react-icons/ai";
+import { AlignLeft, AlignCenter, AlignRight, UploadCloud, Trash } from "lucide-react";
 import { FormElement } from "store/formStore";
 import { EditorProps } from "./types";
 import ReactQuill from "react-quill";
@@ -187,17 +188,17 @@ const LogoEditor: React.FC<EditorProps> = ({ element, onChange }) => {
           {/* If no logo => show Upload button, if logo => show "Change" & "Remove" */}
           {!hasLogo ? (
             <button style={styles.uploadButton} onClick={handleChangeLogo}>
-              <AiOutlineCloudUpload style={{ fontSize: "24px", marginRight: "6px" }} />
+              <UploadCloud style={{ fontSize: "24px", marginRight: "6px" }} />
               Upload
             </button>
           ) : (
             <div style={{ display: "flex", gap: "8px"}}>
               <button style={styles.uploadButton} onClick={handleChangeLogo}>
-                <AiOutlineCloudUpload style={{ fontSize: "24px", marginRight: "6px" }} />
+                <UploadCloud style={{ fontSize: "24px", marginRight: "6px" }} />
                 Change
               </button>
               <button style={styles.removeButton} onClick={handleRemoveLogo}>
-                <AiOutlineDelete style={{ fontSize: "24px", marginRight: "6px" }} />
+                <Trash style={{ fontSize: "24px", marginRight: "6px" }} />
                 Remove
               </button>
             </div>
@@ -260,17 +261,17 @@ const LogoEditor: React.FC<EditorProps> = ({ element, onChange }) => {
         <label style={styles.sectionLabel}>Alignment</label>
         <div style={styles.alignmentIcons}>
           <IconToggle 
-            icon={<AiOutlineAlignLeft />}
+            icon={<AlignLeft />}
             active={currentAlignment === "left"}
             onClick={() => applyAlignment("left")}
           />
           <IconToggle
-            icon={<AiOutlineAlignCenter />}
+            icon={<AlignCenter />}
             active={currentAlignment === "center"}
             onClick={() => applyAlignment("center")}
           />
           <IconToggle
-            icon={<AiOutlineAlignRight />}
+            icon={<AlignRight />}
             active={currentAlignment === "right"}
             onClick={() => applyAlignment("right")}
           />

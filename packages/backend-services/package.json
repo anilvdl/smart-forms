@@ -5,17 +5,30 @@
   "scripts": {
     "dev": "ts-node-dev --respawn src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "test:email": "tsx scripts/test-email.ts",
+    "test:smtp": "tsx -e \"import { transporter } from './src/services/emailService'; transporter.verify().then(() => console.log('SMTP OK')).catch(console.error)\"",
+    "test:smtp1": "tsx test-smtp.ts"
   },
   "dependencies": {
-    "fastify": "^4.x",
+    "@sendgrid/mail": "^8.1.5",
     "@smartforms/lib-db": "*",
     "@smartforms/lib-middleware": "*",
+    "@types/nodemailer": "^6.4.17",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.x",
+    "fastify": "^4.x",
     "fastify-plugin": "^4.x",
-    "dotenv": "^16.x"
+    "node-cron": "^4.1.0",
+    "nodemailer": "^6.10.1",
+    "razorpay": "^2.9.6",
+    "sparkpost": "^2.1.4",
+    "stripe": "^18.2.1"
   },
   "devDependencies": {
+    "@types/sparkpost": "^2.1.8",
     "ts-node-dev": "^2.x",
+    "tsx": "^4.20.3",
     "typescript": "^5.x"
   }
 }

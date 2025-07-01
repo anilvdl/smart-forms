@@ -1,7 +1,8 @@
 "use client";
 import { useFormPersistence } from 'hooks/useFormPersistence';
 import {  Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
-import { FiMenu } from 'react-icons/fi';
+// import { FiMenu } from 'react-icons/fi';
+import { Menu as MenuIcon }  from 'lucide-react';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { useState } from 'react';
 import { SaveErrorModal } from 'components/modals/ErrorModal';
@@ -34,7 +35,7 @@ export default function ControlsBar() {
         <div className="mobile-hamburger-container">
             <Menu as="div" className="designer-controls mobile">
               <MenuButton className="hamburger">
-                <FiMenu size={24} />
+                <MenuIcon size={24} />
               </MenuButton>
               <MenuItems className="dropdown-menu">
                 <MenuItem><button onClick={save} disabled={saving}>{saving?'Saving…':'Save'}</button></MenuItem>

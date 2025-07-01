@@ -22,39 +22,55 @@ export function HttpAdapter(opts: {
   async function call<T>(
     path: string,
     method: string,
-    body?: any
+    body?: any,
+    allowNotFound: boolean = false
   ): Promise<T> {
-    console.log("Calling .......> ", opts.baseUrl + path, method, body);
     const res = await fetch(opts.baseUrl + path, {
       method,
       headers,
       body: body ? JSON.stringify(body) : undefined,
     });
+
+    if (allowNotFound && res.status === 404) {
+      return null as any;
+    }
+
     if (!res.ok) {
-      throw new Error(`HTTP ${res.status} ${res.statusText}`);
+      const errorText = await res.text();
+      console.error(`HTTP ${res.status} ${res.statusText}:`, errorText);
+      throw new Error(`HTTP ${res.status} ${res.statusText}: ${errorText}`);
     }
     if (res.status === 204) return undefined as any;
     return (await res.json()) as T;
   }
 
   return {
-    createUser: (user: AdapterUser) => call<AdapterUser>("/auth/users", "POST", user),
+    createUser: (user: AdapterUser) => {
+      return call<AdapterUser>("/auth/users", "POST", user);
+    },
     getUser: (id) => call<AdapterUser | null>(`/auth/users/${id}`, "GET"),
     getUserByEmail: (email) =>
       call<AdapterUser | null>(
         `/auth/users?email=${encodeURIComponent(email)}`,
-        "GET"
+        "GET",
+        undefined,
+        true
       ),
-    getUserByAccount: (acct) =>
-      call<AdapterUser | null>(
+    getUserByAccount: (acct) => {
+      return call<AdapterUser | null>(
         `/auth/users/by-account?provider=${encodeURIComponent(
           acct.provider
         )}&providerAccountId=${encodeURIComponent(acct.providerAccountId)}`,
-        "GET"
-      ),
+        "GET",
+        undefined,
+        true
+      ); 
+    },
     updateUser: (user) => call<AdapterUser>(`/auth/users/${user.id}`, "PUT", user),
     deleteUser: (id) => call<void>(`/auth/users/${id}`, "DELETE"),
-    linkAccount: (acct: AdapterAccount) => call<void>("/auth/accounts", "POST", acct),
+    linkAccount: (acct: AdapterAccount) => {
+      return call<void>("/auth/accounts", "POST", acct, true);
+    },
     unlinkAccount: (acct: AdapterAccount) =>
       call<void>(
         `/auth/accounts?provider=${encodeURIComponent(

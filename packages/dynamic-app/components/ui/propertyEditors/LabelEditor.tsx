@@ -2,7 +2,8 @@
 import React from "react";
 import PropertiesCard from "./templates/PropertiesCard";
 import { FieldConfig } from "./templates/FieldConfig";
-import { AiOutlineAlignLeft, AiOutlineAlignCenter, AiOutlineAlignRight } from "react-icons/ai";
+// import { AiOutlineAlignLeft, AiOutlineAlignCenter, AiOutlineAlignRight } from "react-icons/ai";
+import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 import { FormElement } from "store/formStore";
 import RichTextEditor from "./formatEditors/RichTextEditor";
 
@@ -12,9 +13,9 @@ interface LabelEditorProps {
 }
 
 const ALIGN_OPTIONS = [
-  { value: "left",   icon: <AiOutlineAlignLeft /> },
-  { value: "center", icon: <AiOutlineAlignCenter /> },
-  { value: "right",  icon: <AiOutlineAlignRight /> },
+  { value: "left",   icon: <AlignLeft /> },
+  { value: "center", icon: <AlignCenter /> },
+  { value: "right",  icon: <AlignRight /> },
 ];
 
 function RichTextField({ element, onChange }: LabelEditorProps) {

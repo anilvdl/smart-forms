@@ -2,7 +2,8 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { useFormStore, FormElement } from "store/formStore";
-import { AiFillDelete } from "react-icons/ai";
+// import { AiFillDelete } from "react-icons/ai";
+import { Trash } from "lucide-react"
 import FieldRenderer from "components/core/FieldRenderer";
 
 interface CanvasRowProps {
@@ -70,7 +71,7 @@ export default function CanvasRow({ element, index }: CanvasRowProps) {
           }}
           title="Delete this field"
         >
-          <AiFillDelete style={{alignItems: "center"}} size={25} />
+          <Trash style={{alignItems: "center"}} size={25} />
         </button>
       )}
     </li>

@@ -3,18 +3,17 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link  from "next/link";
-import { useRouter } from "next/navigation";
-import { signOut, useSession, signIn } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 import { publicMenu, privateMenu } from "./navigation";
 import { Icons } from "@smartforms/shared/icons";
 import { navigationUtil } from "@smartforms/shared/utils/navigationUtil";
 import SfAnimatedLogo from "@smartforms/shared/components/ui/Logo";
+import AdminAndDesignerToggle from "./AdminAndDesignerToggle";
 
 export default function NavBar() {
   const { data: session } = useSession();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const router = useRouter();
   const { navigate } = navigationUtil();
   const [mobileOpen, setMobileOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -138,10 +137,13 @@ export default function NavBar() {
               )}
             </div>
           ))}
-
+          
           {/* Auth buttons */}
           {session?.user ? (
             <div className="user-menu">
+              
+              <AdminAndDesignerToggle />
+
               {session.user.image && (
                 <Image
                   src={session.user.image}
@@ -158,6 +160,7 @@ export default function NavBar() {
               <button onClick={handleSignOut} className="logout-btn">
                 Sign Out
               </button>
+
             </div>
           ) : (
             <>

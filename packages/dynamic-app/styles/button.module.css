@@ -1,0 +1,53 @@
+:root {
+  --sf-primary: #ff642e;
+  --sf-primary-hover: #e55a28;
+  --sf-danger: #dc3545;
+  --sf-danger-hover: #c0323c;
+  --sf-text: #111;
+}
+
+/* Base reset */
+.button {
+  font-family: inherit;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+/* Primary: filled orange */
+.primary {
+  background-color: var(--sf-primary);
+  color: #fff;
+}
+.primary:hover:not(.disabled) {
+  background-color: var(--sf-primary-hover);
+}
+
+/* Secondary: outline */
+.secondary {
+  background-color: transparent;
+  color: var(--sf-primary);
+  border-color: var(--sf-primary);
+}
+.secondary:hover:not(.disabled) {
+  background-color: var(--sf-primary);
+  color: #fff;
+}
+
+/* Danger: filled red */
+.danger {
+  background-color: var(--sf-danger);
+  color: #fff;
+}
+.danger:hover:not(.disabled) {
+  background-color: var(--sf-danger-hover);
+}
+
+/* Disabled state */
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

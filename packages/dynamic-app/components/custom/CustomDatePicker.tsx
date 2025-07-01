@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { parse, format } from "date-fns";
-import { FaRegCalendarAlt } from "react-icons/fa";
+// import { FaRegCalendarAlt } from "react-icons/fa";
+import { Calendar } from "lucide-react";
 import CustomInput from "./CustomInput";
 
 interface Props {
@@ -31,7 +32,7 @@ export default function CustomDatePicker({ formatString, defaultValue, onChange 
       dateFormat={formatString}
       customInput={
         <CustomInput
-          icon={<FaRegCalendarAlt size={16} />}
+          icon={<Calendar size={16} />}
           placeholder={formatString}
         />
       }

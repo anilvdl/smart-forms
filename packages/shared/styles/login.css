@@ -10,10 +10,29 @@
   .login-card {
     background: white;
     padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.15);
     text-align: center;
-    width: 400px;
+    flex-direction: column;
+    transition: 0.3s;
+    width: 550px;
+  }
+
+  .session-alert {
+    padding: 2rem;
+    text-align: center;
+    flex-direction: column;
+    transition: 0.3s;
+  }
+
+  .session-alert p {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .session-alert buttons {
+    gap: 8px;
+    padding: 10px;
   }
   
   .login-card h1 {
@@ -95,7 +114,7 @@
   }
   
   .submit-btn {
-    width: 100%;
+    width: 20%;
     padding: 10px;
     border-radius: 5px;
     border: none;
@@ -104,6 +123,21 @@
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s ease;
+  }
+
+  .dashboard-btn {
+    background: linear-gradient(135deg, #5b6af3 0%, #8b5cf6 100%);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .dashboard-btn:hover {
+    background: linear-gradient(135deg, #3447ef 0%, #7642ef 100%);
+    transform: scale(1.05);  
   }
   
   .submit-btn:disabled {

@@ -1,6 +1,6 @@
 "use client";
 
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, signOut } from "next-auth/react";
 import type { AppProps }   from "next/app";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -16,12 +16,26 @@ import "@smartforms/shared/styles/welcome.css";
 import "@smartforms/shared/styles/pricing.css";
 import { Icons } from "@smartforms/shared/icons";
 import "react-datepicker/dist/react-datepicker.css";
+// import { useSessionTimeout } from "../hooks/useSessionTimeout";
+import { useState } from "react";
 
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
+
+  const [showModal, setShowModal] = useState(false);
+
+  // const { extendSession } = useSessionTimeout({
+  //   warningTime: 60,        // warn 1 min before expiry
+  //   onWarning: () => setShowModal(true),
+  //   onSessionExtended: (newExpires) => {
+  //     setShowModal(false);
+  //     console.log("Session extended until:", newExpires);
+  //   },
+  // });
+
   return (
     <>
       <Head>
@@ -34,6 +48,20 @@ export default function App({
         <DndProvider backend={HTML5Backend}>
           <Component {...pageProps} />
         </DndProvider>
+        {/* {showModal && (
+            <div className="modal-overlay">
+              <div className="modal">
+                <h2>Your session is about to expire</h2>
+                <p>Do you want to stay signed in?</p>
+                <button onClick={() => { console.log("invoking extend session...");extendSession(); }}>
+                  Extend Session
+                </button>
+                <button onClick={() => { setShowModal(false); signOut(); }}>
+                  Log Out
+                </button>
+              </div>
+            </div>
+          )} */}
       </SessionProvider>
     </>
   );

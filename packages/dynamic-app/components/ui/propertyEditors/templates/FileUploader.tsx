@@ -2,7 +2,8 @@
 import React, { useRef } from "react";
 import { CustomFieldProps } from "./FieldConfig";
 import Image from "next/image";
-import { AiOutlineCloudUpload, AiOutlineDelete } from "react-icons/ai";
+// import { AiOutlineCloudUpload, AiOutlineDelete } from "react-icons/ai";
+import { UploadCloud, Trash } from "lucide-react";
 import { FormElement } from "store/formStore";
 
 export default function ImageFileUploader({ element, onChange }: CustomFieldProps) {
@@ -61,17 +62,17 @@ export default function ImageFileUploader({ element, onChange }: CustomFieldProp
         )}
         {!hasImage ? (
           <button style={styles.uploadButton} onClick={handleChangeImage}>
-            <AiOutlineCloudUpload style={{ fontSize: "24px", marginRight: "6px" }} />
+            <UploadCloud style={{ fontSize: "24px", marginRight: "6px" }} />
             Upload
           </button>
         ) : (
           <div style={{ display: "flex", gap: "8px" }}>
             <button style={styles.uploadButton} onClick={handleChangeImage}>
-              <AiOutlineCloudUpload style={{ fontSize: "24px", marginRight: "6px" }} />
+              <UploadCloud style={{ fontSize: "24px", marginRight: "6px" }} />
               Change
             </button>
             <button style={styles.removeButton} onClick={handleRemoveImage}>
-              <AiOutlineDelete style={{ fontSize: "24px", marginRight: "6px" }} />
+              <Trash style={{ fontSize: "24px", marginRight: "6px" }} />
               Remove
             </button>
           </div>

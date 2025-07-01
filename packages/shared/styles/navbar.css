@@ -34,7 +34,7 @@
   background: linear-gradient(135deg, #5b6af3 0%, #8b5cf6 100%);
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 6px 12px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
@@ -42,6 +42,7 @@
 .logout-btn-blue:hover {
   /* background-color: #2815f0; */
   background: linear-gradient(135deg, #4e54c8 0%, #7c3aed 100%);
+  transform: scale(1.05);
 }
 
 .user-menu {

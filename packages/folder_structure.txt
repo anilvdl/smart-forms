@@ -1,0 +1,243 @@
+.
+├── backend-services
+│   ├── package.json
+│   ├── src
+│   │   ├── routes
+│   │   │   ├── auth.ts
+│   │   │   └── forms.ts
+│   │   └── server.ts
+│   └── tsconfig.json
+├── dynamic-app
+│   ├── api
+│   │   └── formApi.ts
+│   ├── components
+│   │   ├── canvas
+│   │   │   ├── Canvas.tsx
+│   │   │   └── CanvasRow.tsx
+│   │   ├── core
+│   │   │   └── FieldRenderer.tsx
+│   │   ├── custom
+│   │   │   ├── CustomDatePicker.tsx
+│   │   │   ├── CustomDateTimePicker.tsx
+│   │   │   ├── CustomInput.tsx
+│   │   │   └── CustomTimePicker.tsx
+│   │   ├── designer
+│   │   │   ├── ControlsBar.tsx
+│   │   │   └── ThreeDToggle.tsx
+│   │   ├── form-builder
+│   │   │   └── PreviewForm.tsx
+│   │   ├── modals
+│   │   │   └── ErrorModal.tsx
+│   │   └── ui
+│   │       ├── formElements.ts
+│   │       ├── LeftPanel.tsx
+│   │       ├── propertyEditors
+│   │       │   ├── DateEditor.tsx
+│   │       │   ├── DateTimeEditor.tsx
+│   │       │   ├── DefaultEditor.tsx
+│   │       │   ├── DropdownEditor.tsx
+│   │       │   ├── FormatEditor.tsx
+│   │       │   ├── formatEditors
+│   │       │   │   ├── DateFormatEditor.tsx
+│   │       │   │   ├── RichTextEditor.tsx
+│   │       │   │   └── TimeFormatEditor.tsx
+│   │       │   ├── LabelEditor.tsx
+│   │       │   ├── LogoEditor.tsx
+│   │       │   ├── LongTextEditor.tsx
+│   │       │   ├── MultipleChoiceEditor.tsx
+│   │       │   ├── OptionListEditor.tsx
+│   │       │   ├── propertyEditorsMap.ts
+│   │       │   ├── ShortTextEditor.tsx
+│   │       │   ├── SingleChoiceEditor.tsx
+│   │       │   ├── templates
+│   │       │   │   ├── FieldConfig.ts
+│   │       │   │   ├── FileUploader.tsx
+│   │       │   │   └── PropertiesCard.tsx
+│   │       │   ├── TimeEditor.tsx
+│   │       │   └── types.ts
+│   │       └── RightPanel.tsx
+│   ├── constants
+│   │   └── timezone.ts
+│   ├── hooks
+│   │   ├── useFormPersistence.ts
+│   │   └── useMediaQuery.ts
+│   ├── middleware.ts
+│   ├── next-env.d.ts
+│   ├── next.config.js
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── pages
+│   │   ├── _app.tsx
+│   │   ├── api
+│   │   │   ├── auth
+│   │   │   │   ├── [...nextauth].ts
+│   │   │   │   ├── httpAdapter.ts
+│   │   │   │   └── user.ts
+│   │   │   └── forms
+│   │   │       └── designer
+│   │   │           ├── [formId]
+│   │   │           │   └── [version].ts
+│   │   │           ├── [formId].ts
+│   │   │           ├── drafts.ts
+│   │   │           └── index.ts
+│   │   ├── dashboard-mock.html
+│   │   ├── dashboard.tsx
+│   │   ├── form-builder.tsx
+│   │   ├── login.tsx
+│   │   ├── signup.tsx
+│   │   └── types
+│   ├── prisma
+│   │   ├── dev.db
+│   │   └── schema.prisma
+│   ├── server.js
+│   ├── store
+│   │   └── formStore.ts
+│   ├── styles
+│   │   ├── dashboard.module.css
+│   │   └── globals.css
+│   ├── tsconfig.json
+│   ├── types
+│   │   ├── next-auth.d.ts
+│   │   └── types.ts
+│   └── utils
+│       └── blob.ts
+├── folder_structure.txt
+├── lib-db
+│   ├── adapter.ts
+│   ├── config.ts
+│   ├── daos
+│   │   ├── formRaw.dao.ts
+│   │   ├── forms.dao.ts
+│   │   ├── sessions.dao.ts
+│   │   ├── users.dao.ts
+│   │   └── utils
+│   │       └── query.ts
+│   ├── index.ts
+│   ├── package.json
+│   ├── README.md
+│   ├── schema.sql
+│   ├── types.ts
+│   └── validator.ts
+├── lib-middleware
+│   ├── package.json
+│   ├── README.md
+│   ├── src
+│   │   ├── context.ts
+│   │   ├── errorHandler.ts
+│   │   ├── httpClient.ts
+│   │   ├── index.ts
+│   │   ├── logger.ts
+│   │   ├── next.ts
+│   │   └── plugin.ts
+│   └── tsconfig.json
+├── shared
+│   ├── app
+│   │   └── App.tsx
+│   ├── assets
+│   │   └── icons
+│   │       ├── apple.png
+│   │       ├── blank-form.png
+│   │       ├── button.png
+│   │       ├── choice.png
+│   │       ├── color-picker.png
+│   │       ├── date-time.png
+│   │       ├── date.png
+│   │       ├── divider.png
+│   │       ├── draft.png
+│   │       ├── dropdown.png
+│   │       ├── email.png
+│   │       ├── error-computer.png
+│   │       ├── error.png
+│   │       ├── event-registration.png
+│   │       ├── facebook.png
+│   │       ├── favorite.png
+│   │       ├── file-upload.png
+│   │       ├── form1.png
+│   │       ├── forms_design.png
+│   │       ├── google.png
+│   │       ├── header.png
+│   │       ├── hero-bg.jpg
+│   │       ├── hidden.png
+│   │       ├── image.png
+│   │       ├── krish.png
+│   │       ├── label.png
+│   │       ├── linkedin.png
+│   │       ├── long-text.png
+│   │       ├── m4u-icon.png
+│   │       ├── master.png
+│   │       ├── microsoft.png
+│   │       ├── multi-choice.png
+│   │       ├── murthy-astro.png
+│   │       ├── number.png
+│   │       ├── online-survey.png
+│   │       ├── page-break.png
+│   │       ├── party-invite.png
+│   │       ├── password.png
+│   │       ├── pencil-write-transparent.png
+│   │       ├── pencil-write.png
+│   │       ├── range.png
+│   │       ├── recommended.png
+│   │       ├── reset.png
+│   │       ├── rsvp.png
+│   │       ├── salesforce.png
+│   │       ├── search.png
+│   │       ├── sf_logo.png
+│   │       ├── submit.png
+│   │       ├── submit1.png
+│   │       ├── table.png
+│   │       ├── tel.png
+│   │       ├── text.png
+│   │       ├── time.png
+│   │       ├── url.png
+│   │       └── video.png
+│   ├── components
+│   │   └── ui
+│   │       ├── Clients-fixed.tsx
+│   │       ├── Clients.tsx
+│   │       ├── FeatureCarousel.tsx
+│   │       ├── Footer.tsx
+│   │       ├── Logo.tsx
+│   │       ├── Navbar.tsx
+│   │       ├── navigation.ts
+│   │       ├── PlanCard.tsx
+│   │       └── WelcomeContent.tsx
+│   ├── config
+│   │   └── appConfig.ts
+│   ├── data
+│   │   └── countryCodes.ts
+│   ├── hooks
+│   │   ├── useAuth.ts
+│   │   └── useStorage.ts
+│   ├── icons.ts
+│   ├── index.ts
+│   ├── modals
+│   │   └── TermsModal.tsx
+│   ├── package.json
+│   ├── styles
+│   │   ├── dashboard.css
+│   │   ├── form-builder.css
+│   │   ├── globals.css
+│   │   ├── login.css
+│   │   ├── navbar.css
+│   │   ├── pricing.css
+│   │   ├── PropertiesCard.css
+│   │   ├── signup.css
+│   │   └── welcome.css
+│   ├── tsconfig.json
+│   └── utils
+│       ├── helpers.ts
+│       └── navigationUtil.ts
+└── static-site
+    ├── next-env.d.ts
+    ├── next.config.js
+    ├── package.json
+    ├── pages
+    │   ├── _app.tsx
+    │   ├── about.tsx
+    │   ├── contact.tsx
+    │   ├── index.tsx
+    │   ├── pricing.tsx
+    │   └── Terms.tsx
+    └── tsconfig.json
+
+50 directories, 191 files

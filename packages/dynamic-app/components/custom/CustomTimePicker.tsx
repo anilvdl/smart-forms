@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import { parse, format } from "date-fns";
-import { FaRegClock } from "react-icons/fa";
+// import { FaRegClock } from "react-icons/fa";
+import { Clock } from "lucide-react";
 import CustomInput from "./CustomInput";
 
 interface Props {
@@ -76,7 +77,7 @@ export default function CustomTimePicker({ formatString, defaultValue, onChange 
       dateFormat={formatString}
       customInput={
         <CustomInput
-          icon={<FaRegClock size={16} />}
+          icon={<Clock size={16} />}
           placeholder={formatString}
         />
       }

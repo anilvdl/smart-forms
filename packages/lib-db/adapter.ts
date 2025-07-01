@@ -20,50 +20,55 @@ export function PostgresAdapter(): Adapter {
       return result.rows[0] || null;
     },
     async linkAccount(account: AdapterAccount) {
-      await pool.query(
-        `INSERT INTO smartform.sf_accounts (
+      const query = `INSERT INTO smartform.sf_accounts (
           user_id, provider, provider_account_id, type, access_token,
           refresh_token, expires_at, token_type, scope, id_token, session_state
         ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
-        ON CONFLICT (provider, provider_account_id) DO NOTHING`,
-        [
-          account.userId,
-          account.provider,
-          account.providerAccountId,
-          account.type,
-          account.access_token,
-          account.refresh_token,
-          account.expires_at,
-          account.token_type,
-          account.scope,
-          account.id_token,
-          account.session_state,
-        ]
-      );
+        ON CONFLICT (provider, provider_account_id) DO NOTHING`;
+      const params = [
+        account.userId,
+        account.provider,
+        account.providerAccountId,
+        account.type,
+        account.access_token,
+        account.refresh_token,
+        account.expires_at,
+        account.token_type,
+        account.scope,
+        account.id_token,
+        account.session_state,
+      ];
+      try {
+        await pool.query(query, params);
+      } catch (err) {
+        console.error("Error linking account:", err);
+        if (err instanceof Error) {
+          throw new Error("Database query failed. Error: " + err.message);
+        }
+        throw new Error("Database query failed. Unknown error occurred.");
+      }
+      return account;
     },    
     async getUserByEmail(email) {
       const result = await pool.query("SELECT * FROM smartform.sf_users WHERE contact = $1", [email]);
       return result.rows[0] || null;
     },
     async getUserByAccount({ provider, providerAccountId }: Pick<AdapterAccount, "provider" | "providerAccountId">) {
-      console.log("in lib-db\n\n\n getUserByAccount ---> ", provider, providerAccountId);
-      console.log("\n\n in lib-db \n\n DB URL: ", process.env.DATABASE_URL);
       let result = { rows: [] };
+      const sqlQuery = `SELECT u.* FROM smartform.sf_users u
+          INNER JOIN smartform.sf_accounts a ON u.id = a.user_id
+          WHERE a.provider = $1 AND a.provider_account_id = $2`;
       try {
-       result = await pool.query(
-        `SELECT u.* FROM smartform.sf_users u
-         INNER JOIN smartform.sf_accounts a ON u.id = a.user_id
-         WHERE a.provider = $1 AND a.provider_account_id = $2`,
-        [provider, providerAccountId]
-      );
-    } catch (err) {
-      console.error("Error in getUserByAccount:", err);
-      if (err instanceof Error) {
-        throw new Error("Database query failed. Error: " + err.message);
+        console.info("Executing getUserByAccount query:", sqlQuery, provider, providerAccountId);
+        result = await pool.query(sqlQuery, [provider, providerAccountId]);
+      } catch (err) {
+        console.error("Error in getUserByAccount:", err);
+        if (err instanceof Error) {
+          throw new Error("Database query failed. Error: " + err.message);
+        }
+        throw new Error("Database query failed. Unknown error occurred.");
       }
-      throw new Error("Database query failed. Unknown error occurred.");
-    }
-      console.log("getUserByAccount result ---> ", result.rows);
+      console.info("getUserByAccount result ---> ", result.rows);
       return result.rows[0] || null;
     },    
     async createSession(session) {

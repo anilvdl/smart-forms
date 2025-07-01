@@ -14,7 +14,4 @@ if (!global.pgPool) {
 
 dbPool = global.pgPool;
 
-// console.log("env ---> ", JSON.stringify(process.env));
-// console.log("dbPool config ---> ", dbConfig);
-
 export default dbPool;

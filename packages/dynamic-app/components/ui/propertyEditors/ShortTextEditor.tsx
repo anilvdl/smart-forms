@@ -2,7 +2,8 @@
 import PropertiesCard from "./templates/PropertiesCard";
 import { FormElement } from "store/formStore";
 import { FieldConfig } from "./templates/FieldConfig";
-import { AiOutlineAlignCenter, AiOutlineAlignLeft, AiOutlineAlignRight } from "react-icons/ai";
+// import { AiOutlineAlignCenter, AiOutlineAlignLeft, AiOutlineAlignRight } from "react-icons/ai";
+import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 
 interface ShortTextEditorProps {
   element: FormElement;
@@ -61,9 +62,9 @@ export default function ShortTextEditor({ element, onChange }: ShortTextEditorPr
       name: "alignment",
       label: "Alignment",
       options: [
-        { value: "left", icon: <AiOutlineAlignLeft /> },
-        { value: "center", icon: <AiOutlineAlignCenter /> },
-        { value: "right", icon: <AiOutlineAlignRight /> },
+        { value: "left",   icon: <AlignLeft /> },
+        { value: "center", icon: <AlignCenter /> },
+        { value: "right",  icon: <AlignRight /> },
       ],
     },
   ];

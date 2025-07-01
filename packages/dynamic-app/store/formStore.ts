@@ -481,7 +481,6 @@ export const useFormStore = create<FormStore>()(
 
         // 3) addCanvasElement => create a new instance with a unique id
         addCanvasElement: (tmpl: FormElement, x: number, y: number) => {
-          console.log("addCanvasElement->tmpl: ", tmpl);
           const newElement: FormElement = {
             ...tmpl,
             templateId: tmpl.id,
@@ -495,7 +494,6 @@ export const useFormStore = create<FormStore>()(
         },
 
         removeCanvasElement: (id: string) => {
-          console.log("removeCanvasElement->id: ", id);
           set((state) => {
             const newEls = state.canvasElements.filter((el) => el.id !== id);
             return {
@@ -507,7 +505,6 @@ export const useFormStore = create<FormStore>()(
         },
 
         updateCanvasElement: (updatedEl: FormElement) => {
-          console.log("updateCanvasElement->updatedEl: ", updatedEl);
           set((state) => ({
             canvasElements: state.canvasElements.map((el) =>
               el.id === updatedEl.id ? updatedEl : el
@@ -562,7 +559,6 @@ export const useFormStore = create<FormStore>()(
         name: "my-form-data", // localStorage key
         version: 10,
         migrate: (persistedState, version) => {
-          console.log("migrating form data from version", version);
           // if the persisted data is from an older version, drop it
           if (version > 2) {
             return initialState;

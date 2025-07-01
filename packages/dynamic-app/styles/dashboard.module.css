@@ -1,3 +1,16 @@
+.Toastify__toast-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    width: fit-content !important;
+}
+
+.toastProgress {
+  transform-origin: left !important;
+  background-color: #ff6600 !important;
+}
+
 .pageWrapper {
   display: flex;
   flex-direction: column;
@@ -114,7 +127,7 @@
   background: #fff;
   padding: 1.5rem;
   border-radius: 8px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.25rem;
 }
 .heroIcon {
   font-size: 4rem;
@@ -235,4 +248,29 @@
 .singleCol {
   grid-template-columns: 1fr;
   justify-items: center;
+}
+
+/* Support for inline loading spinner in buttons */
+.btnPrimary svg {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+/* Disabled state for buttons */
+.btnPrimary:disabled,
+.btnLoadMore:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Template modal integration - ensure proper z-index */
+.dashboardCard {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure the View All Templates button matches other load more buttons */
+.loadMoreWrapper .btnLoadMore {
+  margin-top: 1rem;
 }

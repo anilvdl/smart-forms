@@ -18,7 +18,6 @@ const RightPanel: React.FC = () => {
   const EditorComponent = selectedElement ? (editorMap[selectedElement.type] || editorMap.default) : editorMap.default;
   
   const onChange = (updated: FormElement) => {
-    console.log("RightPanel->onChange->updated: ", updated);
     if(updated.type === "logo") {
       useFormStore.getState().updateElement(updated);
     } else {

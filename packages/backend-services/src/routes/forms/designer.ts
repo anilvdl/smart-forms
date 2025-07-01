@@ -1,10 +1,12 @@
-import { FastifyPluginAsync } from 'fastify';
+import { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import { APIError, logger as dbLogger} from '@smartforms/lib-middleware';
 import { FormRawDAO } from '@smartforms/lib-db/daos/formRaw.dao';
 import { UserDAO } from '@smartforms/lib-db/daos/users.dao';
 import { v4 as uuidv4 } from 'uuid';
 import { getRequestContext } from '@smartforms/lib-middleware';
 import { Buffer } from "buffer";
+import { getSessionFromRequest } from '../../utils/auth';
+import * as UserOrgsDAO from '@smartforms/lib-db/daos/user/userOrgs.dao';
 
 
 /**
@@ -205,10 +207,9 @@ function escapeXml(unsafe: string): string {
   });
 }
 
-const formsRoutes: FastifyPluginAsync = async (fastify) => {
-  const formsRawDao = new FormRawDAO(dbLogger);
+const formsRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
 
-  dbLogger.info('\n\t[forms.ts->FastifyPluginAsync]->entered into formsRoutes');
+  const formsRawDao = new FormRawDAO(dbLogger);
 
   fastify.post('/', async (request, reply) => {
     const { title, rawJson } = request.body as { title: string; rawJson: any };
@@ -248,8 +249,6 @@ const formsRoutes: FastifyPluginAsync = async (fastify) => {
     const { formId } = request.params as { formId: string };
     const { rawJson } = request.body as { rawJson: any };
 
-    console.log('\n\t[forms.ts->FastifyPluginAsync]->Request received:', request.method, request['headers']);
-
     if (!rawJson || typeof rawJson !== 'object')
       throw new APIError('INVALID_DATA', 'rawJson must be an object', 400);
 
@@ -260,8 +259,6 @@ const formsRoutes: FastifyPluginAsync = async (fastify) => {
 
     // 1) Re-generate PreviewSpec + SVG for updated rawJson
     const thumbnailDataUrl = buildPreviewSpec(rawJson);
-
-    console.log('\n\t[forms.ts->FastifyPluginAsync]->Thumbnail Data URL:', thumbnailDataUrl);
 
     let result;
     if (latest.status === 'PUBLISH') {
@@ -286,6 +283,7 @@ const formsRoutes: FastifyPluginAsync = async (fastify) => {
 
   fastify.get('/:formId/:version', async (request, reply) => {
     const { formId, version } = request.params as { formId: string; version: string };
+
     const verNum = Number(version);
     const data = await formsRawDao.getByVersion(formId, verNum);
     if (!data) throw new APIError('NOT_FOUND', 'Form version not found', 404);
@@ -329,6 +327,212 @@ const formsRoutes: FastifyPluginAsync = async (fastify) => {
     }));
     reply.send(list);
   });
+
+  // List published forms (for My Forms tab)
+  fastify.get('/published', async (request, reply) => {
+    const queryParams = request.query as any;
+    const page = Number(queryParams.page) || 1;
+    const search = queryParams.search || '';
+    const sortBy = queryParams.sortBy || 'updated_at';
+    const sortOrder = queryParams.sortOrder || 'DESC';
+    const limit = 10;
+    const offset = (page - 1) * limit;
+    
+    const session = await getSessionFromRequest(request);
+    const userEmail = session?.user.email;
+    console.log(`user email in forms/designer.ts: ${userEmail}`);
+    if (!userEmail) throw new APIError('UNAUTHORIZED', 'User not authenticated', 401);
+
+    // Get user and their organizations
+    const user = await UserDAO.getUserByEmail(userEmail);
+   // Get user's organization IDs
+    const userOrgs = await UserOrgsDAO.getUserOrganizations(user.id);
+    const userOrgIds = userOrgs
+      .filter(org => org.is_active) // Only include active organization memberships
+      .map(org => org.org_id);
+  
+    const forms = await formsRawDao.listPublishedForms(
+      user.id,
+      userOrgIds,
+      limit,
+      offset,
+      search,
+      sortBy,
+      sortOrder
+    );
+    
+    const totalCount = await formsRawDao.countPublishedForms(
+      user.id,
+      userOrgIds,
+      search
+    );
+    
+    const enrichedForms = forms.map((form) => ({
+      formId: form.form_id,
+      version: form.version,
+      title: form.title,
+      status: form.status,
+      updatedAt: form.updated_at,
+      createdAt: form.created_at,
+      thumbnail: form.thumbnail,
+      shortCode: form.short_code,
+      isPublic: form.is_public,
+      sourceTemplateId: form.source_template_id,
+      isOrgForm: !!form.org_id,
+      isOwner: form.user_id === user.id
+    }));
+    
+    reply.send({
+      forms: enrichedForms,
+      pagination: {
+        page,
+        limit,
+        total: totalCount,
+        totalPages: Math.ceil(totalCount / limit)
+      }
+    });
+  });
+
+  // Clone a form
+  fastify.post('/:formId/clone', async (request, reply) => {
+    const { formId } = request.params as { formId: string };
+    const { version, title } = request.body as { version: number; title?: string };
+    
+    const ctx = getRequestContext();
+    const userEmail = ctx?.user?.email;
+    if (!userEmail) throw new APIError('UNAUTHORIZED', 'User not authenticated', 401);
+    
+    const user = await UserDAO.getUserByEmail(userEmail);
+    
+    // Get the source form to clone
+    const sourceForm = await formsRawDao.getByVersion(formId, version);
+    if (!sourceForm) {
+      throw new APIError('NOT_FOUND', 'Form not found', 404);
+    }
+    
+    // Generate new title if not provided
+    const newTitle = title || `${sourceForm.title} (Copy)`;
+    
+    const clonedForm = await formsRawDao.cloneForm(
+      formId,
+      version,
+      user.id,
+      newTitle,
+      sourceForm.source_template_id
+    );
+    
+    reply.code(201).send({
+      formId: clonedForm.form_id,
+      version: clonedForm.version,
+      title: clonedForm.title,
+      status: clonedForm.status
+    });
+  });
+
+  // Soft delete a form
+  fastify.delete('/:formId/:version', async (request, reply) => {
+    const { formId, version } = request.params as { formId: string; version: string };
+    
+    const session = await getSessionFromRequest(request);
+    const userEmail = session?.user.email;
+    if (!userEmail) throw new APIError('UNAUTHORIZED', 'User not authenticated', 401);
+    
+    const user = await UserDAO.getUserByEmail(userEmail);
+    const verNum = Number(version);
+    
+    // Verify ownership
+    const form = await formsRawDao.getByVersion(formId, verNum);
+    if (!form) {
+      throw new APIError('NOT_FOUND', 'Form not found', 404);
+    }
+    
+    // Check if user owns the form or has org admin rights
+    let canDelete = false;
+    
+    // Check if user is the owner
+    if (form.user_id === user.id) {
+      canDelete = true;
+    } 
+    // If it's an org form, check if user has admin rights
+    else if (form.org_id) {
+      const userOrgRole = await UserOrgsDAO.getUserOrgRole(user.id, form.org_id);
+      
+      // Allow deletion if user is OWNER or ADMIN of the organization
+      if (userOrgRole && ['OWNER', 'ADMIN'].includes(userOrgRole.role)) {
+        canDelete = true;
+        console.log(`User ${user.id} has ${userOrgRole.role} role in org ${form.org_id}, allowing deletion`);
+      }
+    }
+    
+    if (!canDelete) {
+      throw new APIError('FORBIDDEN', 'You do not have permission to delete this form', 403);
+    }
+    
+    const deleted = await formsRawDao.softDeleteForm(formId, verNum);
+    if (!deleted) {
+      throw new APIError('INTERNAL_SERVER_ERROR', 'Failed to delete form', 500);
+    }
+    
+    console.log(`Form ${formId} version ${verNum} soft deleted by user ${user.id}`);
+    reply.code(204).send();
+  });
+
+  // Get share information
+  fastify.get('/:formId/:version/share', async (request, reply) => {
+    const { formId, version } = request.params as { formId: string; version: string };
+    
+    const ctx = getRequestContext();
+    const userEmail = ctx?.user?.email;
+    if (!userEmail) throw new APIError('UNAUTHORIZED', 'User not authenticated', 401);
+    
+    const verNum = Number(version);
+    const shareInfo = await formsRawDao.getShareInfo(formId, verNum);
+    
+    if (!shareInfo) {
+      throw new APIError('NOT_FOUND', 'Form not found', 404);
+    }
+    
+    const baseUrl = process.env.PUBLIC_URL || 'https://forms.smartforms.dev';
+    
+    reply.send({
+      shareUrl: `${baseUrl}/f/${shareInfo.shortCode}`,
+      embedCode: {
+        html: `<div data-smartform="${shareInfo.shortCode}"></div>\n<script src="${baseUrl}/embed.js"></script>`,
+        iframe: `<iframe src="${baseUrl}/f/${shareInfo.shortCode}" width="100%" height="600" frameborder="0"></iframe>`,
+        nodejs: `// Install: npm install @smartforms/client\nconst SmartForms = require('@smartforms/client');\n\nconst form = new SmartForms('${shareInfo.shortCode}');\nform.onSubmit((data) => {\n  console.log('Form submitted:', data);\n});`
+      },
+      shortCode: shareInfo.shortCode,
+      isPublic: shareInfo.isPublic,
+      title: shareInfo.title
+    });
+  });
+
+  // Update form privacy
+  fastify.patch('/:formId/:version/privacy', async (request, reply) => {
+    const { formId, version } = request.params as { formId: string; version: string };
+    const { isPublic } = request.body as { isPublic: boolean };
+    
+    const ctx = getRequestContext();
+    const userEmail = ctx?.user?.email;
+    if (!userEmail) throw new APIError('UNAUTHORIZED', 'User not authenticated', 401);
+    
+    const user = await UserDAO.getUserByEmail(userEmail);
+    const verNum = Number(version);
+    
+    // Verify ownership
+    const form = await formsRawDao.getByVersion(formId, verNum);
+    if (!form || form.user_id !== user.id) {
+      throw new APIError('FORBIDDEN', 'You do not have permission to update this form', 403);
+    }
+    
+    const updated = await formsRawDao.updateFormPrivacy(formId, verNum, isPublic);
+    if (!updated) {
+      throw new APIError('INTERNAL_SERVER_ERROR', 'Failed to update form privacy', 500);
+    }
+    
+    reply.send({ success: true, isPublic });
+  });
+
 };
 
 export default formsRoutes;

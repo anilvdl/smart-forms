@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react"; 
 import Navbar from "@smartforms/shared/components/ui/Navbar";
@@ -65,6 +65,9 @@ export default function Login() {
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
+  const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+
   // Handle error modal from query string
   useEffect(() => {
     const { error } = router.query;
@@ -125,7 +128,6 @@ export default function Login() {
       alert("Please correct the errors before submitting.");
       return;
     }
-    console.log("Login Successful:", formData);
     alert("Login Successful!");
   };
 
@@ -163,7 +165,6 @@ export default function Login() {
       try {
         const userData = JSON.parse(atob(response.credential.split(".")[1]));
         localStorage.setItem("googleUser", JSON.stringify(userData));
-        console.log("Google User Info:", userData);
         alert(`Welcome, ${userData.name}!`);
       } catch (error) {
         console.error("Error decoding Google credential:", error);
@@ -176,21 +177,26 @@ export default function Login() {
       <div className="login-container">
         {session ? (
             <div className="session-alert">
-                <p>You are already signed in as {session.user?.name}.</p>
-                <button onClick={() => signOut()} className="logout-btn">Sign out</button>
+                <p>You are already signed in as {session.user?.name}.</p> <br/>
+                <div className="session-buttons">
+                  <button onClick={() => router.push("/dashboard")} className="logout-btn-blue">Goto Dashboard</button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <button onClick={() => signOut()} className="logout-btn">Sign out</button>
+                </div>
             </div>
         ) : (
         <div className="login-card">
           <h1>Login</h1>
           <p>Access your workspace by signing in.</p>
           {/* Social Login Options */}
-          <p>Sign in with</p>
+          <p>Sign in with</p> <br/>
           <div className="social-login">
             {AUTH_PROVIDERS.map(({ name, icon, handler }) => (
               <button key={name} className={`social-btn ${name.toLowerCase()}`} onClick={handler}>
                 <Image src={Icons[icon]} alt={name} width={24} height={24} /> {name}
               </button>
             ))}
+            <br/>
           </div>
 
           <div className="separator">OR</div>
@@ -222,7 +228,7 @@ export default function Login() {
             </div>
 
             <div className="form-group captcha">
-              <ReCAPTCHA sitekey="YOUR_RECAPTCHA_SITE_KEY" onChange={setCaptchaValue} />
+              <ReCAPTCHA sitekey={RECAPTCHA_SITE_KEY || ""} ref={recaptchaRef} onChange={setCaptchaValue} />
             </div>
 
             <button type="submit" className="submit-btn" disabled={!isFormValid}>

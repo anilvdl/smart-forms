@@ -63,7 +63,6 @@ export default function Contact() {
       alert("Please correct the errors before submitting.");
       return;
     }
-    console.log("Form submitted:", formData);
     setFormSubmitted(true);
   };
 
