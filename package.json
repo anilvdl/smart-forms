@@ -23,7 +23,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm --workspace=packages/static-site run dev & npm --workspace=packages/dynamic-app run dev -- -p 3001 & npm --workspace=packages/backend-services run dev",
     "debug": "npm --workspace=packages/static-site run dev & DEBUG=next-auth:* NODE_OPTIONS='--inspect' npm --workspace=packages/dynamic-app run dev -- -p 3001",
-    "build": "npm --workspace=packages/lib-db run build && npm --workspace=packages/static-site run build && npm --workspace=packages/dynamic-app run build & npm --workspace=packages/backend-services run build & npm --workspace=packages/lib-middleware run build",
+    "build": "npm --workspace=packages/lib-middleware run build && npm --workspace=packages/lib-db run build && npm --workspace=packages/shared run build && npm --workspace=packages/backend-services run build && npm --workspace=packages/static-site run build && npm --workspace=packages/dynamic-app run build",
     "export": "npm --workspace=packages/static-site run build",
     "start": "npm --workspace=packages/static-site run start -- -p 3000 & npm --workspace=packages/dynamic-app run start -- -p 3001 & npm --workspace=packages/backend-services run start"
   },
@@ -44,6 +44,7 @@
     "@types/node-fetch": "^2.6.12",
     "date-fns": "^4.1.0",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.562.0",
     "moment-timezone": "^0.5.48",
     "node-fetch": "^2.7.0",
     "pg": "^8.15.6",

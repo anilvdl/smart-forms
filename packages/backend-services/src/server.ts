@@ -1,12 +1,11 @@
 import 'dotenv/config'; 
-import Fastify, { FastifyInstance } from "fastify";
+import Fastify from "fastify";
 import fs from 'fs';
 import path from 'path';
-import authRoutes from "./routes/auth";
 import { middleware, logger as baseLogger }  from "@smartforms/lib-middleware";
-import formsRoutes from './routes/forms/designer';
 import { loadHolidays } from './utils/holidayFetcher';
 import { verifyEmailConfiguration } from './services/emailService';
+import pino from "pino";
 
 const PORT = Number(process.env.PORT || 3002);
 const API_KEY = process.env.API_KEY;
@@ -63,8 +62,13 @@ async function buildServer() {
     process.exit(1);
   }
 
-  const app = Fastify({ 
-    logger: baseLogger,
+  const dest = pino.destination({ dest: 2, sync: false });
+
+  const app = Fastify({
+    logger: {
+      level: process.env.LOG_LEVEL ?? "info",
+      stream: dest,
+    },
   });
 
   app.register(middleware, {

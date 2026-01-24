@@ -1,0 +1,342 @@
+.submissionTab {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.tabHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 24px 32px 0;
+  gap: 20px;
+}
+
+.headerInfo h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 6px 0;
+}
+
+.headerInfo p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.resetButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.resetButton:hover {
+  background: #e2e8f0;
+  color: #475569;
+  border-color: #cbd5e1;
+}
+
+.acceptToggle {
+  padding: 0 32px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 24px;
+}
+
+.toggleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  gap: 20px;
+}
+
+.toggleInfo {
+  flex: 1;
+}
+
+.toggleLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+  display: block;
+}
+
+.toggleDescription {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 50%;
+  padding: 4px;
+}
+
+.toggle:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.toggle.active {
+  color: #10b981;
+}
+
+.section {
+  margin: 0 32px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  text-align: left;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.sectionHeader:hover {
+  background: linear-gradient(135deg, #f1f5f9 0%, #f8fafc 100%);
+  color: #1e293b;
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.chevron.expanded {
+  transform: rotate(90deg);
+  color: #ff6600;
+}
+
+.sectionIcon {
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+.sectionHeader:hover .sectionIcon {
+  color: #ff6600;
+}
+
+.sectionContent {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #ffffff;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.required {
+  color: #ef4444;
+  font-weight: 400;
+}
+
+.fieldInput,
+.fieldTextarea,
+.fieldSelect {
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #ffffff;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.fieldInput:focus,
+.fieldTextarea:focus,
+.fieldSelect:focus {
+  border-color: #ff6600;
+  box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.08);
+}
+
+.fieldInput:hover,
+.fieldTextarea:hover,
+.fieldSelect:hover {
+  border-color: #cbd5e1;
+}
+
+.fieldTextarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.inputGroup {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 12px;
+  color: #94a3b8;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.inputGroup .fieldInput {
+  padding-left: 40px;
+}
+
+.fieldHint {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  background: #ffffff;
+}
+
+.checkboxLabel:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #ff6600;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.checkboxLabel:has(input:checked) {
+  border-color: #ff6600;
+  background: #fff5eb;
+  color: #ea580c;
+}
+
+.statusInfo {
+  margin: 0 32px 32px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.statusRow:last-child {
+  margin-bottom: 0;
+}
+
+.infoIcon {
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.statusContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.statusLabel {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.statusBadge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.statusBadge.active {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #166534;
+  border: 1px solid #16a34a;
+}
+
+.statusBadge.closed {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+  border: 1px solid #dc2626;
+}
+
+.statusValue {
+  font-size: 13px;
+  color: #1e293b;
+  font-weight: 600;
+}

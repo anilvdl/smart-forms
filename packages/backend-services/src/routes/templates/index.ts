@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from 'fastify';
-import { APIError, logger as dbLogger } from '@smartforms/lib-middleware';
+import { APIError, logger as dbLogger, toError } from '@smartforms/lib-middleware';
 import { TemplateDAO } from '@smartforms/lib-db/daos/template/template.dao';
 import { FormRawDAO } from '@smartforms/lib-db/daos/formRaw.dao';
 import { UserDAO } from '@smartforms/lib-db/daos/users.dao';
@@ -63,8 +63,9 @@ const templateRoutes: FastifyPluginAsync = async (fastify) => {
         total: await templateDao.countTemplates({ category, search })
       });
     } catch (error) {
-      dbLogger.error('Error fetching templates:', error);
-      throw new APIError('INTERNAL_ERROR', 'Failed to fetch templates', 500);
+      const e = toError(error);
+      dbLogger.error({err: e}, 'Error fetching templates:');
+      throw new APIError('INTERNAL_ERROR', 'Failed to fetch templates', 500, e.message);
     }
   });
 
@@ -74,8 +75,9 @@ const templateRoutes: FastifyPluginAsync = async (fastify) => {
       const categories = await templateDao.getCategories();
       reply.send(categories);
     } catch (error) {
-      dbLogger.error('Error fetching categories:', error);
-      throw new APIError('INTERNAL_ERROR', 'Failed to fetch categories', 500);
+      const e = toError(error);
+      dbLogger.error({err: e},'Error fetching categories:');
+      throw new APIError('INTERNAL_ERROR', 'Failed to fetch categories', 500, e.message);
     }
   });
 
@@ -129,8 +131,9 @@ const templateRoutes: FastifyPluginAsync = async (fastify) => {
         message: 'Template cloned successfully'
       });
     } catch (error) {
-      dbLogger.error('Error cloning template:', error);
-      throw new APIError('INTERNAL_ERROR', 'Failed to clone template', 500);
+      const e = toError(error);
+      dbLogger.error({err: e},'Error cloning template:');
+      throw new APIError('INTERNAL_ERROR', 'Failed to clone template', 500, e.message);
     }
   });
 
@@ -160,8 +163,9 @@ const templateRoutes: FastifyPluginAsync = async (fastify) => {
         message: 'Template added to favorites'
       });
     } catch (error) {
-      dbLogger.error('Error adding to favorites:', error);
-      throw new APIError('INTERNAL_ERROR', 'Failed to add to favorites', 500);
+      const e = toError(error);
+      dbLogger.error({err: e},'Error adding to favorites:');
+      throw new APIError('INTERNAL_ERROR', 'Failed to add to favorites', 500, e.message);
     }
   });
 
@@ -187,8 +191,9 @@ const templateRoutes: FastifyPluginAsync = async (fastify) => {
         message: 'Template removed from favorites'
       });
     } catch (error) {
-      dbLogger.error('Error removing from favorites:', error);
-      throw new APIError('INTERNAL_ERROR', 'Failed to remove from favorites', 500);
+      const e = toError(error);
+      dbLogger.error({err: e},'Error removing from favorites:');
+      throw new APIError('INTERNAL_ERROR', 'Failed to remove from favorites', 500, e.message);
     }
   });
 
@@ -215,8 +220,9 @@ const templateRoutes: FastifyPluginAsync = async (fastify) => {
         total: favorites.length
       });
     } catch (error) {
-      dbLogger.error('Error fetching favorites:', error);
-      throw new APIError('INTERNAL_ERROR', 'Failed to fetch favorites', 500);
+      const e = toError(error);
+      dbLogger.error({err: e},'Error fetching favorites:');
+      throw new APIError('INTERNAL_ERROR', 'Failed to fetch favorites', 500, e.message);
     }
   });
 
@@ -228,8 +234,9 @@ const templateRoutes: FastifyPluginAsync = async (fastify) => {
       const popularTemplates = await templateDao.getPopularTemplates(Number(limit));
       reply.send(popularTemplates);
     } catch (error) {
-      dbLogger.error('Error fetching popular templates:', error);
-      throw new APIError('INTERNAL_ERROR', 'Failed to fetch popular templates', 500);
+      const e = toError(error);
+      dbLogger.error({err: e},'Error fetching popular templates:');
+      throw new APIError('INTERNAL_ERROR', 'Failed to fetch popular templates', 500, e.message);
     }
   });
 };

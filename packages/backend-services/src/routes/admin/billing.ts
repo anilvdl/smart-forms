@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyPluginAsync, FastifyReply, FastifyRequest } from 'fastify';
 import { getSessionFromRequest } from '../../utils/auth';
 import * as orgAccountDao from '@smartforms/lib-db/daos/org/orgAccounts.dao';
-import { APIError, logger as dbLogger } from '@smartforms/lib-middleware';
+import { APIError, logger as dbLogger, toError } from '@smartforms/lib-middleware';
 import * as auditLogDao from '@smartforms/lib-db/daos/audit/auditLogs.dao';
 import { v4 as uuid } from 'uuid';
 
@@ -151,7 +151,7 @@ const adminBillingRoute: FastifyPluginAsync = async (fastify: FastifyInstance) =
     try {
       // Update the billing plan from PENDING to selected plan
       const updatedOrg = await orgAccountDao.updateBillingPlan(organizationId, {
-        billing_plan: billingPlan.toUpperCase(),
+        billing_plan: billingPlan,
         billing_status: 'ACTIVE',
         updated_at: new Date()
       });
@@ -184,8 +184,9 @@ const adminBillingRoute: FastifyPluginAsync = async (fastify: FastifyInstance) =
         message: `Successfully updated to ${billingPlan} plan`
       });
     } catch (error) {
-      dbLogger.error('Error updating billing plan:', error);
-      throw new APIError('INTERNAL_ERROR', 'Failed to update billing plan', 500);
+      const e = toError(error);
+      dbLogger.error({err: e}, 'Error updating billing plan.');
+      throw new APIError('INTERNAL_ERROR', 'Failed to update billing plan' , 500, e.message);
     }
   });
 

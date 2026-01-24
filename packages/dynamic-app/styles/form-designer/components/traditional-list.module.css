@@ -1,0 +1,375 @@
+/* MODERN TRADITIONAL COMPONENT LIST - FIXED ICON ROTATION */
+
+.categoryList {
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* CATEGORY STYLING */
+.category {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.category:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.categoryLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.categoryHeader:hover .categoryLeft {
+  color: #ff6600; /* Primary color for text */
+}
+
+/* FIXED: Removed rotation animation - icons stay straight */
+.categoryLeft svg:first-child {
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+.categoryHeader:hover .categoryLeft svg:first-child {
+  color: #ff6600;
+}
+
+.categoryIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #f0f2ff 0%, #e0e7ff 100%);
+  color: #3700ff; /* Blue color for icon */
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.categoryHeader:hover .categoryIconWrapper {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  transform: scale(1.05);
+}
+
+.categoryTitle {
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.componentCount {
+  background: #f1f5f9;
+  color: #64748b;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  min-width: 24px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.categoryHeader:hover .componentCount {
+  background: #fff5eb;
+  color: #ff6600;
+}
+
+.categoryContent {
+  padding: 16px;
+  background: #ffffff;
+}
+
+/* COMPONENT GRID - CARD LAYOUT */
+.componentGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+/* CARD-STYLE COMPONENT ITEM */
+.componentItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid #e2e8f0; /* Light border for card appearance */
+  border-radius: 10px; /* Rounded corners */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  user-select: none;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02); /* Subtle shadow for card effect */
+}
+
+.componentItem:hover {
+  border-color: #ff6600; /* Subtle primary border */
+  box-shadow: 0 4px 12px rgba(255, 102, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.componentItem:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.componentItem.locked {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.componentItem.locked:hover {
+  border-color: #f59e0b;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08);
+}
+
+/* DRAGGING STATE */
+.componentItem.dragging {
+  opacity: 0.7; /* 70% opacity */
+  border-style: dashed; /* Dotted/dashed borders */
+  border-color: #cbd5e1;
+  background: #f8fafc;
+  transform: scale(0.95);
+}
+
+.componentIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  color: #64748b;
+  border-radius: 8px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.componentItem:hover .componentIcon {
+  background: linear-gradient(135deg, #fff5eb 0%, #fed7aa 100%);
+  color: #ff6600;
+  transform: scale(1.05);
+}
+
+.componentItem.locked:hover .componentIcon {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #d97706;
+}
+
+.componentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.componentLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Removed componentDescription since it's now in tooltip */
+
+.componentItem:hover .componentLabel {
+  color: #0f172a;
+}
+
+.lockBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+
+/* ADD BUTTON WITH CIRCLE HOVER */
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  border-radius: 50%; /* Circle shape */
+  flex-shrink: 0;
+  transition: all 0.3s ease; /* Smooth transition */
+}
+
+.addButton:hover:not(:disabled) {
+  background: rgba(255, 102, 0, 0.1); /* Light primary circle background */
+  color: #ff6600;
+  transform: scale(1.1);
+}
+
+.addButton:active {
+  transform: scale(0.95);
+}
+
+.addButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.addButton:disabled:hover {
+  background: transparent;
+  color: #94a3b8;
+  transform: none;
+}
+
+/* SEARCH RESULTS */
+.searchResults {
+  padding: 0 20px 20px;
+}
+
+.searchHeader {
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.searchCount {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* EMPTY STATE */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  color: #64748b;
+  min-height: 300px;
+}
+
+.emptyStateIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.3;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 0.3; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+}
+
+.emptyStateText {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 4px 0;
+  line-height: 1.4;
+}
+
+.emptyStateSubtext {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1023px) {
+  .categoryList,
+  .searchResults {
+    padding: 0 16px 16px;
+  }
+  
+  .componentGrid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+  }
+  
+  .componentItem {
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 767px) {
+  .categoryList,
+  .searchResults {
+    padding: 0 12px 12px;
+  }
+  
+  .componentGrid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .categoryHeader {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+  
+  .componentItem {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  
+  .componentIcon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .componentLabel {
+    font-size: 13px;
+  }
+  
+  .addButton {
+    width: 24px;
+    height: 24px;
+  }
+}

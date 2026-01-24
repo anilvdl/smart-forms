@@ -45,7 +45,7 @@ export async function fetchFromNager(
   if (!res.ok) {
     throw new Error(`Nager.Date responded with HTTP ${res.status}`);
   }
-  const rawArray: NagerDatum[] = await res.json();
+  const rawArray: NagerDatum[] = await res.json() as NagerDatum[];
   // If the API returns an empty array, that means “no holidays” rather than failure.
   return normalizeFromNager(rawArray);
 }

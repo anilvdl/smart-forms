@@ -1,0 +1,113 @@
+/* Modern DropZone Styles */
+.dropZone {
+  position: relative;
+  height: 2px;
+  margin: 8px 0;
+  background-color: transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.dropZone.visible {
+  height: 32px;
+  margin: 12px 0;
+}
+
+.dropZone.active {
+  height: 64px;
+  margin: 20px 0;
+  background-color: #eef0ff;
+  border: 2px dashed #5b6af3;
+  border-radius: 10px;
+}
+
+.dropZone::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #e4e7eb 20%,
+    #e4e7eb 80%,
+    transparent
+  );
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.dropZone.visible::before {
+  opacity: 1;
+}
+
+.dropZone.active::before {
+  display: none;
+}
+
+.dropIndicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #5b6af3;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: white;
+  opacity: 0;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(91, 106, 243, 0.3);
+}
+
+.dropZone.active .dropIndicator {
+  opacity: 1;
+}
+
+.dropIndicator svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Animation for active state */
+@keyframes dropZonePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(91, 106, 243, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(91, 106, 243, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(91, 106, 243, 0);
+  }
+}
+
+.dropZone.active {
+  animation: dropZonePulse 2s infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dropZone.active {
+    height: 48px;
+    margin: 16px 0;
+  }
+  
+  .dropIndicator {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  
+  .dropIndicator svg {
+    width: 14px;
+    height: 14px;
+  }
+}

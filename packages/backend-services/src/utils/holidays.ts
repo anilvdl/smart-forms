@@ -39,7 +39,7 @@ export async function fetchHolidaysForCountry(
   if (!resp.ok) {
     throw new Error(`Failed to fetch holidays: ${resp.statusText}`);
   }
-  const holidays: Holiday[] = await resp.json();
+  const holidays: Holiday[] = await resp.json() as Holiday[];
   cache.set(key, holidays);
   return holidays;
 }

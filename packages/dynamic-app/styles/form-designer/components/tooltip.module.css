@@ -1,0 +1,111 @@
+/* Custom Tooltip Styles */
+.tooltip {
+  position: absolute;
+  z-index: 1000;
+  opacity: 0;
+  animation: tooltipFadeIn 0.2s ease-out forwards;
+  pointer-events: none;
+}
+
+.tooltipContent {
+  background: #1e293b;
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  max-width: 250px;
+  word-wrap: break-word;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+}
+
+.tooltipArrow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #1e293b;
+  transform: rotate(45deg);
+}
+
+/* Arrow positioning for different placements */
+.tooltip.top .tooltipArrow {
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.tooltip.bottom .tooltipArrow {
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.tooltip.left .tooltipArrow {
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.tooltip.right .tooltipArrow {
+  left: -4px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* Light theme tooltip (for future theme system) */
+.tooltip.light .tooltipContent {
+  background: #ffffff;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.tooltip.light .tooltipArrow {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-top: none;
+  border-left: none;
+}
+
+/* Animations */
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .tooltipContent {
+    font-size: 11px;
+    padding: 6px 10px;
+    max-width: 200px;
+  }
+  
+  .tooltipArrow {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .tooltip.top .tooltipArrow,
+  .tooltip.bottom .tooltipArrow {
+    margin-left: -3px;
+  }
+  
+  .tooltip.left .tooltipArrow,
+  .tooltip.right .tooltipArrow {
+    margin-top: -3px;
+  }
+}

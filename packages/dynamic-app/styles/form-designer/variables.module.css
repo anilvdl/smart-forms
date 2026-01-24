@@ -1,0 +1,133 @@
+/* Form Designer CSS Variables */
+:root {
+  /* SmartForms Brand Colors */
+  --sf-primary: #ff6600;
+  --sf-primary-hover: #e55a00;
+  --sf-primary-light: #fff5eb;
+  --sf-primary-gradient: linear-gradient(135deg, #ff6600 0%, #ff9f00 100%);
+  
+  --sf-secondary: #5b6af3;
+  --sf-secondary-hover: #4954d9;
+  --sf-secondary-light: #f0f2ff;
+  --sf-secondary-gradient: linear-gradient(135deg, #5b6af3 0%, #8b5cf6 100%);
+  
+  /* Grays */
+  --sf-gray-50: #f9fafb;
+  --sf-gray-100: #f3f4f6;
+  --sf-gray-200: #e5e7eb;
+  --sf-gray-300: #d1d5db;
+  --sf-gray-400: #9ca3af;
+  --sf-gray-500: #6b7280;
+  --sf-gray-600: #4b5563;
+  --sf-gray-700: #374151;
+  --sf-gray-800: #1f2937;
+  --sf-gray-900: #111827;
+  
+  /* Status Colors */
+  --sf-error: #ef4444;
+  --sf-error-hover: #dc2626;
+  --sf-error-light: #fee2e2;
+  --sf-warning: #f59e0b;
+  --sf-warning-hover: #d97706;
+  --sf-warning-light: #fef3c7;
+  --sf-success: #10b981;
+  --sf-success-hover: #059669;
+  --sf-success-light: #d1fae5;
+  --sf-info: #3b82f6;
+  --sf-info-hover: #2563eb;
+  --sf-info-light: #dbeafe;
+  
+  /* Error Severity Colors */
+  --sf-error-network: #ff6600;
+  --sf-error-validation: #f59e0b;
+  --sf-error-permission: #ef4444;
+  --sf-error-system: #991b1b;
+  
+  /* Layout Dimensions */
+  --sf-navbar-height: 60px;
+  --sf-designer-header-height: 120px;
+  --sf-footer-height: 40px;
+  --sf-component-panel-width: 380px;
+  --sf-properties-panel-width: 320px;
+  
+  /* Mobile Dimensions */
+  --sf-mobile-bottom-nav-height: 56px;
+  --sf-mobile-sheet-max-height: 70vh;
+  
+  /* Spacing */
+  --sf-spacing-xs: 4px;
+  --sf-spacing-sm: 8px;
+  --sf-spacing-md: 16px;
+  --sf-spacing-lg: 24px;
+  --sf-spacing-xl: 32px;
+  --sf-spacing-2xl: 48px;
+  
+  /* Border Radius */
+  --sf-radius-sm: 4px;
+  --sf-radius-md: 8px;
+  --sf-radius-lg: 12px;
+  --sf-radius-xl: 16px;
+  --sf-radius-full: 9999px;
+  
+  /* Shadows */
+  --sf-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --sf-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --sf-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --sf-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Transitions */
+  --sf-transition-fast: 150ms ease-in-out;
+  --sf-transition-normal: 250ms ease-in-out;
+  --sf-transition-slow: 350ms ease-in-out;
+  
+  /* Z-Index Layers */
+  --sf-z-base: 0;
+  --sf-z-dropdown: 100;
+  --sf-z-sticky: 200;
+  --sf-z-overlay: 300;
+  --sf-z-modal: 400;
+  --sf-z-popover: 500;
+  --sf-z-tooltip: 600;
+  
+  /* Grid */
+  --sf-grid-size: 20px;
+  --sf-grid-color: rgba(0, 0, 0, 0.05);
+  
+  /* Canvas */
+  --sf-canvas-bg: var(--sf-gray-100);
+  --sf-form-bg: #ffffff;
+  --sf-form-max-width: 800px;
+  --sf-form-padding: 32px;
+  
+  /* Component States */
+  --sf-hover-bg: var(--sf-gray-50);
+  --sf-hover-border: var(--sf-primary);
+  --sf-selected-border: var(--sf-secondary);
+  --sf-drop-zone-border: #3b82f6;
+  --sf-drop-zone-bg: rgba(59, 130, 246, 0.1);
+  
+  /* Typography */
+  --sf-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --sf-font-mono: 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  
+  /* Font Sizes */
+  --sf-text-xs: 0.75rem;
+  --sf-text-sm: 0.875rem;
+  --sf-text-base: 1rem;
+  --sf-text-lg: 1.125rem;
+  --sf-text-xl: 1.25rem;
+  --sf-text-2xl: 1.5rem;
+  --sf-text-3xl: 1.875rem;
+  
+  /* Line Heights */
+  --sf-leading-tight: 1.25;
+  --sf-leading-normal: 1.5;
+  --sf-leading-relaxed: 1.75;
+  
+  /* Breakpoints */
+  --sf-screen-sm: 640px;
+  --sf-screen-md: 768px;
+  --sf-screen-lg: 1024px;
+  --sf-screen-xl: 1280px;
+  --sf-screen-2xl: 1536px;
+}

@@ -3,7 +3,7 @@ import pool from "../../index";
 import { v4 as uuidv4 } from "uuid";
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.SFORMS_STRIPE_SECRET_KEY!, { apiVersion: '2025-05-28.basil' });
+const stripe = new Stripe(process.env.SFORMS_STRIPE_SECRET_KEY!, { apiVersion: '2025-08-27.basil' });
 
 export interface OrgAccount {
   id: string;                    // UUID

@@ -1,90 +1,136 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-const featureConfig = {
-  enabled: true, // Set to false to hide this section
+type Feature = {
+  title: string;
+  desc: string;
+  points: string[];
 };
 
-const features = [
+const FEATURES: Feature[] = [
   {
-    id: 1,
-    title: "🚀 AI-Powered Form Suggestions",
-    description:
-      "Automatically generate form fields based on user intent, reducing setup time and ensuring optimal experience.",
+    title: "🚀 AI-Powered Suggestions",
+    desc: "Get smarter forms faster — AI helps generate fields & validations based on intent.",
+    points: ["Suggest fields", "Recommend validations", "Reduce setup time"],
   },
   {
-    id: 2,
-    title: "🛠 Drag & Drop No-Code Builder",
-    description:
-      "Create professional-grade forms using an intuitive drag-and-drop editor with zero coding knowledge.",
+    title: "🎨 Beautiful, modern UI",
+    desc: "Create polished forms with responsive layouts and professional styling.",
+    points: ["Layouts", "Themes", "Mobile-friendly"],
   },
   {
-    id: 3,
-    title: "🔒 Enterprise-Grade Security",
-    description:
-      "Ensure data security with HIPAA, GDPR, and SOC 2 compliance, providing robust protection for sensitive data.",
+    title: "✅ Advanced validations",
+    desc: "Reduce garbage data with clean validation rules and better error messages.",
+    points: ["Required rules", "Format rules", "Conditional rules (roadmap)"],
   },
   {
-    id: 4,
-    title: "📊 Smart Analytics & Insights",
-    description:
-      "Analyze user behavior with advanced analytics, track form performance, and optimize your conversions.",
+    title: "📊 Analytics that improve conversion",
+    desc: "See where users drop off and optimize to increase completion rate.",
+    points: ["Completion rate", "Drop-off insights", "Iteration loop"],
   },
   {
-    id: 5,
-    title: "⚡ Seamless Integrations",
-    description:
-      "Connect effortlessly with CRMs, payment gateways, and third-party apps to streamline your workflow.",
+    title: "⚡ Integrations & webhooks",
+    desc: "Connect SmartForms to your tools and automate workflows end-to-end.",
+    points: ["Webhooks", "CRM/Payments (roadmap)", "Notifications"],
   },
 ];
 
 export default function FeatureCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [active, setActive] = useState(0);
+  const items = useMemo(() => FEATURES, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % features.length);
-    }, 4000); // Switch every 4 seconds
+    const t = setInterval(() => setActive((x) => (x + 1) % items.length), 6000);
+    return () => clearInterval(t);
+  }, [items.length]);
 
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleNext = () => {
-    setActiveIndex((prev) => (prev + 1) % features.length);
-  };
-
-  const handlePrev = () => {
-    setActiveIndex((prev) => (prev - 1 + features.length) % features.length);
-  };
-
-  if (!featureConfig.enabled) return null;
+  const current = items[active];
 
   return (
-    <div className="feature-carousel">
-      {/* Left Arrow */}
-      <button className="carousel-arrow left" onClick={handlePrev}>
-        &#10094;
-      </button>
+    <div className="sf-featureCarousel">
+      <div className="sf-featureMain">
+        <div className="sf-featureLeft">
+          <div className="sf-featureKicker">FEATURE HIGHLIGHT</div>
+          <h3 className="sf-featureTitle">{current.title}</h3>
+          <p className="sf-featureDesc">{current.desc}</p>
 
-      {/* Feature Content */}
-      <div className="feature-content active">
-        <h2>{features[activeIndex].title}</h2>
-        <p>{features[activeIndex].description}</p>
+          <ul className="sf-featurePoints">
+            {current.points.map((p) => (
+              <li key={p}>✅ {p}</li>
+            ))}
+          </ul>
+
+          <div className="sf-featureNav">
+            <button
+              className="sf-navBtn"
+              onClick={() => setActive((x) => (x - 1 + items.length) % items.length)}
+              aria-label="Previous feature"
+              type="button"
+            >
+              ‹
+            </button>
+
+            <div className="sf-dots">
+              {items.map((_, i) => (
+                <button
+                  key={i}
+                  className={`sf-dotBtn ${i === active ? "active" : ""}`}
+                  onClick={() => setActive(i)}
+                  aria-label={`Go to feature ${i + 1}`}
+                  type="button"
+                />
+              ))}
+            </div>
+
+            <button
+              className="sf-navBtn"
+              onClick={() => setActive((x) => (x + 1) % items.length)}
+              aria-label="Next feature"
+              type="button"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+
+        <div className="sf-featureRight">
+          {/* Better “real” mock */}
+          <div className="sf-previewMock">
+            <div className="sf-mockHeader">
+              <span className="sf-winDot r" />
+              <span className="sf-winDot y" />
+              <span className="sf-winDot g" />
+              <span className="sf-mockHeaderTitle">Preview</span>
+            </div>
+
+            <div className="sf-mockBody">
+              <div className="sf-mockLine" />
+              <div className="sf-mockLine short" />
+
+              <div className="sf-mockGrid">
+                <div className="sf-mockBlock" />
+                <div className="sf-mockBlock" />
+                <div className="sf-mockBlock tall" />
+                <div className="sf-mockBlock tall" />
+              </div>
+
+              <div className="sf-mockCTA" />
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Right Arrow */}
-      <button className="carousel-arrow right" onClick={handleNext}>
-        &#10095;
-      </button>
-
-      {/* Dots Indicator */}
-      <div className="carousel-dots">
-        {features.map((_, index) => (
-          <span
-            key={index}
-            className={`dot ${index === activeIndex ? "active" : ""}`}
-            onClick={() => setActiveIndex(index)}
-          ></span>
+      <div className="sf-featureMiniGrid">
+        {items.map((f, i) => (
+          <button
+            key={f.title}
+            className={`sf-featureMini ${i === active ? "active" : ""}`}
+            onClick={() => setActive(i)}
+            type="button"
+          >
+            <div className="sf-miniTitle">{f.title}</div>
+            <div className="sf-miniDesc">{f.desc}</div>
+          </button>
         ))}
       </div>
     </div>

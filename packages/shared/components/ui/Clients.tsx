@@ -1,42 +1,55 @@
 import { IconKey, Icons } from "@smartforms/shared/icons";
 import Image from "next/image";
 
-interface clientsConfigType {
-  enabled: boolean;
-  title: string;
-  description: string;
-  logos: Logo[];
-}
 interface Logo {
   src: IconKey;
   alt: string;
 }
-const clientsConfig: clientsConfigType = {
-  enabled: true, // Set to false to hide this section
-  title: "Trusted by Individual Customers and Businesses",
-  description: "Over 3 businesses and 10+ individuals streamline their workflows with SmartForms.",
-  logos: [
-    { src: "m4uicon", alt: "myideas4u" }, // you need to read icons from /icons.ts, refer Navbar.tsx
-    { src: "murthyastro", alt: "murthyastro" },
-    // { src: "/logos/client3.png", alt: "Client 3" },
-  ],
-};
+
+const logos: Logo[] = [
+  { src: "m4uicon", alt: "myideas4u" },
+  { src: "murthyastro", alt: "murthyastro" },
+];
 
 export default function Clients() {
-  if (!clientsConfig.enabled) return null;
-
   return (
-    <section className="clients bg-blue">
-      <h2>{clientsConfig.title}</h2>
-      <p>{clientsConfig.description}</p>
-      <div className="client-logos">
-        {clientsConfig.logos.map((client, index) => {
-          const image = Icons[client.src];
-          const src = typeof image === "object" && "src" in image ? image.src : image;
-          return (
-            <Image key={index} src={src} alt={client.alt} width={50} height={50} />
-          );
-        })}
+    <section className="sf-clients">
+      <div className="sf-container">
+        <div className="sf-clientsHead">
+          <h2>Trusted by customers and small businesses</h2>
+          <p>
+            SmartForms is designed for teams who want speed, clarity, automation, and a polished experience.
+          </p>
+        </div>
+
+        <div className="sf-trustRow">
+          <div className="sf-trustStat">
+            <div className="sf-trustValue">10+</div>
+            <div className="sf-trustLabel">Individuals</div>
+          </div>
+          <div className="sf-trustStat">
+            <div className="sf-trustValue">3+</div>
+            <div className="sf-trustLabel">Businesses</div>
+          </div>
+          <div className="sf-trustStat">
+            <div className="sf-trustValue">AI</div>
+            <div className="sf-trustLabel">Assisted Builder</div>
+          </div>
+        </div>
+
+        <div className="sf-logoRow">
+          {logos.map((client, index) => {
+            const image = Icons[client.src];
+            const src = typeof image === "object" && "src" in image ? image.src : image;
+
+            return (
+              <div key={index} className="sf-logoPill">
+                <Image src={src} alt={client.alt} width={40} height={40} />
+                <span>{client.alt}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

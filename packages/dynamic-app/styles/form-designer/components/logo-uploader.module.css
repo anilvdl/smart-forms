@@ -1,0 +1,452 @@
+/* logo-uploader.module.css - Logo Uploader Component Styles */
+
+.logoUploader {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* UPLOAD AREA */
+.uploadArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  border: 2px dashed #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 160px;
+  position: relative;
+}
+
+.uploadArea:hover {
+  border-color: #ff6600;
+  background: #fff5eb;
+}
+
+.uploadArea.dragActive {
+  border-color: #ff6600;
+  background: #fff5eb;
+  transform: scale(1.02);
+}
+
+.uploadArea.hasLogo {
+  border-style: solid;
+  border-color: #10b981;
+  background: #f0fdf4;
+  padding: 20px;
+}
+
+.uploadIcon {
+  margin-bottom: 12px;
+  color: #94a3b8;
+  transition: color 0.2s ease;
+}
+
+.uploadArea:hover .uploadIcon {
+  color: #ff6600;
+}
+
+.uploadText {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.uploadTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 4px 0;
+}
+
+.uploadSubtitle {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+}
+
+.uploadHint {
+  font-size: 11px;
+  color: #94a3b8;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.hiddenInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* LOGO PREVIEW */
+.logoPreview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.logoImage {
+  max-width: 100%;
+  max-height: 120px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logoInfo {
+  text-align: center;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.logoName {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.logoSize {
+  color: #94a3b8;
+}
+
+/* LOGO CONTROLS */
+.logoControls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.controlGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.controlLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.controlRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sizeSlider {
+  flex: 1;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  outline: none;
+  /* -webkit-appearance: none; */
+}
+
+.sizeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #ff6600;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(255, 102, 0, 0.3);
+}
+
+.sizeSlider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #ff6600;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.sizeValue {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* ALIGNMENT BUTTONS */
+.alignmentGroup {
+  display: flex;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 4px;
+  gap: 2px;
+}
+
+.alignmentButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 12px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.alignmentButton:hover {
+  color: #374151;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.alignmentButton.active {
+  background: #ff6600;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(255, 102, 0, 0.3);
+}
+
+/* PRESET RATIOS */
+.presetRatios {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ratioButton {
+  padding: 6px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.ratioButton:hover {
+  border-color: #ff6600;
+  color: #ff6600;
+  background: #fff5eb;
+}
+
+.ratioButton.active {
+  background: #ff6600;
+  color: #ffffff;
+  border-color: #ff6600;
+}
+
+/* ACTION BUTTONS */
+.logoActions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  border-color: #cbd5e1;
+  color: #374151;
+  background: #f8fafc;
+}
+
+.actionButton.primary {
+  background: #ff6600;
+  color: #ffffff;
+  border-color: #ff6600;
+}
+
+.actionButton.primary:hover {
+  background: #e55a00;
+  border-color: #e55a00;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 102, 0, 0.25);
+}
+
+.actionButton.danger {
+  color: #dc2626;
+}
+
+.actionButton.danger:hover {
+  border-color: #dc2626;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+/* ERROR STATES */
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #dc2626;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.errorIcon {
+  flex-shrink: 0;
+}
+
+/* CROP MODAL (if implementing crop functionality) */
+.cropModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.cropContainer {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.cropHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cropTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.cropCloseButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #f1f5f9;
+  color: #64748b;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cropCloseButton:hover {
+  background: #e2e8f0;
+  color: #374151;
+}
+
+.cropActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* LOADING STATE */
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #e2e8f0;
+  border-top: 2px solid #ff6600;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .uploadArea {
+    padding: 24px 16px;
+    min-height: 140px;
+  }
+  
+  .logoPreview {
+    padding: 16px;
+  }
+  
+  .logoActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .actionButton {
+    justify-content: center;
+  }
+  
+  .presetRatios {
+    justify-content: center;
+  }
+  
+  .controlRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  
+  .alignmentGroup {
+    justify-content: center;
+  }
+}

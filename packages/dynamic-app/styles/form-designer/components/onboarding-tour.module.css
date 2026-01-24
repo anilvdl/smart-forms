@@ -1,0 +1,228 @@
+/* Onboarding Tour Styles */
+.tourOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--sf-z-tooltip);
+  pointer-events: none;
+}
+
+.tourOverlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  pointer-events: auto;
+}
+
+.highlight {
+  position: absolute;
+  border: 2px solid var(--sf-primary);
+  border-radius: var(--sf-radius-md);
+  box-shadow: 0 0 0 4px rgba(255, 102, 0, 0.2);
+  animation: pulse 2s infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 4px rgba(255, 102, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(255, 102, 0, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(255, 102, 0, 0.2);
+  }
+}
+
+.tooltip {
+  position: absolute;
+  width: 320px;
+  background-color: #ffffff;
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-xl);
+  padding: var(--sf-spacing-lg);
+  pointer-events: auto;
+  z-index: 2;
+  animation: slideIn var(--sf-transition-normal);
+}
+
+.tooltip::before {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  transform: rotate(45deg);
+}
+
+.tooltip.right::before {
+  left: -6px;
+  top: 50%;
+  margin-top: -6px;
+}
+
+.tooltip.left::before {
+  right: -6px;
+  top: 50%;
+  margin-top: -6px;
+}
+
+.tooltip.bottom::before {
+  top: -6px;
+  left: 50%;
+  margin-left: -6px;
+}
+
+.tooltip.top::before {
+  bottom: -6px;
+  left: 50%;
+  margin-left: -6px;
+}
+
+.tooltip.center::before {
+  display: none;
+}
+
+.skipButton {
+  position: absolute;
+  top: var(--sf-spacing-sm);
+  right: var(--sf-spacing-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  color: var(--sf-gray-500);
+  cursor: pointer;
+  border-radius: var(--sf-radius-sm);
+  transition: all var(--sf-transition-fast);
+}
+
+.skipButton:hover {
+  background-color: var(--sf-gray-100);
+  color: var(--sf-gray-700);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sf-spacing-md);
+}
+
+.stepIndicator {
+  font-size: var(--sf-text-xs);
+  font-weight: 600;
+  color: var(--sf-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stepContent {
+  font-size: var(--sf-text-base);
+  color: var(--sf-gray-700);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sf-spacing-md);
+  margin-top: var(--sf-spacing-sm);
+}
+
+.previousButton,
+.nextButton {
+  display: flex;
+  align-items: center;
+  gap: var(--sf-spacing-xs);
+  padding: var(--sf-spacing-sm) var(--sf-spacing-md);
+  border: none;
+  border-radius: var(--sf-radius-md);
+  font-size: var(--sf-text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--sf-transition-fast);
+}
+
+.previousButton {
+  background-color: var(--sf-gray-100);
+  color: var(--sf-gray-700);
+}
+
+.previousButton:hover:not(:disabled) {
+  background-color: var(--sf-gray-200);
+}
+
+.previousButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nextButton {
+  background-color: var(--sf-primary);
+  color: #ffffff;
+}
+
+.nextButton:hover {
+  background-color: var(--sf-primary-hover);
+}
+
+.dots {
+  display: flex;
+  gap: var(--sf-spacing-xs);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--sf-radius-full);
+  background-color: var(--sf-gray-300);
+  transition: all var(--sf-transition-fast);
+}
+
+.dot.active {
+  width: 20px;
+  background-color: var(--sf-primary);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .tooltip {
+    width: calc(100vw - 2 * var(--sf-spacing-lg));
+    max-width: 320px;
+  }
+  
+  .actions {
+    flex-wrap: wrap;
+  }
+  
+  .dots {
+    order: -1;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: var(--sf-spacing-sm);
+  }
+}

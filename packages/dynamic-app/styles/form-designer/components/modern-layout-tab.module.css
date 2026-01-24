@@ -1,0 +1,538 @@
+.layoutTab {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TAB HEADER */
+.tabHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 20px;
+}
+
+.headerInfo h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 6px 0;
+}
+
+.headerInfo p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.resetButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.resetButton:hover {
+  background: #e2e8f0;
+  color: #475569;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+/* MAIN LAYOUT - SPLIT PANEL */
+.layoutContent {
+  flex: 1;
+  display: flex;
+  gap: 24px;
+  min-height: 0;
+}
+
+/* SETTINGS PANEL - LEFT SIDE */
+.settingsPanel {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 12px;
+  
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.settingsPanel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.settingsPanel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.settingsPanel::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.settingsPanel::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* SETTINGS CARDS */
+.settingsCard {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+}
+
+.settingsCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  border-color: #cbd5e1;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cardHeader:hover {
+  background: linear-gradient(135deg, #f1f5f9 0%, #f8fafc 100%);
+}
+
+.cardHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #fff5eb;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  color: #ea580c;
+  flex-shrink: 0;
+}
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.cardSubtitle {
+  font-size: 13px;
+  color: #64748b;
+  margin: 2px 0 0 0;
+  line-height: 1.3;
+}
+
+.expandIcon {
+  transition: transform 0.2s ease;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.expandIcon.expanded {
+  transform: rotate(90deg);
+  color: #ff6600;
+}
+
+.comingSoon {
+  padding: 4px 10px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.cardContent {
+  padding: 20px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RADIO GROUP - HORIZONTAL LAYOUT */
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.radioOption {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #ffffff;
+}
+
+.radioOption:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.radioOption:has(input:checked) {
+  border-color: #ff6600;
+  background: #fff5eb;
+  box-shadow: 0 0 0 1px rgba(255, 102, 0, 0.1);
+}
+
+.radioOption input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #ff6600;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.radioContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+}
+
+.radioIcon {
+  flex-shrink: 0;
+}
+
+.radioTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.radioDescription {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+/* MINI PREVIEWS IN RADIO OPTIONS */
+.previewTop,
+.previewSide {
+  width: 60px;
+  height: 40px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 6px;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.previewSide {
+  flex-direction: row;
+  align-items: center;
+}
+
+.previewLabel {
+  font-size: 8px;
+  color: #64748b;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.previewField {
+  flex: 1;
+  height: 12px;
+  background: #e2e8f0;
+  border-radius: 2px;
+}
+
+.previewSide .previewField {
+  height: 8px;
+}
+
+/* SUB SECTIONS */
+.subSection {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.subSectionTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 12px 0;
+}
+
+.alignmentGroup {
+  display: flex;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 4px;
+  gap: 2px;
+}
+
+.alignmentButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 12px;
+  font-weight: 500;
+  flex: 1;
+  justify-content: center;
+}
+
+.alignmentButton:hover {
+  color: #374151;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.alignmentButton.active {
+  background: #ff6600;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(255, 102, 0, 0.3);
+}
+
+/* CONTROLS GRID */
+.controlsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.controlGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.controlLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.sliderGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.slider {
+  flex: 1;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #ff6600;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(255, 102, 0, 0.3);
+}
+
+.slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #ff6600;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.sliderValue {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  min-width: 50px;
+  text-align: center;
+}
+
+.select {
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  background: #ffffff;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.select:focus {
+  border-color: #ff6600;
+  box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.08);
+  outline: none;
+}
+
+/* STICKY PREVIEW PANEL - RIGHT SIDE */
+.previewPanel {
+  width: 300px;
+  height: fit-content;
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  flex-shrink: 0;
+}
+
+.previewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.previewTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.previewBadge {
+  padding: 4px 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #166534;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.previewContent {
+  padding: 20px;
+  background: #f8fafc;
+}
+
+.previewFooter {
+  padding: 12px 20px;
+  background: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.previewInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.previewLabel {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.previewValue {
+  font-size: 11px;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+  .layoutContent {
+    flex-direction: column;
+  }
+  
+  .previewPanel {
+    width: 100%;
+    position: static;
+    margin-top: 24px;
+  }
+  
+  .controlsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .tabHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  
+  .resetButton {
+    align-self: flex-end;
+  }
+  
+  .radioOption {
+    padding: 12px;
+  }
+  
+  .cardContent {
+    padding: 16px;
+  }
+  
+  .alignmentButton {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+}

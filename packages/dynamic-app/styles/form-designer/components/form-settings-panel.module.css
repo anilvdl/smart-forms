@@ -1,0 +1,379 @@
+/* BACKDROP */
+.settingsBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.settingsBackdrop.open {
+  opacity: 1;
+}
+
+/* FIXED SIZE MAIN SETTINGS PANEL */
+.settingsPanel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  
+  /* FIXED DIMENSIONS - NO RESIZING */
+  width: 1200px;
+  height: 900px;
+  max-width: 90vw;
+  max-height: 90vh;
+  
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 10px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.settingsPanel.open {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* FIXED HEIGHT PANEL HEADER */
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+  height: 80px; /* Fixed height */
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.backButton:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #475569;
+  transform: translateX(-2px);
+}
+
+.headerTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.headerTitle h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.headerTitle p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.saveIndicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  color: #166534;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.saveIndicator.saving {
+  background: #fff5eb;
+  border-color: #fed7aa;
+  color: #ea580c;
+}
+
+.saveStatus {
+  font-size: 15px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.saved, .saving {
+  width: 100%;
+  color: #16a34a;
+  border-color: #16a34a;
+  border: 1px solid #16a34a;
+  border-radius: 10px;
+  background: rgba(220, 252, 231, 0.8);
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #dc2626;
+  transform: scale(1.05);
+}
+
+/* FIXED HEIGHT TAB NAVIGATION - PRIMARY COLORS */
+.tabNavigation {
+  display: flex;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0 32px;
+  flex-shrink: 0;
+  height: 60px; /* Fixed height */
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tabNavigation::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 20px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  height: 100%;
+}
+
+.tab:hover {
+  color: #374151;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* PRIMARY COLOR FOR ACTIVE TAB - CONSISTENT WITH ORANGE THEME */
+.tab.active {
+  color: #ff6600; /* Primary orange color */
+  background: rgba(255, 102, 0, 0.05);
+  border-bottom-color: #ff6600; /* Primary orange color */
+}
+
+/* FIXED HEIGHT PANEL CONTENT */
+.panelContent {
+  flex: 1;
+  background: #ffffff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: calc(700px - 80px - 60px); /* Total height minus header minus tabs */
+}
+
+.tabContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px;
+  height: 100%; /* Fixed height prevents resizing */
+  
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.tabContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tabContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tabContent::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.tabContent::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* RESPONSIVE DESIGN - MAINTAIN ASPECT RATIO */
+@media (max-width: 1280px) {
+  .settingsPanel {
+    width: 95vw;
+    height: 85vh;
+  }
+  
+  .panelContent {
+    height: calc(85vh - 80px - 60px);
+  }
+}
+
+@media (max-width: 768px) {
+  .settingsPanel {
+    width: 95vw;
+    height: 90vh;
+  }
+  
+  .panelHeader {
+    padding: 20px 24px;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    height: auto;
+    min-height: 100px;
+  }
+  
+  .headerLeft {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .headerRight {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .headerTitle h2 {
+    font-size: 20px;
+  }
+  
+  .tabNavigation {
+    padding: 0 24px;
+    height: 60px;
+  }
+  
+  .tab {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+  
+  .tabContent {
+    padding: 24px;
+    height: calc(90vh - 100px - 60px);
+  }
+  
+  .panelContent {
+    height: calc(90vh - 100px - 60px);
+  }
+}
+
+/* ACCESSIBILITY */
+@media (prefers-reduced-motion: reduce) {
+  .settingsPanel,
+  .settingsBackdrop,
+  .tab,
+  .backButton,
+  .closeButton {
+    transition: none;
+  }
+}
+
+/* HIGH CONTRAST MODE */
+@media (prefers-contrast: high) {
+  .settingsPanel {
+    border: 2px solid #000000;
+  }
+  
+  .panelHeader {
+    border-bottom: 2px solid #000000;
+  }
+  
+  .tab.active {
+    background: #ff6600;
+    color: #ffffff;
+  }
+}
+
+/* FOCUS STYLES - PRIMARY COLORS */
+.backButton:focus,
+.closeButton:focus,
+.tab:focus {
+  outline: 2px solid #ff6600; /* Primary orange color */
+  outline-offset: 2px;
+}
+
+/* PREVENT CONTENT JUMPING */
+.tabContent > * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* CONSISTENT SPACING FOR ALL TAB CONTENT */
+.tabContent .section,
+.tabContent .formSection,
+.tabContent .settingsGroup {
+  margin-bottom: 24px;
+}
+
+.tabContent .section:last-child,
+.tabContent .formSection:last-child,
+.tabContent .settingsGroup:last-child {
+  margin-bottom: 0;
+}
