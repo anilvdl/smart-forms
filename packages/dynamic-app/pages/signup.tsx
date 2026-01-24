@@ -1,13 +1,15 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import Navbar from "@smartforms/shared/components/ui/Navbar";
 import Footer from "@smartforms/shared/components/ui/Footer";
 import ReCAPTCHA from "react-google-recaptcha";
-import Image from "next/image"; 
-import { signIn, useSession } from "next-auth/react"; 
+import Image from "next/image";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import { Eye, EyeOff, CheckCircle2, Circle, ShieldCheck } from "lucide-react";
 import { IconKey, Icons } from "@smartforms/shared/icons";
+import { NavBar } from "@smartforms/shared/index";
 
 interface SignupFormData {
   name: string;
@@ -24,10 +26,44 @@ interface AuthProvider {
   handler: () => void;
 }
 
+type PwdReq = {
+  minLen: boolean;
+  upper: boolean;
+  lower: boolean;
+  number: boolean;
+};
+
+function getPwdReq(pwd: string): PwdReq {
+  return {
+    minLen: pwd.length >= 10,
+    upper: /[A-Z]/.test(pwd),
+    lower: /[a-z]/.test(pwd),
+    number: /[0-9]/.test(pwd),
+  };
+}
+
+function getStrength(pwd: string) {
+  const r = getPwdReq(pwd);
+  const score = [r.minLen, r.upper, r.lower, r.number].filter(Boolean).length;
+
+  // lightweight heuristic (kept intentionally simple)
+  let label: "Weak" | "Okay" | "Good" | "Strong" = "Weak";
+  if (score === 2) label = "Okay";
+  if (score === 3) label = "Good";
+  if (score === 4 && pwd.length >= 12) label = "Strong";
+  if (score === 4 && pwd.length < 12) label = "Good";
+
+  const pct = Math.min(100, Math.round((score / 4) * 100));
+  return { score, pct, label, req: r };
+}
+
 export default function SignUp() {
   const router = useRouter();
   const { data: session, status } = useSession();
+
   const [isLoading, setIsLoading] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
+
   const [formData, setFormData] = useState<SignupFormData>({
     name: "",
     email: "",
@@ -39,7 +75,9 @@ export default function SignUp() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
+
+  const [isPwdFocused, setIsPwdFocused] = useState(false);
+
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -47,6 +85,8 @@ export default function SignUp() {
     agreeToTerms: "",
     general: "",
   });
+
+  const pwdPopoverCloseTimer = useRef<number | null>(null);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -59,59 +99,63 @@ export default function SignUp() {
   useEffect(() => {
     const inviteToken = router.query.invite as string;
     if (inviteToken) {
-      // Store invite token for later use
       sessionStorage.setItem("inviteToken", inviteToken);
     }
   }, [router.query]);
 
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
-
   const validatePassword = (password: string): string => {
     if (password.length < 10) return "Password must be at least 10 characters";
-    if (!/[A-Z]/.test(password)) return "Password must contain at least one uppercase letter";
-    if (!/[a-z]/.test(password)) return "Password must contain at least one lowercase letter";
-    if (!/[0-9]/.test(password)) return "Password must contain at least one number";
+    if (!/[A-Z]/.test(password)) return "Add at least one uppercase letter";
+    if (!/[a-z]/.test(password)) return "Add at least one lowercase letter";
+    if (!/[0-9]/.test(password)) return "Add at least one number";
     return "";
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
-    setFormData({ ...formData, [name]: newValue });
+
+    setFormData((prev) => ({ ...prev, [name]: newValue }));
 
     // Clear general error when user starts typing
     if (errors.general) {
-      setErrors({ ...errors, general: "" });
+      setErrors((prev) => ({ ...prev, general: "" }));
     }
 
-    // Validate fields
     if (name === "email") {
       const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      setErrors({ ...errors, email: emailPattern.test(value) ? "" : "Invalid email format" });
+      setErrors((prev) => ({ ...prev, email: emailPattern.test(value) ? "" : "Invalid email format" }));
     }
 
     if (name === "password") {
       const passwordError = validatePassword(value);
-      setErrors({ ...errors, password: passwordError });
+      setErrors((prev) => ({ ...prev, password: passwordError }));
+      // also re-check confirm if user typed password
+      if (formData.confirmPassword) {
+        setErrors((prev) => ({
+          ...prev,
+          confirmPassword: formData.confirmPassword === value ? "" : "Passwords do not match",
+        }));
+      }
     }
 
-    if (name === "confirmPassword" || (name === "password" && formData.confirmPassword)) {
-      const confirmValue = name === "confirmPassword" ? value : formData.confirmPassword;
-      const passwordValue = name === "password" ? value : formData.password;
-      setErrors({ 
-        ...errors, 
-        confirmPassword: confirmValue === passwordValue ? "" : "Passwords do not match" 
-      });
+    if (name === "confirmPassword") {
+      setErrors((prev) => ({
+        ...prev,
+        confirmPassword: value === formData.password ? "" : "Passwords do not match",
+      }));
+    }
+
+    if (name === "agreeToTerms") {
+      setErrors((prev) => ({ ...prev, agreeToTerms: "" }));
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrors({ ...errors, general: "" });
+    setErrors((prev) => ({ ...prev, general: "" }));
 
-    // Validate all fields
     if (!captchaValue) {
       alert("Please complete the CAPTCHA to verify you are human.");
       setIsLoading(false);
@@ -119,7 +163,7 @@ export default function SignUp() {
     }
 
     if (!formData.agreeToTerms) {
-      setErrors({ ...errors, agreeToTerms: "You must agree to the Terms & Conditions" });
+      setErrors((prev) => ({ ...prev, agreeToTerms: "You must agree to the Terms & Conditions" }));
       setIsLoading(false);
       return;
     }
@@ -130,10 +174,8 @@ export default function SignUp() {
     }
 
     try {
-      // Get invite token if exists
       const inviteToken = sessionStorage.getItem("inviteToken");
-      console.log("calling registration API with invite token:", inviteToken);
-      // Call registration API
+
       const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -142,7 +184,7 @@ export default function SignUp() {
           email: formData.email,
           password: formData.password,
           companyName: formData.companyName,
-          inviteToken: inviteToken,
+          inviteToken,
           captchaToken: captchaValue,
         }),
       });
@@ -150,17 +192,14 @@ export default function SignUp() {
       const data = await response.json();
 
       if (response.ok) {
-        // Clear invite token
         sessionStorage.removeItem("inviteToken");
-        
-        // Redirect to email verification page
         router.push("/auth/verify-email?email=" + encodeURIComponent(formData.email));
       } else {
-        setErrors({ ...errors, general: data.error?.message || "Registration failed" });
+        setErrors((prev) => ({ ...prev, general: data.error?.message || "Registration failed" }));
       }
     } catch (error) {
       console.error("Registration error:", error);
-      setErrors({ ...errors, general: "An error occurred. Please try again." });
+      setErrors((prev) => ({ ...prev, general: "An error occurred. Please try again." }));
     } finally {
       setIsLoading(false);
     }
@@ -169,187 +208,337 @@ export default function SignUp() {
   const handleSocialSignup = async (provider: string) => {
     setIsLoading(true);
     try {
-      // Store any invite token before social auth
       const inviteToken = sessionStorage.getItem("inviteToken");
-      if (inviteToken) {
-        // We'll handle this after social auth callback
-        sessionStorage.setItem("pendingInvite", inviteToken);
-      }
-      
-      // Use signIn with callback to handle post-auth flow
-      await signIn(provider, { 
+      if (inviteToken) sessionStorage.setItem("pendingInvite", inviteToken);
+
+      await signIn(provider, {
         callbackUrl: "/auth/social-callback",
         redirect: true,
       });
     } catch (error) {
       console.error("Social signup error:", error);
-      setErrors({ ...errors, general: "Social signup failed. Please try again." });
+      setErrors((prev) => ({ ...prev, general: "Social signup failed. Please try again." }));
       setIsLoading(false);
     }
   };
 
-  const AUTH_PROVIDERS: AuthProvider[] = [
-    { name: "Google", icon: "google", handler: () => { handleSocialSignup("google") } },
-    { name: "Microsoft", icon: "microsoft", handler: () => console.log("Microsoft Login") },
-    { name: "Facebook", icon: "facebook", handler: () => console.log("Facebook Login") },
-    { name: "Apple", icon: "apple", handler: () => console.log("Apple Login") },
-    { name: "Salesforce", icon: "salesforce", handler: () => console.log("Salesforce Login") },
-    { name: "LinkedIn", icon: "linkedin", handler: () => console.log("LinkedIn Login") },
-  ];
+  const AUTH_PROVIDERS: AuthProvider[] = useMemo(
+    () => [{ name: "Google", icon: "google", handler: () => handleSocialSignup("google") }],
+    []
+  );
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
+  const strength = getStrength(formData.password);
+  const showPwdPopover = isPwdFocused; // focus-only as you requested
+
+  const canSubmit =
+    !isLoading &&
+    !!captchaValue &&
+    !!formData.name &&
+    !!formData.email &&
+    !!formData.password &&
+    !!formData.confirmPassword &&
+    formData.agreeToTerms &&
+    !errors.email &&
+    !errors.password &&
+    !errors.confirmPassword;
+
+  if (status === "loading") return <div>Loading...</div>;
 
   return (
     <>
-      <Navbar />
-      <div className="signup-container">
-        <div className="signup-card">
-          <h1>Sign Up Now</h1>
-          <p>Collect information, payments, and signatures with custom online forms.</p>
-          
-          {/* Social Login Buttons */}
-          <p>Sign up with</p> 
-          <div className="social-login">
-            {AUTH_PROVIDERS.map(({ name, icon, handler }) => (
-              <button key={name} className={`social-btn ${name.toLowerCase()}`} onClick={handler}>
-                <Image src={Icons[icon]} alt={name} width={24} height={24} /> {name}
+      <NavBar />
+
+      <main className="auth-page">
+        <div className="auth-shell">
+          {/* Left “brand” panel */}
+          <aside className="auth-brand" aria-hidden="true">
+            <div className="auth-brand__badge">SmartForms</div>
+
+            <h2 className="auth-brand__title">Create beautiful forms in minutes.</h2>
+            <p className="auth-brand__desc">
+              Build, publish, and collect submissions with a modern drag-and-drop form builder.
+            </p>
+
+            <div className="auth-brand__points">
+              <div className="auth-point">
+                <span className="auth-point__dot" />
+                <span>Fast setup, clean UX</span>
+              </div>
+              <div className="auth-point">
+                <span className="auth-point__dot" />
+                <span>Secure auth & privacy-first</span>
+              </div>
+              <div className="auth-point">
+                <span className="auth-point__dot" />
+                <span>Publish & share instantly</span>
+              </div>
+            </div>
+
+            <div className="auth-trust">
+              <div className="auth-trust__row">
+                <span className="auth-trust__pill">SOC2-ready roadmap</span>
+                <span className="auth-trust__pill">GDPR-friendly</span>
+                <span className="auth-trust__pill">Spam protection</span>
+              </div>
+
+              <div className="auth-quote">
+                <div className="auth-quote__text">
+                  “We created a working form + share link in under 5 minutes. Clean UI and smooth flow.”
+                </div>
+                <div className="auth-quote__meta">
+                  <span className="auth-quote__avatar">A</span>
+                  <span className="auth-quote__name">Early adopter</span>
+                  <span className="auth-quote__sep">•</span>
+                  <span className="auth-quote__role">Product team</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          {/* Card */}
+          <section className="auth-card" aria-label="Sign up">
+            <header className="auth-header">
+              <h1 className="auth-title">Create your account</h1>
+              <p className="auth-subtitle">Start building your first SmartForm today.</p>
+            </header>
+
+            {/* Social */}
+            <div className="auth-social">
+              {AUTH_PROVIDERS.map(({ name, icon, handler }) => (
+                <button
+                  key={name}
+                  type="button"
+                  className="auth-socialBtn"
+                  onClick={handler}
+                  disabled={isLoading}
+                >
+                  <Image src={Icons[icon]} alt={name} width={18} height={18} />
+                  <span>Continue with {name}</span>
+                </button>
+              ))}
+            </div>
+
+            <div className="auth-divider">
+              <span>or</span>
+            </div>
+
+            {errors.general && <div className="auth-alert auth-alert--error">{errors.general}</div>}
+
+            <form onSubmit={handleSubmit} className="auth-form">
+              <div className="auth-grid">
+                <div className="auth-field">
+                  <label className="auth-label" htmlFor="name">
+                    Name <span className="auth-required">*</span>
+                  </label>
+                  <input
+                    id="name"
+                    className="auth-input"
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    disabled={isLoading}
+                    placeholder="Your full name"
+                    autoComplete="name"
+                  />
+                </div>
+
+                <div className="auth-field">
+                  <label className="auth-label" htmlFor="email">
+                    Email <span className="auth-required">*</span>
+                  </label>
+                  <input
+                    id="email"
+                    className="auth-input"
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    disabled={isLoading}
+                    placeholder="you@company.com"
+                    autoComplete="email"
+                  />
+                  {errors.email && <p className="auth-help auth-help--error">{errors.email}</p>}
+                </div>
+
+                <div className="auth-field auth-field--full">
+                  <label className="auth-label" htmlFor="companyName">
+                    Company <span className="auth-optional">(optional)</span>
+                  </label>
+                  <input
+                    id="companyName"
+                    className="auth-input"
+                    type="text"
+                    name="companyName"
+                    value={formData.companyName}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                    placeholder="Leave blank for personal use"
+                    autoComplete="organization"
+                  />
+                </div>
+
+                {/* Password (FULL ROW to keep it clean + avoid cramped helper text) */}
+                <div className="auth-field auth-field--full">
+                  <label className="auth-label" htmlFor="password">
+                    Password <span className="auth-required">*</span>
+                  </label>
+
+                  <div className="auth-password">
+                    <input
+                      id="password"
+                      className="auth-input auth-input--password"
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
+                      disabled={isLoading}
+                      autoComplete="new-password"
+                      placeholder="Create a strong password"
+                      onFocus={() => {
+                        if (pwdPopoverCloseTimer.current) window.clearTimeout(pwdPopoverCloseTimer.current);
+                        setIsPwdFocused(true);
+                      }}
+                      onBlur={() => {
+                        // slight delay prevents flicker if user clicks around inside the field area
+                        pwdPopoverCloseTimer.current = window.setTimeout(() => setIsPwdFocused(false), 80);
+                      }}
+                      aria-describedby="pwd-strength"
+                    />
+
+                    <button
+                      type="button"
+                      className="auth-eye"
+                      onClick={() => setShowPassword((v) => !v)}
+                      disabled={isLoading}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+
+                    {/* Focus-only popover (no layout impact) */}
+                    {showPwdPopover && (
+                      <div className="auth-popover" role="status" aria-live="polite">
+                        <div className="auth-popover__title">
+                          <ShieldCheck size={16} />
+                          <span>Password requirements</span>
+                        </div>
+
+                        <div className="auth-popover__list">
+                          <div className="auth-popover__item">
+                            {strength.req.minLen ? <CheckCircle2 size={16} className="auth-popover__icon auth-popover__icon--ok"/> : <Circle size={16} className="auth-popover__icon"/>}
+                            <span>At least 10 characters</span>
+                          </div>
+                          <div className="auth-popover__item">
+                            {strength.req.upper ? <CheckCircle2 size={16} className="auth-popover__icon auth-popover__icon--ok"/> : <Circle size={16} className="auth-popover__icon"/>}
+                            <span>One uppercase letter</span>
+                          </div>
+                          <div className="auth-popover__item">
+                            {strength.req.lower ? <CheckCircle2 size={16} className="auth-popover__icon auth-popover__icon--ok"/> : <Circle size={16} className="auth-popover__icon"/>}
+                            <span>One lowercase letter</span>
+                          </div>
+                          <div className="auth-popover__item">
+                            {strength.req.number ? <CheckCircle2 size={16} className="auth-popover__icon auth-popover__icon--ok"/> : <Circle size={16} className="auth-popover__icon"/>}
+                            <span>One number</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Strength line (always below password field; lightweight) */}
+                  <div id="pwd-strength" className="auth-strength">
+                    <div className="auth-strength__bar" aria-hidden="true">
+                      <div
+                        className="auth-strength__fill"
+                        style={{ width: `${formData.password ? strength.pct : 0}%` }}
+                      />
+                    </div>
+                    <div className="auth-strength__label">
+                      Strength: <strong>{formData.password ? strength.label : "—"}</strong>
+                    </div>
+                  </div>
+
+                  {errors.password && <p className="auth-help auth-help--error">{errors.password}</p>}
+                </div>
+
+                {/* Confirm password (simple) */}
+                <div className="auth-field auth-field--full">
+                  <label className="auth-label" htmlFor="confirmPassword">
+                    Confirm password <span className="auth-required">*</span>
+                  </label>
+                  <div className="auth-password">
+                    <input
+                      id="confirmPassword"
+                      className="auth-input auth-input--password"
+                      type={showConfirmPassword ? "text" : "password"}
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      required
+                      disabled={isLoading}
+                      autoComplete="new-password"
+                      placeholder="Re-enter password"
+                    />
+                    <button
+                      type="button"
+                      className="auth-eye"
+                      onClick={() => setShowConfirmPassword((v) => !v)}
+                      disabled={isLoading}
+                      aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                    >
+                      {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
+
+                  {errors.confirmPassword && <p className="auth-help auth-help--error">{errors.confirmPassword}</p>}
+                </div>
+              </div>
+
+              <div className="auth-termsRow">
+                <input
+                  id="agreeToTerms"
+                  type="checkbox"
+                  name="agreeToTerms"
+                  checked={formData.agreeToTerms}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                />
+                <label htmlFor="agreeToTerms" className="auth-termsText">
+                  I agree to the{" "}
+                  <Link href="/terms">Terms of Service</Link>,{" "}
+                  <Link href="/privacy">Privacy Policy</Link>, and{" "}
+                  <Link href="/cookies">Cookie Policy</Link>.
+                </label>
+              </div>
+              {errors.agreeToTerms && <p className="auth-help auth-help--error">{errors.agreeToTerms}</p>}
+
+              <div className="auth-captchaWrap">
+                <div className="auth-captchaWrap__label">Human verification</div>
+                <div className="auth-captchaWrap__box">
+                  <ReCAPTCHA
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                    onChange={setCaptchaValue}
+                  />
+                </div>
+              </div>
+
+              <button type="submit" className="auth-primaryBtn" disabled={!canSubmit}>
+                {isLoading && <span className="auth-spinner" aria-hidden="true" />}
+                <span>{isLoading ? "Creating account..." : "Create account"}</span>
               </button>
-            ))}
-          </div>
 
-          <div className="separator">OR</div>
-
-          {/* Error Message */}
-          {errors.general && (
-            <div className="error-message">
-              {errors.general}
-            </div>
-          )}
-
-          {/* Signup Form */}
-          <form onSubmit={handleSubmit} className="signup-form">
-            <div className="form-group">
-              <label>Name *</label>
-              <input 
-                type="text" 
-                name="name" 
-                value={formData.name} 
-                onChange={handleChange} 
-                required 
-                disabled={isLoading}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Email *</label>
-              <input 
-                type="email" 
-                name="email" 
-                value={formData.email} 
-                onChange={handleChange} 
-                required 
-                disabled={isLoading}
-              />
-              {errors.email && <p className="error">{errors.email}</p>}
-            </div>
-
-            <div className="form-group">
-              <label>Company Name (Optional)</label>
-              <input 
-                type="text" 
-                name="companyName" 
-                value={formData.companyName} 
-                onChange={handleChange} 
-                placeholder="Leave blank for personal account"
-                disabled={isLoading}
-              />
-            </div>
-
-            {/* Password Field */}
-            <div className="form-group">
-              <label>Password *</label>
-              <div className="password-input">
-                <input 
-                  type={showPassword ? "text" : "password"} 
-                  name="password" 
-                  value={formData.password} 
-                  onChange={handleChange} 
-                  required 
-                  disabled={isLoading}
-                />
-                <button 
-                  type="button" 
-                  className="toggle-password" 
-                  onClick={togglePasswordVisibility}
-                  disabled={isLoading}
-                >
-                  {showPassword ? "👁" : "👁‍🗨"}
-                </button>
-              </div>
-              {errors.password && <p className="error">{errors.password}</p>}
-              <small>Must contain uppercase, lowercase, number, and be 8+ characters</small>
-            </div>
-
-            {/* Confirm Password Field */}
-            <div className="form-group">
-              <label>Confirm Password *</label>
-              <div className="password-input">
-                <input 
-                  type={showConfirmPassword ? "text" : "password"} 
-                  name="confirmPassword" 
-                  value={formData.confirmPassword} 
-                  onChange={handleChange} 
-                  required 
-                  disabled={isLoading}
-                />
-                <button 
-                  type="button" 
-                  className="toggle-password" 
-                  onClick={toggleConfirmPasswordVisibility}
-                  disabled={isLoading}
-                >
-                  {showConfirmPassword ? "👁" : "👁‍🗨"}
-                </button>
-              </div>
-              {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
-            </div>
-
-            <div className="form-group terms">
-              <input 
-                type="checkbox" 
-                name="agreeToTerms" 
-                checked={formData.agreeToTerms} 
-                onChange={handleChange} 
-                disabled={isLoading}
-              />
-              <label>
-                I agree to the 
-                <Link href="/terms">Terms of Service</Link>, 
-                <Link href="/privacy"> Privacy Policy</Link>, and 
-                <Link href="/cookies"> Cookie Policy</Link>.
-              </label>
-              {errors.agreeToTerms && <p className="error">{errors.agreeToTerms}</p>}
-            </div>
-
-            <div className="form-group captcha">
-              <ReCAPTCHA 
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!} 
-                onChange={setCaptchaValue} 
-              />
-            </div>
-
-            <button type="submit" className="submit-btn" disabled={isLoading}>
-              {isLoading ? "Creating Account..." : "Sign up"}
-            </button>
-          </form>
-
-          <p className="login-link">
-            Already have an account? <Link href="/login">Log in</Link>
-          </p>
+              <p className="auth-foot">
+                Already have an account? <Link href="/login">Log in</Link>
+              </p>
+            </form>
+          </section>
         </div>
-      </div>
+      </main>
+
       <Footer />
     </>
   );

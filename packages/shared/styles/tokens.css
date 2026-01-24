@@ -1,0 +1,43 @@
+/* =========================================
+   SmartForms Design Tokens (Shared)
+   Source: welcome.css palette + SaaS system
+   ========================================= */
+
+:root {
+  /* Brand (from welcome.css) */
+  --sf-midnight: #0b1024;
+  --sf-royal-purple: #2a1366;
+  --sf-orange: #ff7a18;
+  --sf-cyan: #38bdf8;
+  --sf-indigo: #6366f1;
+  --sf-teal: #14b8a6;
+
+  /* Text */
+  --sf-text-primary: #0f172a;
+  --sf-text-secondary: #475569;
+  --sf-text-muted: #64748b;
+  --sf-text-white: #ffffff;
+
+  /* Neutrals */
+  --sf-border: rgba(15, 23, 42, 0.10);
+  --sf-border-strong: rgba(15, 23, 42, 0.14);
+  --sf-bg-soft: #f6f7fb;
+  --sf-white: #ffffff;
+
+  /* Shadows */
+  --sf-shadow-sm: 0 8px 20px rgba(15, 23, 42, 0.08);
+  --sf-shadow-md: 0 16px 40px rgba(15, 23, 42, 0.12);
+  --sf-shadow-lg: 0 22px 60px rgba(15, 23, 42, 0.16);
+
+  /* Radii */
+  --sf-radius-sm: 12px;
+  --sf-radius-md: 16px;
+  --sf-radius-lg: 22px;
+
+  /* Focus ring */
+  --sf-ring: 0 0 0 4px rgba(56, 189, 248, 0.16);
+
+  /* Gradients */
+  --sf-gradient-primary: linear-gradient(135deg, var(--sf-orange) 0%, var(--sf-cyan) 100%);
+  --sf-gradient-secondary: linear-gradient(135deg, var(--sf-indigo) 0%, var(--sf-royal-purple) 100%);
+}
