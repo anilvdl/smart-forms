@@ -6,6 +6,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Head from "next/head";
 import "@smartforms/shared/styles/globals.css";
+import "@smartforms/shared/styles/about.css";
 import "@smartforms/shared/styles/form-builder.css";
 import "@smartforms/shared/styles/PropertiesCard.css";
 import "@smartforms/shared/styles/tokens.css";

@@ -3,7 +3,7 @@
 import Navbar from "@smartforms/shared/components/ui/Navbar";
 import Footer from "@smartforms/shared/components/ui/Footer";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "next/link"; 
 import { Icons } from "@smartforms/shared/icons";
 
 export default function About() {
@@ -86,7 +86,6 @@ export default function About() {
       <Navbar />
 
       <main className="about-page">
-        {/* HERO */}
         <section
           className="about-hero"
           style={{

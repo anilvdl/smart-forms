@@ -32,17 +32,9 @@
   --gap-sm: 1rem;
 }
 
-/* ===== GLOBAL RESET ===== */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 .home-container {
   width: 100%;
-  overflow-x: hidden;
-  background: var(--sf-white);
+  padding-top: 20px;
 }
 
 /* ===== TYPOGRAPHY ===== */
@@ -50,12 +42,6 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ===== HERO SECTION (BACKGROUND IMAGE VIA INLINE STYLE) ===== */
@@ -70,16 +56,36 @@ body {
   /* Background image applied via inline style using Icons object */
 }
 
-/* Remove CSS decorations - using background image instead */
-.hero-professional::before,
-.hero-professional::after {
-  display: none;
-}
-
 .hero-particles-pro::before,
 .hero-particles-pro::after {
   display: none;
 }
+
+/* ✅ CHANGE #1: About-like overlay + glows */
+.hero-pro__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(900px 460px at 20% 0%, rgba(255, 122, 24, 0.18), transparent 60%),
+    radial-gradient(900px 520px at 90% 10%, rgba(56, 189, 248, 0.16), transparent 60%),
+    radial-gradient(900px 520px at 50% 100%, rgba(99, 102, 241, 0.14), transparent 60%),
+    linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.45) 100%);
+  pointer-events: none;
+}
+
+.hero-pro__glow {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 999px;
+  filter: blur(48px);
+  opacity: 0.55;
+  background: rgba(255,255,255,0.18);
+  pointer-events: none;
+}
+
+.hero-pro__glow--left { top: -120px; left: -120px; }
+.hero-pro__glow--right { bottom: -140px; right: -140px; }
 
 /* Hero Grid - Split Layout (Text Left, Demo Right) */
 .hero-grid-pro {
@@ -554,47 +560,6 @@ body {
   background: #ff8c3a;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 122, 24, 0.3);
-}
-
-/* Animated Cursor */
-.cursor-animated {
-  position: absolute;
-  width: 28px;
-  height: 28px;
-  pointer-events: none;
-  z-index: 100;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
-  opacity: 0;
-  animation: cursorPath 7s ease-in-out 2s infinite;
-}
-
-@keyframes cursorPath {
-  0%, 100% {
-    opacity: 0;
-    top: 20%;
-    left: 12%;
-  }
-  5%, 95% {
-    opacity: 1;
-  }
-  20% {
-    top: 20%;
-    left: 50%;
-  }
-  25% {
-    top: 35%;
-    left: 50%;
-  }
-  40% {
-    top: 35%;
-    left: 50%;
-  }
-  45% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
 }
 
 /* ===== SECTION COMMON STYLES ===== */
