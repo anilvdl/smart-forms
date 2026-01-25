@@ -17,6 +17,8 @@ import favorite           from "./assets/icons/favorite.png";
 import fileUpload         from "./assets/icons/file-upload.png";
 import form1              from "./assets/icons/form1.png";
 import formsDesign        from "./assets/icons/forms_design.png";
+import favicon            from "./assets/icons/favicon.png";
+import sf_logo_icon      from "./assets/icons/sf_logo_icon.png";
 import google             from "./assets/icons/google.png";
 import header             from "./assets/icons/header.png";
 import hidden             from "./assets/icons/hidden.png";
@@ -70,9 +72,11 @@ export const Icons = {
   "error-computer": errorComputer,
   facebook,
   favorite,
+  favicon,
   "file-upload":   fileUpload,
   form1,
   "forms_design":  formsDesign,
+  sf_logo_icon:  sf_logo_icon,
   google,
   header,
   "hero-bg" : herobg,

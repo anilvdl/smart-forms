@@ -1,4 +1,5 @@
 import pencilWrite from "@smartforms/shared/assets/icons/pencil-write-transparent.png";
+import { useState } from "react";
 
 export default function Logo() {
   return (
@@ -126,3 +127,88 @@ export default function Logo() {
     </svg>
   );
 }
+
+
+// ============================================================================
+// CONCEPT 1: FORM STACK WITH SMART DOT
+// Modern, minimal, works great as favicon
+// ============================================================================
+export const Logo1_FormStack = ({ size = 40, variant = 'color' }: { size?: number; variant?: 'color' | 'mono' | 'white' }) => {
+  const colors = {
+    color: {
+      primary: '#ff6600',
+      secondary: '#5b6af3',
+      accent: '#ff9f00',
+    },
+    mono: {
+      primary: '#222',
+      secondary: '#444',
+      accent: '#666',
+    },
+    white: {
+      primary: '#fff',
+      secondary: '#fff',
+      accent: '#fff',
+    }
+  };
+  
+  const c = colors[variant];
+  
+  return (
+    <svg width={size} height={size} viewBox="15 20 85 70" fill="none">
+      {/* Background circles for depth */}
+      <circle cx="50" cy="55" r="30" fill={c.primary} opacity="0.1" />
+      
+      {/* Back form sheet */}
+      <rect x="25" y="35" width="50" height="50" rx="8" fill={c.secondary} opacity="0.3" />
+      
+      {/* Middle form sheet */}
+      <rect x="22" y="30" width="50" height="50" rx="8" fill={c.primary} opacity="0.5" />
+      
+      {/* Front form sheet */}
+      <rect x="19" y="25" width="50" height="50" rx="8" fill={c.primary} />
+      
+      {/* Form fields (lines) */}
+      <rect x="27" y="35" width="25" height="3" rx="1.5" fill="white" opacity="0.9" />
+      <rect x="27" y="43" width="34" height="3" rx="1.5" fill="white" opacity="0.7" />
+      <rect x="27" y="51" width="28" height="3" rx="1.5" fill="white" opacity="0.7" />
+      
+      {/* Smart indicator dot */}
+      <circle cx="60" cy="38" r="8" fill={c.accent} />
+      <circle cx="60" cy="38" r="4" fill="white" />
+    </svg>
+  );
+};
+
+// Full logo with wordmark
+export const Logo1_Full = ({ height = 45, variant = 'color' }: { height?: number; variant?: 'color' | 'mono' | 'white' }) => {
+  const [isHover, setIsHover] = useState(false);
+  const baseTextColor = variant === "white" ? "#fff" : "#222";
+  const hoverColor = variant === "white" ? "#fff" : "#6366f1";
+
+  return (
+    <div
+      style={{ display: "flex", alignItems: "center", height, cursor: "pointer" }}
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+    >
+      <Logo1_FormStack size={height} variant={variant} />
+      <span
+        style={{
+          fontFamily:
+            'Circular, -apple-system, BlinkMacSystemFont, "Segoe UI", roboto, oxygen-sans, ubuntu, cantarell, "Helvetica Neue", sans-serif',
+          fontSize: height * 0.5,
+          fontWeight: 700,
+          color: isHover ? hoverColor : baseTextColor,
+          letterSpacing: "-0.02em",
+          marginLeft: "-10px",
+          lineHeight: 1,
+          transition: "color 180ms ease, opacity 180ms ease",
+          opacity: isHover ? 0.98 : 1,
+        }}
+      >
+        SmartForm
+      </span>
+    </div>
+  );
+};

@@ -9,6 +9,7 @@ import { publicMenu, privateMenu } from "./navigation";
 import { Icons } from "@smartforms/shared/icons";
 import { navigationUtil } from "@smartforms/shared/utils/navigationUtil";
 import SfAnimatedLogo from "@smartforms/shared/components/ui/Logo";
+import { Logo1_Full } from "@smartforms/shared/components/ui/Logo";
 import AdminAndDesignerToggle from "./AdminAndDesignerToggle";
 
 export default function NavBar() {
@@ -72,9 +73,7 @@ export default function NavBar() {
           onClick={handleLogoClick}
           style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}
         >
-          {/* <Image src={Icons["sf-animated"]} alt="Form Icon" width={190} height={90} /> */}
-          <SfAnimatedLogo />
-          {/* <Image src={Icons["sf_logo"]} alt="SmartForms Logo" width={120} height={50} /> */}
+          <Logo1_Full height={55} />
         </div>
 
         {/* Hamburger (visible only on small screens) */}

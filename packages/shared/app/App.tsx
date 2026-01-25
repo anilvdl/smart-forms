@@ -41,7 +41,9 @@ export default function App({
     <>
       <Head>
         <title>SmartForms – Build Intelligent Forms Easily</title>
-        <link rel="icon" href={Icons["forms_design"].src} type="image/png"/>
+        {/* <link rel="icon" href={Icons["forms_design"].src} type="image/png"/> */}
+        <link rel="icon" type="image/png" sizes="32x32" href={Icons["favicon"].src} />
+        <link rel="icon" type="image/png" sizes="16x16" href={Icons["favicon"].src} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="SmartForms is a powerful form builder for intelligent and dynamic form creation." />
       </Head>

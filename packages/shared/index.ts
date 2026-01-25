@@ -1,3 +1,5 @@
+import { Logo1_Full } from "./components/ui/Logo";
+
 // Core “app” entry (if you ever need to render a shared <App />)
 export { default as App } from "./app/App";
 
@@ -9,6 +11,7 @@ export { default as FeatureCarousel }   from "./components/ui/FeatureCarousel";
 export { default as WelcomeContent }    from "./components/ui/WelcomeContent";
 export { default as PlanCard }          from "./components/ui/PlanCard";
 export { default as SfAnimatedLogo }    from "./components/ui/Logo";
+export { Logo1_Full }                   from "./components/ui/Logo";   
 
 // Shared navigation data/types
 export type { MenuItem, SubMenu }       from "./components/ui/navigation";
