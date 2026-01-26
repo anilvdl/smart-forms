@@ -1,7 +1,9 @@
 /* =============================================================================
    About page styles (about.css)
-   Goal: align About hero spacing with Welcome page (centered, side margins),
-         keep About hero radial overlay vibe, and keep existing About layout intact.
+   NOTE:
+   - HERO STYLES (.about-*) are kept exactly as-is (values unchanged).
+   - Everything below is non-hero alignment + enterprise polish.
+   - Includes: Trust panel rich rows + Team carousel (1 profile at a time).
    ========================================================================== */
 
 /* Small safe defaults (in case some vars were in global.css before) */
@@ -16,8 +18,8 @@
   --muted: #6b7280;
   --muted2: #4b5563;
 
-  --shadow-sm: 0 2px 12px rgba(0,0,0,0.06);
-  --shadow: 0 12px 30px rgba(0,0,0,0.10);
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
 
   /* SmartForms palette (used lightly here) */
   --sf-orange: #ff7a18;
@@ -25,12 +27,23 @@
   --sf-indigo: #6366f1;
 }
 
+/* ---------------------------------------------------------------------------
+   PAGE WRAPPER
+--------------------------------------------------------------------------- */
 .about-page {
   width: 100%;
   padding-top: 10px;
-  padding-left: 3.5px;
-  padding-right: 4.5px;
+
+  /* Non-hero alignment fix: remove micro paddings that cause rail drift */
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
 }
+
+/* =============================================================================
+   HERO (UNCHANGED)
+   Keep these values untouched (as requested).
+   ========================================================================== */
 
 .about-hero {
   position: relative;
@@ -60,7 +73,7 @@
     radial-gradient(900px 460px at 20% 0%, rgba(255, 122, 24, 0.18), transparent 60%),
     radial-gradient(900px 520px at 90% 10%, rgba(56, 189, 248, 0.16), transparent 60%),
     radial-gradient(900px 520px at 50% 100%, rgba(99, 102, 241, 0.14), transparent 60%),
-    linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.45) 100%);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.45) 100%);
 }
 
 .about-hero__glow {
@@ -70,7 +83,7 @@
   border-radius: 999px;
   filter: blur(48px);
   opacity: 0.55;
-  background: rgba(255,255,255,0.18);
+  background: rgba(255, 255, 255, 0.18);
   pointer-events: none;
 }
 
@@ -99,9 +112,9 @@
   gap: 10px;
   padding: 9px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.18);
-  background: rgba(255,255,255,0.10);
-  color: rgba(255,255,255,0.92);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.92);
   font-weight: 800;
   font-size: 12px;
   backdrop-filter: blur(12px);
@@ -136,19 +149,19 @@
   line-height: 1.1;
   color: #fff;
   font-weight: 900;
-  text-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  text-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
 }
 
 .about-title__sub {
   display: block;
   margin-top: 10px;
   font-weight: 800;
-  color: rgba(255,255,255,0.86);
+  color: rgba(255, 255, 255, 0.86);
 }
 
 .about-subtitle {
   margin: 16px 0 0;
-  color: rgba(255,255,255,0.82);
+  color: rgba(255, 255, 255, 0.82);
   font-size: 16px;
   max-width: 680px;
 }
@@ -164,13 +177,13 @@
 .about-stats {
   margin-top: 28px;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0,1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
 }
 
 .stat-card {
-  border: 1px solid rgba(255,255,255,0.16);
-  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.10);
   border-radius: var(--radius);
   padding: 14px 14px;
   backdrop-filter: blur(12px);
@@ -186,13 +199,13 @@
 .stat-card__label {
   margin-top: 6px;
   font-size: 12px;
-  color: rgba(255,255,255,0.76);
+  color: rgba(255, 255, 255, 0.76);
   font-weight: 700;
 }
 
 @media (max-width: 980px) {
   .about-title { font-size: 38px; }
-  .about-stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .about-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 520px) {
@@ -200,9 +213,36 @@
   .about-hero { padding-top: 64px; }
 }
 
-/* -----------------------------------------------------------------------------
-   SECTIONS (About page content)
------------------------------------------------------------------------------ */
+/* =============================================================================
+   SECTIONS (Non-hero content)
+   Goals:
+   - Reduce overly large vertical gaps between sections
+   - Make all card groups behave like “Platform differentiation” (hover/raise)
+   - Trust panel rich mock (no gray lines)
+   - Team carousel (1 profile at a time) + clean controls
+   ========================================================================== */
+
+/* Section rhythm + rail */
+.sf-section {
+  position: relative;
+  padding: 42px 0;
+}
+
+/* Subtle, premium banding (kept light) */
+.sf-section:nth-of-type(even) {
+  background:
+    radial-gradient(1000px 500px at 10% 0%, rgba(99, 102, 241, 0.05), transparent 60%),
+    radial-gradient(900px 480px at 90% 10%, rgba(56, 189, 248, 0.04), transparent 60%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.84));
+}
+
+.sf-section:nth-of-type(odd) {
+  background:
+    radial-gradient(900px 480px at 10% 0%, rgba(255, 122, 24, 0.04), transparent 60%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92));
+}
+
+/* Content rail */
 .sf-section > * {
   width: 100%;
   max-width: var(--container);
@@ -210,41 +250,215 @@
   padding: 0 var(--container-pad);
 }
 
-/* Feature row */
+/* CTA section keeps its own look */
+.sf-section--cta {
+  background: transparent !important;
+  padding-top: 28px;
+  padding-bottom: 40px;
+}
+
+.sf-section--cta > * {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: var(--container-pad);
+  padding-right: var(--container-pad);
+}
+
+/* Typography */
+.sf-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.80);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: rgba(17, 24, 39, 0.78);
+  margin-bottom: 14px;
+}
+
+.sf-h2 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 950;
+  color: rgba(17, 24, 39, 0.92);
+}
+
+.sf-h3 {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 950;
+  color: rgba(17, 24, 39, 0.92);
+}
+
+.sf-p {
+  margin: 12px 0 0;
+  color: rgba(17, 24, 39, 0.74);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+.sf-p--sm {
+  font-size: 14px;
+  color: rgba(17, 24, 39, 0.70);
+}
+
+.sf-h2--light { color: #fff; }
+.sf-p--light { color: rgba(255, 255, 255, 0.86); }
+
+/* Roadmap note */
+.sf-note {
+  font-weight: 900;
+  font-size: 12px;
+  color: rgba(17, 24, 39, 0.55);
+  margin-left: 6px;
+}
+
+/* Head blocks */
+.sf-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.sf-head > div {
+  max-width: 820px;
+}
+
+/* Grid utilities */
+.sf-grid {
+  display: grid;
+  gap: 16px;
+  align-items: start;
+}
+
+.sf-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.sf-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.sf-grid--tight { gap: 12px; }
+
+/* Stack spacing (default) */
+.sf-stack > * + * { margin-top: 12px; }
+
+/* Cards base */
+.sf-card {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: var(--shadow-sm);
+}
+
+.sf-card--big { padding: 22px; }
+.sf-card--mini { padding: 14px; border-radius: var(--radius); }
+.sf-card--white { background: rgba(255, 255, 255, 0.92); }
+
+.sf-card--soft {
+  background:
+    radial-gradient(900px 420px at 20% 0%, rgba(99, 102, 241, 0.06), transparent 60%),
+    radial-gradient(900px 420px at 90% 10%, rgba(56, 189, 248, 0.05), transparent 60%),
+    rgba(255, 255, 255, 0.86);
+}
+
+/* Mini blocks */
+.sf-mini__title {
+  font-weight: 950;
+  font-size: 13px;
+  color: rgba(17, 24, 39, 0.92);
+}
+
+.sf-mini__desc {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(17, 24, 39, 0.68);
+}
+
+/* Lifecycle pill */
+.sf-lifecycle {
+  margin-top: 14px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(17, 24, 39, 0.78);
+}
+
+.sf-dot { opacity: 0.55; font-weight: 900; }
+
+/* ---------------------------------------------------------------------------
+   Make ALL cards feel like Platform differentiation (hover/raise)
+--------------------------------------------------------------------------- */
+.sf-feature,
+.sf-card,
+.sf-value,
+.sf-quote,
+.sf-card--mini,
+.sf-card--team {
+  transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.sf-feature:hover,
+.sf-card:hover,
+.sf-value:hover,
+.sf-quote:hover,
+.sf-card--team:hover,
+.sf-card--mini:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+  border-color: rgba(0, 0, 0, 0.10);
+}
+
+.sf-card--mini:hover { transform: translateY(-0.5px); }
+
+/* Feature row (pillars) */
 .sf-feature {
   display: flex;
   gap: 14px;
   padding: 18px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
-  background: rgba(255,255,255,0.78);
+  background: rgba(255, 255, 255, 0.78);
   box-shadow: var(--shadow-sm);
-  transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
-}
-
-.sf-feature:hover {
-  transform: translateY(-1px);
-  background: rgba(255,255,255,0.92);
-  box-shadow: var(--shadow);
+  align-items: flex-start;
+  min-height: 120px;
 }
 
 .sf-feature__icon {
   width: 44px;
   height: 44px;
   border-radius: 16px;
-  border: 1px solid rgba(0,0,0,0.08);
-  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.92);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  box-shadow: 0 10px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.06);
 }
 
 /* Values */
 .sf-value {
-  border: 1px solid rgba(0,0,0,0.08);
-  background: rgba(255,255,255,0.90);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.90);
   border-radius: var(--radius);
   padding: 16px;
 }
@@ -254,58 +468,472 @@
   margin-top: 8px;
   font-weight: 900;
   font-size: 13px;
-  color: rgba(17,24,39,0.92);
+  color: rgba(17, 24, 39, 0.92);
 }
 .sf-value__desc { margin-top: 6px; font-size: 13px; color: var(--muted); }
 
-/* Team */
-.sf-card--team { min-height: 240px; }
-.sf-card--muted { background: rgba(255,255,255,0.64); }
-
-.sf-team { display: flex; align-items: center; gap: 12px; }
-.sf-team__avatar { border-radius: 18px; border: 1px solid rgba(0,0,0,0.10); background: #fff; }
-.sf-team__name { font-weight: 900; }
-.sf-team__role { font-size: 12px; color: var(--muted2); font-weight: 800; }
-.sf-team__title { font-weight: 900; font-size: 14px; }
-
-.sf-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.sf-tag {
-  display: inline-flex;
-  padding: 7px 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.92);
-  border: 1px solid rgba(0,0,0,0.10);
-  font-size: 12px;
-  font-weight: 800;
-  color: rgba(17,24,39,0.85);
-}
-
-.sf-actions { margin-top: 14px; }
-
 /* Quotes */
 .sf-quote {
-  border: 1px solid rgba(0,0,0,0.08);
-  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.78);
   border-radius: var(--radius-lg);
   padding: 18px;
   box-shadow: var(--shadow-sm);
+
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.sf-quote__text { color: rgba(17,24,39,0.78); font-size: 14px; line-height: 1.7; }
+.sf-quote__text { color: rgba(17, 24, 39, 0.78); font-size: 14px; line-height: 1.7; }
 .sf-quote__meta { margin-top: 14px; }
 .sf-quote__name { font-weight: 900; font-size: 13px; }
 .sf-quote__title { font-size: 12px; color: var(--muted2); font-weight: 800; }
 
-/* CTA section */
+/* ---------------------------------------------------------------------------
+   TRUST & GOVERNANCE
+--------------------------------------------------------------------------- */
+
+/* Right mini-cards in 2-col grid (reduces height / feels balanced) */
+.sf-card--soft .sf-grid--2 { align-items: stretch; }
+
+.sf-card--soft .sf-stack {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* Remove vertical stack margins inside the grid */
+.sf-card--soft .sf-stack > * + * { margin-top: 0; }
+
+/* Tighten trust mini-cards a bit */
+.sf-card--soft .sf-card--mini.sf-card--white { padding: 12px; }
+
+/* Trust panel (left fill) */
+.sf-trustPanel {
+  margin-top: 14px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+}
+
+.sf-trustPanel__title {
+  font-weight: 950;
+  font-size: 13px;
+  color: rgba(17, 24, 39, 0.90);
+  margin-bottom: 10px;
+}
+
+.sf-trustList {
+  margin: 0;
+  padding-left: 18px;
+  color: rgba(17, 24, 39, 0.70);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.sf-trustList li + li { margin-top: 8px; }
+
+/* Rich mock container */
+.sf-trustPanel__mock {
+  margin-top: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background:
+    radial-gradient(520px 260px at 10% 0%, rgba(255, 122, 24, 0.10), transparent 60%),
+    radial-gradient(520px 260px at 90% 10%, rgba(56, 189, 248, 0.10), transparent 60%),
+    radial-gradient(520px 260px at 50% 100%, rgba(99, 102, 241, 0.10), transparent 60%),
+    rgba(255, 255, 255, 0.70);
+  padding: 12px;
+}
+
+/* Mock header pills */
+.sf-trustPanel__mockHeader {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.sf-pill {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: rgba(255, 255, 255, 0.86);
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(17, 24, 39, 0.76);
+}
+
+/* The new "rich" rows */
+.sf-trustRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.60);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.sf-trustRow + .sf-trustRow { margin-top: 10px; }
+
+.sf-dotLive {
+  margin-top: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 122, 24, 0.85);
+  box-shadow: 0 0 0 0 rgba(255, 122, 24, 0.30);
+  animation: sfPulse 2.2s infinite;
+  flex: 0 0 auto;
+}
+
+.sf-dotLive--blue { background: rgba(56, 189, 248, 0.90); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.30); }
+.sf-dotLive--indigo { background: rgba(99, 102, 241, 0.92); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.28); }
+
+@keyframes sfPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.0); }
+  50% { box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.0); }
+}
+
+.sf-trustRow__body { flex: 1; }
+
+.sf-trustRow__label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 950;
+  font-size: 13px;
+  color: rgba(17, 24, 39, 0.90);
+}
+
+.sf-trustIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.06);
+  color: rgba(17, 24, 39, 0.70);
+}
+
+.sf-trustRow__desc {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(17, 24, 39, 0.68);
+}
+
+/* ---------------------------------------------------------------------------
+   TEAM CAROUSEL (Section 6)
+--------------------------------------------------------------------------- */
+
+.sf-carousel {
+  display: grid;
+  gap: 14px;
+}
+
+/* Top-right controls: keep compact + premium */
+.sf-carousel__hud {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+
+.sf-carousel__btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+  font-weight: 950;
+  cursor: pointer;
+  transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+}
+
+.sf-carousel__btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.10);
+}
+
+.sf-carousel__btn:active {
+  transform: translateY(0px);
+}
+
+.sf-carousel__count {
+  font-size: 12px;
+  font-weight: 950;
+  color: rgba(17, 24, 39, 0.74);
+  padding: 0 8px;
+}
+
+/* Profile card */
+.sf-carousel__card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* A subtle background glow inside the profile card */
+.sf-carousel__card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background:
+    radial-gradient(520px 260px at 10% 0%, rgba(255, 122, 24, 0.08), transparent 60%),
+    radial-gradient(520px 260px at 90% 10%, rgba(56, 189, 248, 0.06), transparent 60%),
+    radial-gradient(520px 260px at 50% 100%, rgba(99, 102, 241, 0.06), transparent 60%);
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.sf-carousel__card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Team header layout inside carousel card */
+.sf-team {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sf-team__avatar {
+  border-radius: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: #fff;
+}
+
+/* Initials avatar */
+.sf-team__avatar--initials {
+  width: 64px;
+  height: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.06);
+  font-weight: 950;
+  color: rgba(17, 24, 39, 0.80);
+}
+
+.sf-team__meta { min-width: 0; }
+
+.sf-team__nameRow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sf-team__name { font-weight: 950; }
+.sf-team__org {
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(17, 24, 39, 0.56);
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.sf-team__title { font-weight: 900; font-size: 14px; }
+
+.sf-team__role {
+  font-size: 12px;
+  color: var(--muted2);
+  font-weight: 800;
+}
+
+/* Body spacing inside the profile */
+.sf-carousel__body {
+  margin-top: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+/* Highlights row spacing */
+.sf-carousel__highlights {
+  margin-top: 6px;
+}
+
+/* Inline links inside profile */
+.sf-carousel__links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.sf-inlineLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  font-weight: 950;
+  font-size: 13px;
+  color: rgba(17, 24, 39, 0.80);
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+  transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+}
+
+.sf-inlineLink:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.10);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.sf-inlineLink:active {
+  transform: translateY(0px);
+}
+
+/* Dots */
+.sf-carousel__dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.sf-carousel__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  transition: transform 140ms ease, background 140ms ease, width 140ms ease;
+}
+
+.sf-carousel__dot:hover {
+  transform: scale(1.1);
+}
+
+.sf-carousel__dot.is-active {
+  width: 22px;
+  background: rgba(17, 24, 39, 0.70);
+}
+
+/* Action cards row under carousel */
+.sf-carousel__actionsRow {
+  margin-top: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   TEAM / TAGS / ACTION CARDS (shared)
+--------------------------------------------------------------------------- */
+.sf-grid--3 { align-items: stretch; }
+
+.sf-card--team {
+  min-height: 180px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.sf-card--muted { background: rgba(255, 255, 255, 0.70); }
+
+.sf-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.sf-tag {
+  display: inline-flex;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(17, 24, 39, 0.85);
+}
+
+/* Clickable whole-card support */
+.sf-cardLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Action hint row */
+.sf-actionHint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+
+  font-weight: 950;
+  font-size: 13px;
+  color: rgba(17, 24, 39, 0.82);
+
+  padding-top: 12px;
+  border-top: 1px solid rgba(0,  0, 0, 0.08);
+}
+
+.sf-card--action {
+  cursor: pointer;
+}
+
+.sf-card--action:hover {
+  transform: translateY(-2px);
+}
+
+.sf-card--action:hover .sf-actionHint {
+  color: rgba(3, 76, 234, 0.92);
+}
+
+/* Founder highlight pills */
+.sf-founderHighlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.sf-founderPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: rgba(255, 255, 255, 0.92);
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(17, 24, 39, 0.78);
+}
+
+/* ---------------------------------------------------------------------------
+   CTA
+--------------------------------------------------------------------------- */
 .sf-cta {
   border-radius: var(--radius-lg);
-  padding: 28px;
-  border: 1px solid rgba(255,255,255,0.16);
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
   background:
-    radial-gradient(260px 180px at 20% 30%, rgba(255,255,255,0.14), transparent 65%),
-    radial-gradient(280px 180px at 80% 30%, rgba(255,255,255,0.12), transparent 65%),
-    linear-gradient(135deg, rgba(91,106,243,0.96), rgba(139,92,246,0.96));
-  box-shadow: 0 20px 50px rgba(91,106,243,0.22);
+    radial-gradient(260px 180px at 20% 30%, rgba(255, 255, 255, 0.14), transparent 65%),
+    radial-gradient(280px 180px at 80% 30%, rgba(255, 255, 255, 0.12), transparent 65%),
+    linear-gradient(135deg, rgba(91, 106, 243, 0.96), rgba(139, 92, 246, 0.96));
+  box-shadow: 0 20px 50px rgba(91, 106, 243, 0.22);
   color: #fff;
 
   display: flex;
@@ -321,7 +949,41 @@
   justify-content: flex-end;
 }
 
+/* ---------------------------------------------------------------------------
+   RESPONSIVE
+--------------------------------------------------------------------------- */
 @media (max-width: 980px) {
+  .sf-section { padding: 36px 0; }
+
+  .sf-grid--3 { grid-template-columns: 1fr; }
+  .sf-grid--2 { grid-template-columns: 1fr; }
+
+  .sf-head { margin-bottom: 14px; }
+  .sf-h2 { font-size: 24px; }
+
+  /* Trust right-side mini cards collapse cleanly */
+  .sf-card--soft .sf-stack { grid-template-columns: 1fr; }
+
+  /* Carousel HUD: move below headline on mobile */
+  .sf-carousel__hud {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  /* CTA stacks */
   .sf-cta { flex-direction: column; align-items: flex-start; }
   .sf-cta__actions { justify-content: flex-start; }
 }
+
+@media (max-width: 520px) {
+  .sf-section { padding: 32px 0; }
+  .sf-h2 { font-size: 22px; }
+  .sf-kicker { margin-bottom: 12px; }
+  .sf-lifecycle { width: 100%; justify-content: center; }
+
+  .sf-carousel__links { gap: 10px; }
+  .sf-inlineLink { width: 100%; justify-content: center; }
+}
+
+/* Prevent odd extra bottom space without touching Footer */
+html, body { height: auto; }
